@@ -1,115 +1,264 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { Compass, Dumbbell, Utensils, Plus, TrendingUp, Calendar, Target } from 'lucide-react';
+import { ArrowRight, Compass, Dumbbell, Utensils, Star, Users, Calendar } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Progress } from "@/components/ui/progress";
-import { HobbyOverview } from "@/components/ui/hobby-overview";
-import { RecentActivity } from "@/components/recent-activity";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
-export default function DashboardPage() {
-  const [hobbies, setHobbies] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    async function fetchHobbies() {
-      try {
-        const token = localStorage.getItem('token');
-        if (!token) throw new Error('No token found. Please login.');
-
-        const res = await fetch('http://localhost:5000/api/hobbies', {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
-
-        if (!res.ok) {
-          const errorData = await res.json();
-          throw new Error(errorData.error || 'Failed to fetch hobbies');
-        }
-
-        const data = await res.json();
-        setHobbies(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchHobbies();
-  }, []);
-
+export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center">
-          <div className="mr-4 hidden md:flex">
-            <Link href="/" className="mr-6 flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-sm">HH</span>
-              </div>
-              <span className="font-bold text-xl">HobbyHub</span>
+   <div className="flex min-h-screen flex-col w-full bg-background text-foreground">
+  {/* Header */}
+  <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <div className="flex h-16 items-center w-full px-4 md:px-8">
+      {/* Logo */}
+      <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
+        <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
+          <span className="text-primary-foreground font-bold text-sm">HH</span>
+        </div>
+        <span className="font-bold text-xl text-foreground">HobbyHub</span>
+      </Link>
+
+      {/* Navigation with margin-left */}
+      <nav className="flex items-center space-x-6 text-sm font-medium text-muted-foreground ml-8">
+        <Link to="/travel" className="hover:text-foreground/80 transition-colors">
+          Travel
+        </Link>
+        <Link to="/workout" className="hover:text-foreground/80 transition-colors">
+          Workout
+        </Link>
+        <Link to="/food" className="hover:text-foreground/80 transition-colors">
+          Food
+        </Link>
+      </nav>
+
+      {/* Spacer to push button to the right */}
+      <div className="flex-grow"></div>
+
+      {/* Get Started Button */}
+      <div className="flex items-center">
+        <Button className="w-full md:w-auto" asChild>
+          <Link to="/dashboard">Get Started</Link>
+        </Button>
+      </div>
+    </div>
+  </header>
+
+  {/* Main content */}
+  <main className="flex-1 w-full">
+    {/* Hero Section */}
+    <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-br from-purple-500/20 via-pink-500/10 to-orange-500/20">
+      <div className="w-full px-4 md:px-8 max-w-full mx-auto text-center flex flex-col items-center space-y-4">
+        <div className="space-y-2 max-w-3xl">
+          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
+            Your Hobbies,{" "}
+            <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 bg-clip-text text-transparent">
+              Organized
+            </span>
+          </h1>
+          <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+            Track your travels, workouts, and culinary adventures all in one place. Plan
+            better, achieve more, and never lose track of your passions.
+          </p>
+        </div>
+        <div className="space-x-4">
+          <Button
+            size="lg"
+            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+            asChild
+          >
+            <Link to="/dashboard">
+              Start Your Journey <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
-            <nav className="flex items-center space-x-6 text-sm font-medium">
-              <Link href="/travel" className="transition-colors hover:text-foreground/80 text-foreground/60">Travel</Link>
-              <Link href="/workout" className="transition-colors hover:text-foreground/80 text-foreground/60">Workout</Link>
-              <Link href="/food" className="transition-colors hover:text-foreground/80 text-foreground/60">Food</Link>
-            </nav>
-          </div>
-          <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-            <div className="w-full flex-1 md:w-auto md:flex-none">
-              <Button variant="outline" className="w-full md:w-auto" asChild>
-                <Link href="/">Home</Link>
-              </Button>
+          </Button>
+          <Button variant="outline" size="lg" asChild>
+            <Link to="#features">Learn More</Link>
+          </Button>
+        </div>
+      </div>
+    </section>
+
+
+        {/* Features Section */}
+        <section id="features" className="w-full py-12 md:py-24 lg:py-32">
+          <div className="w-full px-4 md:px-8 max-w-full mx-auto">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2 max-w-3xl">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+                  Everything You Need
+                </h2>
+                <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  Comprehensive tools to manage and enhance your favorite hobbies
+                </p>
+              </div>
+            </div>
+
+            <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 py-12 md:grid-cols-3">
+              <Card className="relative overflow-hidden border-0 shadow-lg bg-gradient-to-br from-blue-50 to-cyan-50 hover:shadow-xl transition-all duration-300">
+                <CardHeader className="pb-2">
+                  <div className="flex items-center justify-between">
+                    <Compass className="h-8 w-8 text-blue-600" />
+                    <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+                      <Compass className="h-6 w-6 text-white" />
+                    </div>
+                  </div>
+                  <CardTitle className="text-xl text-blue-900">Travel Planning</CardTitle>
+                  <CardDescription>
+                    Plan your next adventure with detailed itineraries and destination guides
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li>• Trip planning and itineraries</li>
+                    <li>• Destination wishlist</li>
+                    <li>• Travel memories and photos</li>
+                    <li>• Budget tracking</li>
+                  </ul>
+                </CardContent>
+                <CardFooter>
+                  <Button variant="outline" size="sm" asChild className="w-full">
+                    <Link to="/travel">Explore Travel</Link>
+                  </Button>
+                </CardFooter>
+              </Card>
+
+              <Card className="relative overflow-hidden border-0 shadow-lg bg-gradient-to-br from-green-50 to-emerald-50 hover:shadow-xl transition-all duration-300">
+                <CardHeader className="pb-2">
+                  <div className="flex items-center justify-between">
+                    <Dumbbell className="h-8 w-8 text-green-600" />
+                    <div className="h-12 w-12 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center">
+                      <Dumbbell className="h-6 w-6 text-white" />
+                    </div>
+                  </div>
+                  <CardTitle className="text-xl text-green-900">Fitness Tracking</CardTitle>
+                  <CardDescription>
+                    Monitor your fitness journey with workout logs and progress tracking
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li>• Custom workout routines</li>
+                    <li>• Exercise logging</li>
+                    <li>• Progress visualization</li>
+                    <li>• Goal setting and tracking</li>
+                  </ul>
+                </CardContent>
+                <CardFooter>
+                  <Button variant="outline" size="sm" asChild className="w-full">
+                    <Link to="/workout">Start Training</Link>
+                  </Button>
+                </CardFooter>
+              </Card>
+
+              <Card className="relative overflow-hidden border-0 shadow-lg bg-gradient-to-br from-orange-50 to-red-50 hover:shadow-xl transition-all duration-300">
+                <CardHeader className="pb-2">
+                  <div className="flex items-center justify-between">
+                    <Utensils className="h-8 w-8 text-orange-600" />
+                    <div className="h-12 w-12 rounded-full bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
+                      <Utensils className="h-6 w-6 text-white" />
+                    </div>
+                  </div>
+                  <CardTitle className="text-xl text-orange-900">Culinary Adventures</CardTitle>
+                  <CardDescription>
+                    Discover, save, and organize your favorite recipes and restaurants
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-2 text-sm text-muted-foreground">
+                    <li>• Recipe collection</li>
+                    <li>• Restaurant reviews</li>
+                    <li>• Meal planning</li>
+                    <li>• Cooking timers and notes</li>
+                  </ul>
+                </CardContent>
+                <CardFooter>
+                  <Button variant="outline" size="sm" asChild className="w-full">
+                    <Link to="/food">Discover Food</Link>
+                  </Button>
+                </CardFooter>
+              </Card>
             </div>
           </div>
-        </div>
-      </header>
+        </section>
 
-      <main className="flex-1 space-y-4 p-4 md:p-8">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-            <p className="text-muted-foreground">Welcome back! Here's what's happening with your hobbies.</p>
+        {/* Stats Section */}
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-muted/50">
+          <div className="w-full px-4 md:px-8 max-w-full mx-auto">
+            <div className="grid gap-4 md:grid-cols-3">
+              <div className="flex flex-col items-center space-y-2 text-center">
+                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-white">
+                  <Users className="h-6 w-6" />
+                </div>
+                <div className="text-2xl font-bold">10,000+</div>
+                <p className="text-sm text-muted-foreground">Active Users</p>
+              </div>
+              <div className="flex flex-col items-center space-y-2 text-center">
+                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 text-white">
+                  <Calendar className="h-6 w-6" />
+                </div>
+                <div className="text-2xl font-bold">50,000+</div>
+                <p className="text-sm text-muted-foreground">Activities Tracked</p>
+              </div>
+              <div className="flex flex-col items-center space-y-2 text-center">
+                <div className="flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-yellow-500 to-orange-500 text-white">
+                  <Star className="h-6 w-6" />
+                </div>
+                <div className="text-2xl font-bold">4.9/5</div>
+                <p className="text-sm text-muted-foreground">User Rating</p>
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
 
-        {/* Display error or loading states */}
-        {loading && <p>Loading your hobbies...</p>}
-        {error && <p className="text-red-600">Error: {error}</p>}
-
-        {/* Show fetched hobbies */}
-        {!loading && !error && (
-          <div>
-            <h2 className="text-xl font-semibold mb-2">Your Hobbies</h2>
-            {hobbies.length === 0 && <p>You have no hobbies yet. Add some!</p>}
-            <ul className="list-disc pl-6 space-y-1">
-              {hobbies.map((hobby) => (
-                <li key={hobby.id}>
-                  <strong>{hobby.name}</strong>: {hobby.description}
-                </li>
-              ))}
-            </ul>
+        {/* CTA Section */}
+        <section className="w-full py-12 md:py-24 lg:py-32">
+          <div className="w-full px-4 md:px-8 max-w-full mx-auto">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2 max-w-3xl">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                  Ready to Get Started?
+                </h2>
+                <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  Join thousands of users who are already organizing their hobbies with HobbyHub
+                </p>
+              </div>
+              <div className="w-full max-w-sm space-y-2">
+                <Button size="lg" className="w-full" asChild>
+                  <Link to="/dashboard">
+                    Start Free Today <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
+                </Button>
+                <p className="text-xs text-muted-foreground">
+                  No credit card required. Start organizing in minutes.
+                </p>
+              </div>
+            </div>
           </div>
-        )}
-
-        <Tabs defaultValue="overview" className="space-y-4 mt-8">
-          <TabsList>
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="travel">Travel</TabsTrigger>
-            <TabsTrigger value="workout">Workout</TabsTrigger>
-            <TabsTrigger value="food">Food</TabsTrigger>
-          </TabsList>
-
-          {/* ...rest of your tabs as before... */}
-          {/* You can keep your existing cards and components here */}
-          {/* For brevity, I’m not repeating the entire existing JSX */}
-        </Tabs>
+        </section>
       </main>
+
+      {/* Footer */}
+      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-8 border-t">
+        <p className="text-xs text-muted-foreground">© 2025 HobbyHub. All rights reserved.</p>
+        <nav className="sm:ml-auto flex gap-4 sm:gap-6">
+          <Link to="#" className="text-xs hover:underline underline-offset-4">
+            Terms of Service
+          </Link>
+          <Link to="#" className="text-xs hover:underline underline-offset-4">
+            Privacy Policy
+          </Link>
+          <Link to="#" className="text-xs hover:underline underline-offset-4">
+            Contact
+          </Link>
+        </nav>
+      </footer>
     </div>
   );
 }

@@ -7,7 +7,13 @@ import hobbyRoutes from './routes/hobbies.js';
 dotenv.config();
 
 const app = express();
-app.use(cors());
+
+// Allow frontend (Vite) on port 5173
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
+
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -17,7 +23,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/hobbies', hobbyRoutes);
 
-// Error handler
+// Global error handler
 app.use((err, req, res, next) => {
   console.error(err.message);
   res.status(500).json({ error: 'Server error' });
