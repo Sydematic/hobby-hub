@@ -12,7 +12,7 @@ router.post('/', authMiddleware, async (req, res) => {
       data: {
         name: req.body.name,
         description: req.body.description,
-        userId: req.user.id, // assuming req.user has `id`
+        userId: req.user.id,
       },
     });
     res.status(201).json(hobby);
@@ -22,7 +22,7 @@ router.post('/', authMiddleware, async (req, res) => {
   }
 });
 
-// Get hobbies for user
+// Get hobbies for logged-in user
 router.get('/', authMiddleware, async (req, res) => {
   try {
     const hobbies = await prisma.hobby.findMany({
