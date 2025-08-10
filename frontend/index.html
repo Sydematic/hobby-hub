@@ -5,9 +5,24 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
+
+    <!-- Load Geist fonts (replace with local hosting if needed) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Example: Using a similar font since Geist isn't on Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+      html {
+        font-family: var(--font-sans, 'Inter', system-ui, sans-serif);
+        --font-sans: 'Inter', system-ui, sans-serif;
+        --font-mono: 'Courier New', monospace;
+      }
+    </style>
   </head>
-  <body>
+  <body class="bg-background text-foreground font-sans min-h-screen">
     <div id="app"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
+
