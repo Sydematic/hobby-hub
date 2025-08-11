@@ -14,77 +14,76 @@ import {
 
 export default function Home() {
   return (
-   <div className="flex min-h-screen flex-col w-full bg-background text-foreground">
-  {/* Header */}
-  <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-    <div className="flex h-16 items-center w-full px-4 md:px-8">
-      {/* Logo */}
-      <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
-        <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-          <span className="text-primary-foreground font-bold text-sm">HH</span>
-        </div>
-        <span className="font-bold text-xl text-foreground">HobbyHub</span>
-      </Link>
+    <div className="flex min-h-screen flex-col w-full bg-background text-foreground">
+      {/* Header */}
+      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="flex h-16 items-center w-full px-4 md:px-8">
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
+            <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
+              <span className="text-primary-foreground font-bold text-sm">HH</span>
+            </div>
+            <span className="font-bold text-xl text-foreground">HobbyHub</span>
+          </Link>
 
-      {/* Navigation with margin-left */}
-      <nav className="flex items-center space-x-6 text-sm font-medium text-muted-foreground ml-8">
-        <Link to="/travel" className="hover:text-foreground/80 transition-colors">
-          Travel
-        </Link>
-        <Link to="/workout" className="hover:text-foreground/80 transition-colors">
-          Workout
-        </Link>
-        <Link to="/food" className="hover:text-foreground/80 transition-colors">
-          Food
-        </Link>
-      </nav>
-
-      {/* Spacer to push button to the right */}
-      <div className="flex-grow"></div>
-
-      {/* Get Started Button */}
-      <div className="flex items-center">
-        <Button className="w-full md:w-auto" asChild>
-          <Link to="/dashboard">Get Started</Link>
-        </Button>
-      </div>
-    </div>
-  </header>
-
-  {/* Main content */}
-  <main className="flex-1 w-full">
-    {/* Hero Section */}
-    <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-br from-purple-500/20 via-pink-500/10 to-orange-500/20">
-      <div className="w-full px-4 md:px-8 max-w-full mx-auto text-center flex flex-col items-center space-y-4">
-        <div className="space-y-2 max-w-3xl">
-          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
-            Your Hobbies,{" "}
-            <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 bg-clip-text text-transparent">
-              Organized
-            </span>
-          </h1>
-          <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-            Track your travels, workouts, and culinary adventures all in one place. Plan
-            better, achieve more, and never lose track of your passions.
-          </p>
-        </div>
-        <div className="space-x-4">
-          <Button
-            size="lg"
-            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-            asChild
-          >
-            <Link to="/dashboard">
-              Start Your Journey <ArrowRight className="ml-2 h-4 w-4" />
+          {/* Navigation */}
+          <nav className="flex items-center space-x-6 text-sm font-medium text-muted-foreground ml-8">
+            <Link to="/travel" className="hover:text-foreground/80 transition-colors">
+              Travel
             </Link>
-          </Button>
-          <Button variant="outline" size="lg" asChild>
-            <Link to="#features">Learn More</Link>
-          </Button>
-        </div>
-      </div>
-    </section>
+            <Link to="/workout" className="hover:text-foreground/80 transition-colors">
+              Workout
+            </Link>
+            <Link to="/food" className="hover:text-foreground/80 transition-colors">
+              Food
+            </Link>
+          </nav>
 
+          {/* Spacer */}
+          <div className="flex-grow"></div>
+
+          {/* Get Started Button */}
+          <div className="flex items-center">
+            <Button className="w-full md:w-auto" asChild>
+              <Link to="/dashboard">Get Started</Link>
+            </Button>
+          </div>
+        </div>
+      </header>
+
+      {/* Main content */}
+      <main className="flex-1 w-full">
+        {/* Hero Section */}
+        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-br from-purple-500/20 via-pink-500/10 to-orange-500/20">
+          <div className="w-full px-4 md:px-8 max-w-full mx-auto text-center flex flex-col items-center space-y-4">
+            <div className="space-y-2 max-w-3xl">
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
+                Your Hobbies,{" "}
+                <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 bg-clip-text text-transparent">
+                  Organized
+                </span>
+              </h1>
+              <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
+                Track your travels, workouts, and culinary adventures all in one place. Plan better,
+                achieve more, and never lose track of your passions.
+              </p>
+            </div>
+            <div className="space-x-4">
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                asChild
+              >
+                <Link to="/dashboard">
+                  Start Your Journey <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+              <Button variant="outline" size="lg" asChild>
+                <Link to="#features">Learn More</Link>
+              </Button>
+            </div>
+          </div>
+        </section>
 
         {/* Features Section */}
         <section id="features" className="w-full py-12 md:py-24 lg:py-32">

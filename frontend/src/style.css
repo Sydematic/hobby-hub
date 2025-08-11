@@ -3,53 +3,51 @@
 @tailwind components;
 @tailwind utilities;
 
-/* OKLCH color variables from your reference */
+/* OKLCH color variables with visible saturated colors */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --background: oklch(0.97 0.05 270);       /* light blueish-purple background */
+  --foreground: oklch(0.15 0.3 260);        /* dark blue foreground */
+  --card: oklch(0.94 0.12 230);             /* light saturated blue card bg */
+  --card-foreground: oklch(0.15 0.3 260);   /* dark blue card text */
+  --popover: oklch(0.97 0.06 270);          /* light blue popover */
+  --popover-foreground: oklch(0.15 0.3 260);/* dark text on popover */
+  --primary: oklch(0.45 0.35 230);          /* medium bright blue primary */
+  --primary-foreground: oklch(0.97 0.05 270); /* light text on primary */
+  --secondary: oklch(0.95 0.18 120);        /* light saturated green secondary */
+  --secondary-foreground: oklch(0.15 0.3 120); /* dark green text */
+  --muted: oklch(0.90 0.10 40);             /* soft orange muted bg */
+  --muted-foreground: oklch(0.45 0.2 40);   /* darker orange text */
+  --accent: oklch(0.95 0.22 340);           /* pink accent */
+  --accent-foreground: oklch(0.15 0.3 340); /* dark pink text */
+  --destructive: oklch(0.55 0.35 25);       /* strong red destructive */
+  --destructive-foreground: oklch(0.97 0.05 25); /* light text on destructive */
+  --border: oklch(0.85 0.1 260);             /* subtle blue border */
+  --input: oklch(0.85 0.1 260);
+  --ring: oklch(0.60 0.12 260);
   --radius: 0.625rem;
-  /* add others as needed */
 }
 
-/* Dark mode variables */
+/* Dark mode variables with visible colors */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
-  /* add others as needed */
+  --background: oklch(0.15 0.12 260);       /* dark blue background */
+  --foreground: oklch(0.95 0.35 260);       /* bright blue text */
+  --card: oklch(0.25 0.25 230);              /* saturated dark blue card */
+  --card-foreground: oklch(0.95 0.35 260);
+  --popover: oklch(0.15 0.15 270);
+  --popover-foreground: oklch(0.95 0.35 260);
+  --primary: oklch(0.95 0.6 230);            /* bright saturated blue */
+  --primary-foreground: oklch(0.15 0.12 270);
+  --secondary: oklch(0.35 0.25 120);         /* dark green */
+  --secondary-foreground: oklch(0.95 0.35 120);
+  --muted: oklch(0.35 0.15 40);              /* muted orange */
+  --muted-foreground: oklch(0.60 0.2 40);
+  --accent: oklch(0.35 0.25 340);            /* dark pink */
+  --accent-foreground: oklch(0.95 0.35 340);
+  --destructive: oklch(0.55 0.35 25);        /* strong red */
+  --destructive-foreground: oklch(0.95 0.35 25);
+  --border: oklch(0.35 0.15 260);
+  --input: oklch(0.35 0.15 260);
+  --ring: oklch(0.50 0.18 260);
 }
 
 /* Map your CSS vars to Tailwind colors */
@@ -87,5 +85,47 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Cards */
+  [data-slot="card"] {
+    background-color: var(--card);
+    color: var(--card-foreground);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 6px rgb(0 0 0 / 0.1);
+  }
+
+  [data-slot="card-header"] {
+    color: var(--primary);
+  }
+
+  [data-slot="card-title"] {
+    color: var(--primary-foreground);
+    font-weight: 600;
+    font-size: 1.25rem;
+  }
+
+  [data-slot="card-description"] {
+    color: var(--secondary-foreground);
+    font-size: 0.875rem;
+  }
+
+  [data-slot="card-footer"] {
+    border-top: 1px solid var(--border);
+    color: var(--muted-foreground);
+  }
+
+  button,
+  .button {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    border-radius: var(--radius);
+    padding: 0.5rem 1rem;
+  }
+
+  button:hover,
+  .button:hover {
+    background-color: var(--secondary);
   }
 }
