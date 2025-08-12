@@ -35,7 +35,7 @@ export default function Home() {
               Workout
             </Link>
             <Link to="/food" className="hover:text-foreground/80 transition-colors">
-              Food
+             Contact
             </Link>
           </nav>
 
@@ -64,7 +64,7 @@ export default function Home() {
                 </span>
               </h1>
               <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-                Track your travels, workouts, and culinary adventures all in one place. Plan better,
+                Track your travels and adventures all in one place. Plan better,
                 achieve more, and never lose track of your passions.
               </p>
             </div>
@@ -128,61 +128,7 @@ export default function Home() {
                 </CardFooter>
               </Card>
 
-              <Card className="relative overflow-hidden border-0 shadow-lg bg-gradient-to-br from-green-50 to-emerald-50 hover:shadow-xl transition-all duration-300">
-                <CardHeader className="pb-2">
-                  <div className="flex items-center justify-between">
-                    <Dumbbell className="h-8 w-8 text-green-600" />
-                    <div className="h-12 w-12 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center">
-                      <Dumbbell className="h-6 w-6 text-white" />
-                    </div>
-                  </div>
-                  <CardTitle className="text-xl text-green-900">Fitness Tracking</CardTitle>
-                  <CardDescription>
-                    Monitor your fitness journey with workout logs and progress tracking
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2 text-sm text-muted-foreground">
-                    <li>• Custom workout routines</li>
-                    <li>• Exercise logging</li>
-                    <li>• Progress visualization</li>
-                    <li>• Goal setting and tracking</li>
-                  </ul>
-                </CardContent>
-                <CardFooter>
-                  <Button variant="outline" size="sm" asChild className="w-full">
-                    <Link to="/workout">Start Training</Link>
-                  </Button>
-                </CardFooter>
-              </Card>
-
-              <Card className="relative overflow-hidden border-0 shadow-lg bg-gradient-to-br from-orange-50 to-red-50 hover:shadow-xl transition-all duration-300">
-                <CardHeader className="pb-2">
-                  <div className="flex items-center justify-between">
-                    <Utensils className="h-8 w-8 text-orange-600" />
-                    <div className="h-12 w-12 rounded-full bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
-                      <Utensils className="h-6 w-6 text-white" />
-                    </div>
-                  </div>
-                  <CardTitle className="text-xl text-orange-900">Culinary Adventures</CardTitle>
-                  <CardDescription>
-                    Discover, save, and organize your favorite recipes and restaurants
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2 text-sm text-muted-foreground">
-                    <li>• Recipe collection</li>
-                    <li>• Restaurant reviews</li>
-                    <li>• Meal planning</li>
-                    <li>• Cooking timers and notes</li>
-                  </ul>
-                </CardContent>
-                <CardFooter>
-                  <Button variant="outline" size="sm" asChild className="w-full">
-                    <Link to="/food">Discover Food</Link>
-                  </Button>
-                </CardFooter>
-              </Card>
+             
             </div>
           </div>
         </section>
