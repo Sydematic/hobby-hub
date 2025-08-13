@@ -89,7 +89,7 @@
 
   /* Cards */
   [data-slot="card"] {
-    background-color: var(--card);
+    /* background-color: var(--card); */  /* <-- Removed this so gradients work */
     color: var(--card-foreground);
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -115,6 +115,14 @@
     border-top: 1px solid var(--border);
     color: var(--muted-foreground);
   }
+
+  [data-slot="card"] {
+  background-color: transparent !important;
+  color: var(--card-foreground);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 6px rgb(0 0 0 / 0.1);
+}
 
   button,
   .button {
