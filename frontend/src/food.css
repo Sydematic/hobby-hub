@@ -1,0 +1,234 @@
+/* ==============================
+   Food Page Card Title Colors
+   ============================== */
+.food-card-title {
+  color: oklch(0.25 0.15 40);
+  font-weight: 700;
+  margin-top: 1rem;
+}
+
+/* ==============================
+   Food Card Descriptions and Lists - Muted Gray
+   ============================== */
+.food-card-description,
+.food-card-list {
+  margin-top: 1.5rem; 
+  margin-bottom: 1rem;
+  line-height: 1.75;
+  color: #6b7280; /* same as Discover section */
+}
+
+.food-card-list {
+  list-style: none;
+  padding-left: 0;
+  line-height: 2;
+}
+
+/* ==============================
+   Force Food Card Content Down
+   ============================== */
+.food-card {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  padding-top: 3rem !important;
+  background-color: rgba(255, 165, 0, 0.15) !important;
+}
+
+/* ==============================
+   Make Header Container Relative
+   ============================== */
+.food-card-header {
+  position: relative !important;
+  padding-top: 0.5rem;  
+  padding-bottom: 0.75rem;
+}
+
+/* ==============================
+   Move Icons Up
+   ============================== */
+.food-card .food-card-header svg,
+.food-card .food-card-header div svg {
+  position: relative !important;
+  top: -0.9rem !important;
+}
+
+/* ==============================
+   Right Icon Circle Background - Translucent
+   ============================== */
+.food-card .right-icon-circle {
+  background-color: rgba(255, 165, 0, 0.3) !important;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.food-card .right-icon-circle svg {
+  color: white !important;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* ==============================
+   Explore Buttons - Match Hero Gradient
+   ============================== */
+.food-card-footer button {
+  background: linear-gradient(90deg, #9333ea, #ec4899) !important;
+  color: white !important;
+  border: none !important;
+  transition: all 0.3s ease;
+}
+
+.food-card-footer button:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+/* ==============================
+   Container to layout cards side by side
+   ============================== */
+.food-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+  width: 100%;
+}
+
+/* ==============================
+   Centered images inside cards
+   ============================== */
+.food-card-image-container {
+  width: 80%;
+  max-width: 300px;
+  margin: 0 auto 1.5rem;
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+
+.food-card-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.food-card-image:hover {
+  transform: scale(1.05);
+}
+
+/* ==============================
+   Food Card Content Padding and Text Color
+   ============================== */
+.food-card-content {
+  padding-top: 0.5rem;
+}
+
+.food-card-content p {
+  color: #6b7280; /* muted gray like Discover section */
+}
+
+
+/* Push text down more for first and last cards */
+.food-cards-container .food-card:first-child .food-card-header,
+.food-cards-container .food-card:first-child .food-card-content,
+.food-cards-container .food-card:last-child .food-card-header,
+.food-cards-container .food-card:last-child .food-card-content {
+  margin-top: 6rem;
+}
+
+/* Extra spacing below images for first and last cards */
+.food-cards-container .food-card:first-child .food-card-image-container,
+.food-cards-container .food-card:last-child .food-card-image-container {
+  margin-bottom: 3rem;
+}
+
+/* ==============================
+   Food Page Header Buttons - Match Home Hero Buttons
+   ============================== */
+.hero-btn-primary {
+  background: linear-gradient(90deg, #9333ea, #ec4899);
+  color: white;
+  font-family: 'Alumni Sans', sans-serif;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.hero-btn-primary:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+.hero-btn-outline {
+  background: transparent;
+  color: #9333ea;
+  font-family: 'Alumni Sans', sans-serif;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border: 2px solid #9333ea;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.hero-btn-outline:hover {
+  background: #9333ea;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* ==============================
+   Food Page Header - Match Home Hero
+   ============================== */
+.food-page-header h1 {
+  font-family: 'Alumni Sans', sans-serif;
+  font-weight: 700;
+  font-size: 2.25rem; 
+  background: linear-gradient(90deg, #9333ea, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.food-page-header p {
+  font-family: 'Alumni Sans', sans-serif;
+  font-weight: 500;
+  color: #6b7280; /* muted foreground */
+}
+
+/* ==============================
+   Tabs - Match Dashboard Buttons
+   ============================== */
+.food-tabs [role="tab"] {
+  font-family: 'Alumni Sans', sans-serif;
+  font-weight: 500;
+  color: white; /* text same as hero buttons */
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem; /* match dashboard button rounded corners */
+  background: linear-gradient(90deg, #9333ea, #ec4899);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.food-tabs [role="tab"]:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+.food-tabs [role="tab"][data-state="active"] {
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(90deg, #9333ea, #ec4899);
+  border-bottom: none;
+}
+
+.food-card-header .badge,
+.food-card-header .badge span {
+  color: #6b7280 !important; /* muted gray */
+  background: none !important; /* optional if you don’t want gradients */
+}
+
