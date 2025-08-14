@@ -32,75 +32,76 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen w-full bg-background text-foreground font-sans">
 
-      {/* Navbar */}
-      <header className="sticky top-0 z-50 bg-transparent backdrop-blur-sm border-b border-border">
-        <div className="flex justify-center items-center gap-[clamp(170px,10vw,250px)] px-[60px] py-[40px]">
-          <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
-            <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-sm">HH</span>
-            </div>
-            <span className="font-alumniSans text-[23px] font-normal text-foreground">
-              HobbyHub
-            </span>
-          </Link>
+    {/* Navbar */}
+<header className="navbar">
+  <div className="flex justify-between items-center max-w-7xl mx-auto px-6">
+    <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
+      <div className="hh-icon gradient-text">
+        HH
+      </div>
+      <span className="font-alumniSans text-[23px] font-normal gradient-text">
+        HobbyHub
+      </span>
+    </Link>
 
-          <nav className="flex items-center space-x-[clamp(40px,10vw,80px)] text-muted-foreground text-sm font-medium">
-            <Link to="/travel" className="hover:text-foreground transition-colors">Travel</Link>
-            <Link to="/workout" className="hover:text-foreground transition-colors">Workout</Link>
-            <Link to="/food" className="hover:text-foreground transition-colors">Food</Link>
-          </nav>
+   <nav className="flex items-center text-muted-foreground text-sm font-medium">
+  <Link to="/travel" className="hover:text-foreground transition-colors">Travel</Link>
+  <Link to="/workout" className="hover:text-foreground transition-colors">Workout</Link>
+  <Link to="/food" className="hover:text-foreground transition-colors">Food</Link>
+</nav>
 
-          <div className="flex-grow"></div>
 
-          <div>
-            <Button className="px-6 py-2 rounded-full border border-white text-white hover:border-accent hover:text-accent transition-colors font-medium">
-              <Link to="/signup">Get Started</Link>
-            </Button>
-          </div>
-        </div>
-      </header>
+    <Button className="get-started-btn">
+      <Link to="/signup">Get Started</Link>
+    </Button>
+  </div>
+</header>
+
 
       {/* Hero Section */}
-      <main className="flex-1 w-full">
-        <section className="w-full py-[96px] bg-gradient-to-br from-purple-500/20 via-pink-500/10 to-orange-500/20">
-          <div className="max-w-5xl mx-auto px-8 text-center flex flex-col items-center space-y-4">
-            <h1 className="font-alumniSans text-[72px] font-normal text-primary mb-4 max-w-3xl">
-              Your Hobbies,{"Organized "}
-              <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 bg-clip-text text-transparent">
-                Organized
-              </span>
-            </h1>
-            <p className="max-w-xl text-muted-foreground text-lg font-light leading-relaxed">
-              Track your travels and adventures all in one place. Plan better,
-              achieve more, and never lose track of your passions.
-            </p>
+   <main className="flex-1 w-full">
+  <section className="hero-section">
+    <div className="hero-background"></div> {/* Background behind container */}
+    <div className="hero-container">
+      <h1 className="hero-title">
+        Your Hobbies, <span className="gradient-text">Organized</span>
+      </h1>
+      <p className="hero-subtitle">
+        Track your travels and adventures all in one place. Plan better,
+        achieve more, and never lose track of your passions.
+      </p>
 
-            <div className="flex space-x-4 mt-8">
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-                asChild
-              >
-                <Link to="/signup" className="flex items-center">
-                  Start Your Journey <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button variant="outline" size="lg" asChild>
-                <Link to="#features">Learn More</Link>
-              </Button>
-            </div>
-          </div>
-        </section>
+    <div className="hero-buttons">
+  <Button size="lg" className="hero-btn-primary" asChild>
+    <Link to="/signup">
+      Start Your Journey <ArrowRight className="ml-2 h-4 w-4" />
+    </Link>
+  </Button>
+  <Button variant="outline" size="lg" className="hero-btn-outline" asChild>
+    <Link to="/aboutus">Learn More</Link>
+  </Button>
+</div>
+
+    </div>
+  </section>
+
+
 
         {/* Features Section */}
         <section id="features" className="w-full py-24">
           <div className="max-w-5xl mx-auto px-8">
             <div className="text-center max-w-3xl mx-auto mb-12">
-              <h2 className="text-5xl font-alumniSans font-bold mb-2">Everything You Need</h2>
-              <p className="text-muted-foreground text-xl leading-relaxed">
-                Comprehensive tools to manage and enhance your favorite hobbies
-              </p>
-            </div>
+<h2 className="text-[96px] font-alumniSans font-bold mb-2 text-gray-900">
+  Everything You Need
+</h2>
+
+<p
+  className="text-xl text-gray-600 relative"
+  style={{ top: "-3rem", lineHeight: "1.4" }}
+>
+  Comprehensive tools to manage and enhance your favorite hobbies
+</p>
+</div>
 
 
 {/* Horizontal cards container */}
@@ -113,7 +114,7 @@ export default function Home() {
   >
     <CardHeader className="pt-8 pb-6">
       <div className="flex justify-between items-center">
-        <Compass className="h-8 w-8 -translate-y-3 text-blue-600" />
+        <Compass className="h-8 w-8 -translate-y-2.5 text-blue-600" />
         <div className="right-icon-circle flex items-center justify-center">
           <Compass className="h-6 w-6" />
         </div>
@@ -134,13 +135,13 @@ export default function Home() {
       </ul>
     </CardContent>
     <CardFooter className="pt-4">
-      <Button variant="outline" size="sm" className="w-full">
+      <Button size="sm" className="w-full explore-btn explore-btn-travel">
         <Link to="/travel">Explore Travel</Link>
       </Button>
     </CardFooter>
   </Card>
 
-  {/* Arrows between Travel and Workout - blue */}
+  {/* Arrows between Travel and Workout */}
   <div className="flex flex-col items-center mx-4">
     <span style={{ fontSize: '5rem', color: 'oklch(0.25 0.15 250)' }}>→</span>
     <span style={{ fontSize: '5rem', color: 'oklch(0.25 0.15 250)' }}>←</span>
@@ -174,13 +175,13 @@ export default function Home() {
       </ul>
     </CardContent>
     <CardFooter className="pt-4">
-      <Button variant="outline" size="sm" className="w-full">
+      <Button size="sm" className="w-full explore-btn explore-btn-workout">
         <Link to="/workout">Explore Workouts</Link>
       </Button>
     </CardFooter>
   </Card>
 
-  {/* Arrows between Workout and Food - green */}
+  {/* Arrows between Workout and Food */}
   <div className="flex flex-col items-center mx-4">
     <span style={{ fontSize: '5rem', color: 'oklch(0.25 0.15 140)' }}>→</span>
     <span style={{ fontSize: '5rem', color: 'oklch(0.25 0.15 140)' }}>←</span>
@@ -214,7 +215,7 @@ export default function Home() {
       </ul>
     </CardContent>
     <CardFooter className="pt-4">
-      <Button variant="outline" size="sm" className="w-full">
+      <Button size="sm" className="w-full explore-btn explore-btn-food">
         <Link to="/food">Explore Food</Link>
       </Button>
     </CardFooter>
@@ -223,11 +224,11 @@ export default function Home() {
 </div>
 
 
-
-
-
-          </div>
+</div>
         </section>
+
+
+
 {/* Stats Section */}
 <section className="w-full py-24 bg-muted/50 stats-section">
   <div className="max-w-5xl mx-auto px-8 stats-container">
@@ -235,22 +236,24 @@ export default function Home() {
       <div className="stat-icon-wrapper stat-travel">
         <Users />
       </div>
-      <div className="text-2xl font-bold mt-2">10,000+</div>
-      <p className="text-sm text-muted-foreground">Active Users</p>
+      <div className="stat-number">10,000+</div>
+      <div className="stat-label">Active Users</div>
     </div>
+
     <div className="stat-item">
       <div className="stat-icon-wrapper stat-workout">
         <Calendar />
       </div>
-      <div className="text-2xl font-bold mt-2">50,000+</div>
-      <p className="text-sm text-muted-foreground">Activities Tracked</p>
+      <div className="stat-number">50,000+</div>
+      <div className="stat-label">Activities Tracked</div>
     </div>
+
     <div className="stat-item">
       <div className="stat-icon-wrapper stat-food">
         <Star />
       </div>
-      <div className="text-2xl font-bold mt-2">4.9/5</div>
-      <p className="text-sm text-muted-foreground">User Rating</p>
+      <div className="stat-number">4.9/5</div>
+      <div className="stat-label">User Rating</div>
     </div>
   </div>
 </section>
