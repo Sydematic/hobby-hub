@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Compass, Users, Calendar, Star, Dumbbell, Utensils } from "lucide-react";
+import './custom.css';
 
 import { Button } from "@/components/ui/button";
 import {

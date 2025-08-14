@@ -1,0 +1,7 @@
+[Type] Short description
+
+Detailed description of changes.
+Issue: #<issue-number>
+
+(You’ll replace placeholders when you make real commits — 
+examples of types: feat, fix, docs, style, refactor, test.)

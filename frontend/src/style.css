@@ -3,6 +3,8 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 /* OKLCH color variables with visible saturated colors */
 :root {
   --background: oklch(0.97 0.05 270);       /* light blueish-purple background */

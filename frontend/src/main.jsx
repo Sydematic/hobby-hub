@@ -8,6 +8,7 @@ import WorkoutPage from './WorkoutPage';
 import FoodPage from './FoodPage';
 import TestColors from './TestColors';
 import './style.css';
+import './custom.css';
 
 ReactDOM.createRoot(document.getElementById('app')).render(
   <React.StrictMode>
