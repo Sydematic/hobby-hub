@@ -683,3 +683,14 @@ footer nav a:hover {
   background: linear-gradient(90deg, #ea580c, #eab308, #f97316) !important;
   transform: translateY(-2px);
 }
+
+@media (max-width: 640px) {
+  .hero-btn-primary,
+  .hero-btn-outline,
+  .explore-btn-food,
+  .explore-btn-workout {
+    width: 100%;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+  }
+}

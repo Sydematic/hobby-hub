@@ -226,9 +226,54 @@
   border-bottom: none;
 }
 
-.food-card-header .badge,
-.food-card-header .badge span {
-  color: #6b7280 !important; /* muted gray */
-  background: none !important; /* optional if you don’t want gradients */
-}
 
+/* ==============================
+   Responsive for Mobile (up to 640px)
+   ============================== */
+@media (max-width: 640px) {
+  /* Stack cards vertically */
+  .food-cards-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+
+  /* Make images full width */
+  .food-card-image-container {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  /* Adjust header font sizes */
+  .food-page-header h1 {
+    font-size: 1.75rem;
+    line-height: 2rem;
+    text-align: center;
+  }
+
+  .food-page-header p {
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  /* Reduce padding inside cards */
+  .food-card {
+    padding-top: 2rem !important;
+  }
+
+  .food-card-content {
+    padding-top: 0.25rem;
+  }
+
+  /* Footer buttons inside cards full width */
+  .food-card-footer button {
+    width: 100%;
+    font-size: 0.9rem;
+  }
+
+  /* Tabs full width and smaller padding */
+  .food-tabs [role="tab"] {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.85rem;
+  }
+}
