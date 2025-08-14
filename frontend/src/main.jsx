@@ -9,6 +9,7 @@ import FoodPage from './FoodPage';
 import TestColors from './TestColors';
 import SignupPage from './Signup'; // Import your Signup page
 import './style.css';
+import AboutUs from './AboutUs'; // Adjust the path if it's different
 
 
 ReactDOM.createRoot(document.getElementById('app')).render(
@@ -22,6 +23,8 @@ ReactDOM.createRoot(document.getElementById('app')).render(
         <Route path="/food" element={<FoodPage />} />
         <Route path="/test-colors" element={<TestColors />} />
         <Route path="/signup" element={<SignupPage />} /> {/* Single signup route */}
+        <Route path="/aboutus" element={<AboutUs />} />
+
         {/* Optional: Catch-all route */}
         {/* <Route path="*" element={<NotFoundPage />} /> */}
       </Routes>
