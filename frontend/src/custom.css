@@ -1,0 +1,19 @@
+/* custom.css */
+
+/* Override Tailwind's background color for buttons */
+.btn-primary {
+  background-color: #ff5722 !important; /* Burnt orange */
+  color: white !important;
+}
+
+/* Add padding to card elements */
+.my-card {
+  padding: 2rem;
+  border-radius: 10px;
+}
+
+/* Example overriding Tailwind’s hover */
+.btn-primary:hover {
+  background-color: #e64a19 !important;
+}
+

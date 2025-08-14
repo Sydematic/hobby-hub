@@ -9,6 +9,7 @@ import FoodPage from './FoodPage';
 import TestColors from './TestColors';
 import SignupPage from './Signup'; // Import your Signup page
 import './style.css';
+import './custom.css';
 
 ReactDOM.createRoot(document.getElementById('app')).render(
   <React.StrictMode>
