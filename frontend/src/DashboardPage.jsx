@@ -54,7 +54,7 @@ export default function Home() {
 
           <div>
             <Button className="px-6 py-2 rounded-full border border-white text-white hover:border-accent hover:text-accent transition-colors font-medium">
-              <Link to="/dashboard">Get Started</Link>
+              <Link to="/signup">Get Started</Link>
             </Button>
           </div>
         </div>
@@ -81,7 +81,7 @@ export default function Home() {
                 className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
                 asChild
               >
-                <Link to="/dashboard" className="flex items-center">
+                <Link to="/signup" className="flex items-center">
                   Start Your Journey <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
