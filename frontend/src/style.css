@@ -684,13 +684,77 @@ footer nav a:hover {
   transform: translateY(-2px);
 }
 
-@media (max-width: 640px) {
-  .hero-btn-primary,
-  .hero-btn-outline,
-  .explore-btn-food,
-  .explore-btn-workout {
-    width: 100%;
-    font-size: 0.9rem;
-    padding: 0.5rem 0.75rem;
+/* ==============================
+   Mobile Responsive Fixes
+   ============================== */
+
+/* Ensure viewport scales correctly (also add in HTML <head>):
+   <meta name="viewport" content="width=device-width, initial-scale=1.0"> */
+
+@media (max-width: 1024px) {
+  /* General container adjustments */
+  .hero-container,
+  .contact-section > div,
+  .stats-section .stats-container {
+    padding: 2rem !important;
   }
 }
+
+@media (max-width: 768px) {
+  /* Stack stats vertically */
+  .stats-section .stats-container {
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+    align-items: center !important;
+  }
+
+  /* Adjust hero title/subtitle for readability */
+  .hero-title {
+    font-size: 3rem !important;
+  }
+
+  .hero-subtitle {
+    font-size: 1.1rem !important;
+  }
+
+  /* Navbar spacing */
+  .navbar nav {
+    gap: 1rem !important;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Small phones: scale down hero/title/buttons */
+  .hero-title {
+    font-size: 2.2rem !important;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem !important;
+  }
+
+  .hero-buttons a,
+  .hero-buttons button {
+    width: 100% !important;
+    font-size: 0.9rem !important;
+    padding: 0.5rem 1rem !important;
+  }
+
+  .contact-section {
+    padding: 3rem 1rem !important;
+  }
+
+  .contact-section > div {
+    padding: 2rem 1rem !important;
+  }
+
+  .stats-section .stat-number {
+    font-size: 1.5rem !important;
+  }
+
+  .stats-section .stat-label {
+    font-size: 0.75rem !important;
+  }
+}
+
