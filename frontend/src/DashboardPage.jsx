@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Compass, Users, Calendar, Star, Dumbbell, Utensils } from "lucide-react";
-import './custom.css';
+import './style.css';
 
 import { Button } from "@/components/ui/button";
 import {
@@ -102,214 +102,225 @@ export default function Home() {
               </p>
             </div>
 
-       {/* Horizontal cards container */}
-<div className="flex justify-between px-16 mx-auto max-w-5xl">
+
+{/* Horizontal cards container */}
+<div className="flex justify-between items-center px-16 mx-auto max-w-5xl">
+
   {/* Travel Planning */}
-<Card
-  style={{
-    background: "linear-gradient(to bottom right, #eff6ff, #ecfeff)", // from-blue-50 to-cyan-50
-  }}
-  className="min-w-[350px] max-w-sm h-[400px] shadow-lg border-0 hover:shadow-xl transition-all duration-300 rounded-xl p-6 flex flex-col justify-between"
->
-  <CardHeader className="pb-6">
-    <div className="flex justify-between items-center">
-      <Compass className="h-8 w-8 text-blue-600" />
-      <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
-        <Compass className="h-6 w-6 text-white" />
+  <Card
+    style={{ background: "linear-gradient(to bottom right, #eff6ff, #ecfeff)" }}
+    className="min-w-[350px] max-w-sm h-[400px] shadow-lg border-0 hover:shadow-xl transition-all duration-300 rounded-xl p-6 flex flex-col justify-between card-travel"
+  >
+    <CardHeader className="pt-8 pb-6">
+      <div className="flex justify-between items-center">
+        <Compass className="h-8 w-8 -translate-y-3 text-blue-600" />
+        <div className="right-icon-circle flex items-center justify-center">
+          <Compass className="h-6 w-6" />
+        </div>
       </div>
-    </div>
-    <CardTitle className="text-xl font-bold leading-relaxed mt-4 text-blue-800">
-      Travel Planning
-    </CardTitle>
-    <CardDescription className="leading-relaxed">
-      Plan your next adventure with detailed itineraries and destination guides
-    </CardDescription>
-  </CardHeader>
-  <CardContent className="flex-grow">
-    <ul className="space-y-5 text-sm text-muted-foreground leading-relaxed mt-4">
-      <li>Trip planning and itineraries</li>
-      <li>Destination wishlist</li>
-      <li>Travel memories and photos</li>
-      <li>Budget tracking</li>
-    </ul>
-  </CardContent>
-  <CardFooter className="pt-4">
-    <Button variant="outline" size="sm" className="w-full">
-      <Link to="/travel">Explore Travel</Link>
-    </Button>
-  </CardFooter>
-</Card>
+      <CardTitle className="card-title-travel text-xl font-bold leading-relaxed mt-4">
+        Travel Planning
+      </CardTitle>
+      <CardDescription className="card-description text-blue-800">
+        Plan your next adventure with detailed itineraries and destination guides
+      </CardDescription>
+    </CardHeader>
+    <CardContent className="flex-grow">
+      <ul className="card-list text-blue-800">
+        <li>• Trip planning and itineraries</li>
+        <li>• Destination wishlist</li>
+        <li>• Travel memories and photos</li>
+        <li>• Budget tracking</li>
+      </ul>
+    </CardContent>
+    <CardFooter className="pt-4">
+      <Button variant="outline" size="sm" className="w-full">
+        <Link to="/travel">Explore Travel</Link>
+      </Button>
+    </CardFooter>
+  </Card>
 
-{/* Workout Tracker */}
-<Card
-  style={{
-    background: "linear-gradient(to bottom right, #f0fdf4, #d1fae5)", // from-green-50 to-emerald-50
-  }}
-  className="min-w-[350px] max-w-sm h-[400px] shadow-lg border-0 hover:shadow-xl transition-all duration-300 rounded-xl p-6 flex flex-col justify-between"
->
-  <CardHeader className="pb-6">
-    <div className="flex justify-between items-center">
-      <Dumbbell className="h-8 w-8 text-green-600" />
-      <div className="h-12 w-12 rounded-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center">
-        <Dumbbell className="h-6 w-6 text-white" />
-      </div>
-    </div>
-    <CardTitle className="text-xl font-bold leading-relaxed mt-4 text-green-800">
-      Workout Tracker
-    </CardTitle>
-    <CardDescription className="leading-relaxed">
-      Log workouts and track your fitness goals effectively
-    </CardDescription>
-  </CardHeader>
-  <CardContent className="flex-grow">
-    <ul className="space-y-5 text-sm text-muted-foreground leading-relaxed mt-4">
-      <li>Track completed workouts</li>
-      <li>Set weekly and monthly goals</li>
-      <li>Monitor progress and streaks</li>
-      <li>Workout history and stats</li>
-    </ul>
-  </CardContent>
-  <CardFooter className="pt-4">
-    <Button variant="outline" size="sm" className="w-full">
-      <Link to="/workout">Explore Workouts</Link>
-    </Button>
-  </CardFooter>
-</Card>
+  {/* Arrows between Travel and Workout - blue */}
+  <div className="flex flex-col items-center mx-4">
+    <span style={{ fontSize: '5rem', color: 'oklch(0.25 0.15 250)' }}>→</span>
+    <span style={{ fontSize: '5rem', color: 'oklch(0.25 0.15 250)' }}>←</span>
+  </div>
 
-{/* Food & Recipes */}
-<Card
-  style={{
-    background: "linear-gradient(to bottom right, #fff7ed, #fee2e2)", // from-orange-50 to-red-50
-  }}
-  className="min-w-[350px] max-w-sm h-[400px] shadow-lg border-0 hover:shadow-xl transition-all duration-300 rounded-xl p-6 flex flex-col justify-between"
->
-  <CardHeader className="pb-6">
-    <div className="flex justify-between items-center">
-      <Utensils className="h-8 w-8 text-orange-600" />
-      <div className="h-12 w-12 rounded-full bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
-        <Utensils className="h-6 w-6 text-white" />
+  {/* Workout Tracker */}
+  <Card
+    style={{ background: "linear-gradient(to bottom right, #f0fdf4, #d1fae5)" }}
+    className="min-w-[350px] max-w-sm h-[400px] shadow-lg border-0 hover:shadow-xl transition-all duration-300 rounded-xl p-6 flex flex-col justify-between card-workout"
+  >
+    <CardHeader className="pt-8 pb-6">
+      <div className="flex justify-between items-center">
+        <Dumbbell className="h-8 w-8 -translate-y-2.5 text-green-600" />
+        <div className="right-icon-circle flex items-center justify-center">
+          <Dumbbell className="h-6 w-6" />
+        </div>
       </div>
-    </div>
-    <CardTitle className="text-xl font-bold leading-relaxed mt-4 text-orange-800">
-      Food & Recipes
-    </CardTitle>
-    <CardDescription className="leading-relaxed">
-      Discover and organize your favorite recipes and dining experiences
-    </CardDescription>
-  </CardHeader>
-  <CardContent className="flex-grow">
-    <ul className="space-y-5 text-sm text-muted-foreground leading-relaxed mt-4">
-      <li>Save and categorize recipes</li>
-      <li>Track tried dishes and favorites</li>
-      <li>Restaurant wishlist and reviews</li>
-      <li>Meal planning and grocery lists</li>
-    </ul>
-  </CardContent>
-  <CardFooter className="pt-4">
-    <Button variant="outline" size="sm" className="w-full">
-      <Link to="/food">Explore Food</Link>
-    </Button>
-  </CardFooter>
-</Card>
+      <CardTitle className="card-title-workout text-xl font-bold leading-relaxed mt-4">
+        Workout Tracker
+      </CardTitle>
+      <CardDescription className="card-description text-green-800">
+        Log workouts and track your fitness goals effectively
+      </CardDescription>
+    </CardHeader>
+    <CardContent className="flex-grow">
+      <ul className="card-list text-green-800">
+        <li>• Track completed workouts</li>
+        <li>• Set weekly and monthly goals</li>
+        <li>• Monitor progress and streaks</li>
+        <li>• Workout history and stats</li>
+      </ul>
+    </CardContent>
+    <CardFooter className="pt-4">
+      <Button variant="outline" size="sm" className="w-full">
+        <Link to="/workout">Explore Workouts</Link>
+      </Button>
+    </CardFooter>
+  </Card>
+
+  {/* Arrows between Workout and Food - green */}
+  <div className="flex flex-col items-center mx-4">
+    <span style={{ fontSize: '5rem', color: 'oklch(0.25 0.15 140)' }}>→</span>
+    <span style={{ fontSize: '5rem', color: 'oklch(0.25 0.15 140)' }}>←</span>
+  </div>
+
+  {/* Food & Recipes */}
+  <Card
+    style={{ background: "linear-gradient(to bottom right, #fff7ed, #fee2e2)" }}
+    className="min-w-[350px] max-w-sm h-[400px] shadow-lg border-0 hover:shadow-xl transition-all duration-300 rounded-xl p-6 flex flex-col justify-between card-food"
+  >
+    <CardHeader className="pt-8 pb-6">
+      <div className="flex justify-between items-center">
+        <Utensils className="h-8 w-8 -translate-y-2.5 text-orange-600" />
+        <div className="right-icon-circle flex items-center justify-center">
+          <Utensils className="h-6 w-6" />
+        </div>
+      </div>
+      <CardTitle className="card-title-food text-xl font-bold leading-relaxed mt-4">
+        Food & Recipes
+      </CardTitle>
+      <CardDescription className="card-description text-orange-800">
+        Discover and organize your favorite recipes and dining experiences
+      </CardDescription>
+    </CardHeader>
+    <CardContent className="flex-grow">
+      <ul className="card-list text-orange-800">
+        <li>• Save and categorize recipes</li>
+        <li>• Track tried dishes and favorites</li>
+        <li>• Restaurant wishlist and reviews</li>
+        <li>• Meal planning and grocery lists</li>
+      </ul>
+    </CardContent>
+    <CardFooter className="pt-4">
+      <Button variant="outline" size="sm" className="w-full">
+        <Link to="/food">Explore Food</Link>
+      </Button>
+    </CardFooter>
+  </Card>
 
 </div>
 
 
+
+
+
           </div>
         </section>
+{/* Stats Section */}
+<section className="w-full py-24 bg-muted/50 stats-section">
+  <div className="max-w-5xl mx-auto px-8 stats-container">
+    <div className="stat-item">
+      <div className="stat-icon-wrapper stat-travel">
+        <Users />
+      </div>
+      <div className="text-2xl font-bold mt-2">10,000+</div>
+      <p className="text-sm text-muted-foreground">Active Users</p>
+    </div>
+    <div className="stat-item">
+      <div className="stat-icon-wrapper stat-workout">
+        <Calendar />
+      </div>
+      <div className="text-2xl font-bold mt-2">50,000+</div>
+      <p className="text-sm text-muted-foreground">Activities Tracked</p>
+    </div>
+    <div className="stat-item">
+      <div className="stat-icon-wrapper stat-food">
+        <Star />
+      </div>
+      <div className="text-2xl font-bold mt-2">4.9/5</div>
+      <p className="text-sm text-muted-foreground">User Rating</p>
+    </div>
+  </div>
+</section>
 
-        {/* Stats Section */}
-        <section className="w-full py-24 bg-muted/50">
-          <div className="max-w-5xl mx-auto px-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-              <div>
-                <div className="mx-auto w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white">
-                  <Users className="h-6 w-6" />
-                </div>
-                <div className="text-2xl font-bold mt-2">10,000+</div>
-                <p className="text-sm text-muted-foreground">Active Users</p>
-              </div>
-              <div>
-                <div className="mx-auto w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center text-white">
-                  <Calendar className="h-6 w-6" />
-                </div>
-                <div className="text-2xl font-bold mt-2">50,000+</div>
-                <p className="text-sm text-muted-foreground">Activities Tracked</p>
-              </div>
-              <div>
-                <div className="mx-auto w-12 h-12 rounded-full bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center text-white">
-                  <Star className="h-6 w-6" />
-                </div>
-                <div className="text-2xl font-bold mt-2">4.9/5</div>
-                <p className="text-sm text-muted-foreground">User Rating</p>
-              </div>
-            </div>
-          </div>
-        </section>
 
-        {/* Contact Form Section */}
-        <section className="w-full py-24 bg-muted/10">
-          <div className="max-w-3xl mx-auto px-8">
-            <h2 className="text-3xl font-bold mb-6 text-center">Contact Us</h2>
 
-            {submitted ? (
-              <p className="text-center text-green-600 font-semibold text-lg">
-                Thanks! We will contact you soon. Please check your email.
-              </p>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="name" className="block mb-1 font-medium text-left">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block mb-1 font-medium text-left">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="message" className="block mb-1 font-medium text-left">
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    required
-                    rows={4}
-                    value={formData.message}
-                    onChange={handleChange}
-                    className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
-                  />
-                </div>
+{/* Contact Form Section */}
+<section className="w-full py-24 bg-muted/10 contact-section">
+  <div className="max-w-3xl mx-auto px-8">
+    <h2 className="text-3xl font-bold mb-6 text-center">Contact Us</h2>
 
-                <div>
-                  <Button type="submit" className="w-full">
-                    Submit
-                  </Button>
-                </div>
-              </form>
-            )}
-          </div>
-        </section>
+    {submitted ? (
+      <p className="text-center text-green-600 font-semibold text-lg">
+        Thanks! We will contact you soon. Please check your email.
+      </p>
+    ) : (
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label htmlFor="name" className="block mb-1 font-medium text-left">
+            Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            value={formData.name}
+            onChange={handleChange}
+            className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+        </div>
+        <div>
+          <label htmlFor="email" className="block mb-1 font-medium text-left">
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+        </div>
+        <div>
+          <label htmlFor="message" className="block mb-1 font-medium text-left">
+            Message
+          </label>
+          <textarea
+            id="message"
+            name="message"
+            required
+            rows={4}
+            value={formData.message}
+            onChange={handleChange}
+            className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+        </div>
+
+        <div>
+          <Button type="submit" className="w-full">
+            Submit
+          </Button>
+        </div>
+      </form>
+    )}
+  </div>
+</section>
+
       </main>
 
       {/* Footer */}
