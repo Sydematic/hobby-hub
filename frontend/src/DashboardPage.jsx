@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Compass, Users, Calendar, Star, Dumbbell, Utensils } from "lucide-react";
 import './style.css';
-
+import './dashboard.css';
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,7 +11,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} 
+
+from "@/components/ui/card";
 
 export default function Home() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
