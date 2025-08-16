@@ -1,71 +1,59 @@
-import React, { useState } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 
-export default function SignupPage() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: ""
-  });
-
-  // Update state when typing
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  // Handle form submit
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Signup data:", formData);
-    // TODO: send to backend with fetch/axios
-  };
-
+export default function Signup() {
   return (
-    <div style={{ maxWidth: "400px", margin: "0 auto", padding: "2rem" }}>
-      <h1>Sign Up</h1>
-      <form
-        onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
-      >
-        <input
-          name="name"
-          placeholder="Name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
-        <input
-          name="email"
-          type="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-        <button
-          type="submit"
-          style={{
-            padding: "0.5rem",
-            cursor: "pointer",
-            backgroundColor: "#4CAF50",
-            color: "white",
-            border: "none",
-            borderRadius: "4px"
-          }}
-        >
-          Sign Up
-        </button>
-      </form>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="w-[380px] bg-white rounded-xl shadow-md p-8">
+        <h2 className="text-xl font-semibold text-center text-gray-800 mb-6">
+          Signup
+        </h2>
+
+        <form className="space-y-4">
+          {/* Username */}
+          <div>
+            <input
+              type="text"
+              placeholder="Username"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+
+          {/* Email */}
+          <div>
+            <input
+              type="email"
+              placeholder="Email"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+
+          {/* Password */}
+          <div>
+            <input
+              type="password"
+              placeholder="Password"
+              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+
+          {/* Signup Button */}
+          <button
+            type="submit"
+            className="w-full bg-purple-600 text-white py-2 rounded-md font-medium hover:bg-purple-700 transition duration-200"
+          >
+            Sign Up 
+          </button>
+        </form>
+
+        {/* Footer */}
+        <p className="text-center text-sm text-gray-600 mt-5">
+          Have an account?{" "}
+          <Link to="/login" className="text-purple-600 hover:underline">
+            Login
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }
