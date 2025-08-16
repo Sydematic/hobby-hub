@@ -7,10 +7,10 @@ import TravelPage from './TravelPage';
 import WorkoutPage from './WorkoutPage';
 import FoodPage from './FoodPage';
 import TestColors from './TestColors';
-import SignupPage from './Signup'; // Import your Signup page
+import SignupPage from './Signup';
+import Login from './Login'; // ✅ Import Login page
+import AboutUs from './AboutUs';
 import './style.css';
-import AboutUs from './AboutUs'; // Adjust the path if it's different
-
 
 ReactDOM.createRoot(document.getElementById('app')).render(
   <React.StrictMode>
@@ -22,7 +22,8 @@ ReactDOM.createRoot(document.getElementById('app')).render(
         <Route path="/workout" element={<WorkoutPage />} />
         <Route path="/food" element={<FoodPage />} />
         <Route path="/test-colors" element={<TestColors />} />
-        <Route path="/signup" element={<SignupPage />} /> {/* Single signup route */}
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/login" element={<Login />} /> {/* ✅ Add login route */}
         <Route path="/aboutus" element={<AboutUs />} />
 
         {/* Optional: Catch-all route */}
