@@ -41,11 +41,11 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100">
+    <div className="flex min-h-screen flex-col bg-background text-foreground font-sans">
       {/* Navbar */}
-      <header className="w-full py-4 px-6 bg-white shadow-md">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <Link to="/" className="flex items-center space-x-2">
+      <header className="navbar">
+        <div className="flex justify-between items-center max-w-7xl mx-auto px-6">
+          <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
             <div className="hh-icon gradient-text">HH</div>
             <span className="font-alumniSans text-[23px] font-normal gradient-text">
               HobbyHub
@@ -55,7 +55,7 @@ const Login = () => {
       </header>
 
       {/* Login Card */}
-      <div className="flex-1 flex justify-center items-center">
+      <main className="flex-1 flex items-center justify-center px-4">
         <form
           onSubmit={handleSubmit}
           className="bg-white p-6 rounded-2xl shadow-lg w-96"
@@ -98,7 +98,7 @@ const Login = () => {
             </Link>
           </p>
         </form>
-      </div>
+      </main>
     </div>
   );
 };
