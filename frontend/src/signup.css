@@ -1,14 +1,12 @@
-/* Page background */
 .signup-page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #47126b, #d264b6); /* dashboard vibe */
+  background: linear-gradient(135deg, #47126b, #d264b6);
   font-family: Arial, sans-serif;
   position: relative;
 }
 
-/* HobbyHub logo link */
 .signup-header {
   position: absolute;
   top: 20px;
@@ -26,7 +24,6 @@
   text-decoration: underline;
 }
 
-/* Centered form */
 .signup-main {
   flex: 1;
   display: flex;
@@ -67,7 +64,6 @@
   border: 2px solid #5f0a87;
 }
 
-/* Button */
 .signup-card button {
   width: 100%;
   padding: 12px;
@@ -85,7 +81,6 @@
   opacity: 0.9;
 }
 
-/* Text below form */
 .signup-card p {
   margin-top: 15px;
   font-size: 14px;
