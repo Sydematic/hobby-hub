@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Compass, Users, Calendar, Star, Dumbbell, Utensils } from "lucide-react";
 import './style.css';
-
+import './dashboard.css';
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,7 +11,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} 
+
+from "@/components/ui/card";
 
 export default function Home() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
@@ -72,12 +74,12 @@ export default function Home() {
       </p>
 
     <div className="hero-buttons">
-  <Button size="lg" className="hero-btn-primary" asChild>
+  <Button size="lg" className="hero-btn-primary-dp" asChild>
     <Link to="/signup">
       Start Your Journey <ArrowRight className="ml-2 h-4 w-4" />
     </Link>
   </Button>
-  <Button variant="outline" size="lg" className="hero-btn-outline" asChild>
+  <Button variant="outline" size="lg" className="hero-btn-outline-dp" asChild>
     <Link to="/aboutus">Learn More</Link>
   </Button>
 </div>
