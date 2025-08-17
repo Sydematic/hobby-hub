@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Compass, Users, Calendar, Star, Dumbbell, Utensils } from "lucide-react";
 import './style.css';
-import './dashboard.css';
+import './Dashboard.css';
 import { Button } from "@/components/ui/button";
 import {
   Card,
