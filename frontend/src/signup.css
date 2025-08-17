@@ -3,7 +3,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #a4508b, #5f0a87); /* dashboard vibe */
+  background: linear-gradient(135deg, #47126b, #d264b6); /* dashboard vibe */
   font-family: Arial, sans-serif;
   position: relative;
 }
