@@ -83,10 +83,6 @@
 .card-food .card-header div svg {
   position: relative !important;
   top: -0.9rem !important;
-}
-
-/* Right Icon Circle Background - Translucent */
-.card-travel .right-icon-circle {
   background-color: rgba(72, 61, 242, 0.3) !important;
   border-radius: 50%;
   width: 3rem;
@@ -400,20 +396,26 @@ footer nav a:hover {
 }
 
 /* Optional Button Overrides */
-.hero-btn-primary {
-  background: linear-gradient(90deg, #9333ea, #ec4899);
-  color: white;
+.hero-btn-primary-dp {
+  background: linear-gradient(90deg, #9333ea, #ec4899) !important;
+ 
 }
 
-.hero-btn-primary:hover {
-  background: linear-gradient(90deg, #2563eb, #7e22ce, #0891b2);
+.hero-btn-primary-dp:hover {
+  background: linear-gradient(90deg, #2563eb, #7e22ce, #0891b2) !important;
   transform: translateY(-2px);
 }
 
-.hero-btn-outline {
-  border: 1px solid #9333ea;
-  color: #9333ea;
+.hero-btn-outline-dp {
+  background: transparent !important;   /* remove the white background */
+  border: 1px solid #9333ea !important; /* purple outline */
+  color: #9333ea !important;            /* purple text */
 }
+.hero-btn-outline-dp:hover {
+  background: linear-gradient(90deg, #7e22ce) !important;
+  transform: translateY(-2px);
+}
+
 
 
 /* Navbar Base */
