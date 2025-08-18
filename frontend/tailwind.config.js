@@ -30,15 +30,17 @@ export default {
         destructive: "oklch(0.577 0.245 27.325)",
         "destructive-foreground": "oklch(0.577 0.245 27.325)",
       },
-      fontFamily: {
-        sans: ["system-ui", ...defaultTheme.fontFamily.sans],
-      },
+     fontFamily: {
+  alumni: ['"Alumni Sans"', 'sans-serif'],
+  sans: ["system-ui", ...defaultTheme.fontFamily.sans],
+},
       borderRadius: {
         lg: "0.625rem",  // match your CSS variable --radius
       },
     },
   },
   plugins: [
-    require("tw-animate-css/plugin"),
-  ],
+  require("tw-animate-css/plugin"),
+  require('@tailwindcss/forms'), // optional
+]
 };
