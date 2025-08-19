@@ -177,3 +177,22 @@
   top: 0;
   z-index: 50;
 }
+
+.navbar .dashboard-btn {
+  background: linear-gradient(90deg, #9333ea, #ec4899);
+  color: #222222; /* text color */
+  padding: 0.75rem 2rem; /* match Get Started button */
+  border-radius: 0.75rem;
+  font-weight: 200;
+  font-size: .8rem; /* ensure same font size */
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s;
+}
+
+.navbar .dashboard-btn:hover {
+  opacity: 0.9;
+}
+
