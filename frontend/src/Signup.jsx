@@ -1,7 +1,7 @@
 import './signup.css';
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { supabase } from "./supabaseClient"; // make sure you created supabaseClient.js
+import supabase from "./client"; 
 
 export default function Signup() {
   const [username, setUsername] = useState("");
