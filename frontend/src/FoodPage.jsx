@@ -66,7 +66,7 @@ export default function FoodPage() {
           {/* Add Recipe Button */}
           <div className="food-hero-buttons flex flex-col md:flex-row gap-3 mt-4 md:mt-0">
             <Button className="hero-btn-primary food-add-recipe-btn" asChild size="lg">
-              <Link to="/food/new">
+              <Link to="/addrecipe">
                 <Plus className="h-4 w-4 mr-2" />
                 Add Recipe
               </Link>
