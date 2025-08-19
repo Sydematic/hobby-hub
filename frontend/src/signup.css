@@ -13,15 +13,13 @@
   left: 20px;
 }
 
-.logo-link {
-  font-size: 22px;
+/* Gradient text for HobbyHub logo */
+.hh-icon,
+.signup-header span {
+  background: linear-gradient(90deg, #7F5AFF, #56C6FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   font-weight: bold;
-  color: #fff;
-  text-decoration: none;
-}
-
-.logo-link:hover {
-  text-decoration: underline;
 }
 
 .signup-main {
@@ -64,13 +62,14 @@
   border: 2px solid #5f0a87;
 }
 
+/* Gradient button */
 .signup-card button {
   width: 100%;
   padding: 12px;
   margin-top: 15px;
   border: none;
   border-radius: 8px;
-  background: linear-gradient(90deg, #a4508b, #5f0a87);
+  background: linear-gradient(90deg, #7F5AFF, #56C6FF);
   color: white;
   font-size: 16px;
   cursor: pointer;
