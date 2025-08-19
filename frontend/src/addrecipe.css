@@ -1,0 +1,168 @@
+.add-recipe-page-header h1 {
+  font-family: 'Alumni Sans', sans-serif;
+  font-weight: 700;
+  font-size: 2.25rem;
+  background: linear-gradient(90deg, #f97316, #facc15, #fb923c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.add-recipe-page-header p {
+  font-family: 'Alumni Sans', sans-serif;
+  font-weight: 500;
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+}
+
+.add-recipe-btn {
+  font-family: 'Alumni Sans', sans-serif;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background: linear-gradient(90deg, #f97316, #facc15, #fb923c);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-recipe-btn:hover {
+  background: linear-gradient(90deg, #ea580c, #eab308, #f97316);
+  transform: translateY(-2px);
+}
+
+.add-recipe-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.add-recipe-card {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  background-color: rgba(255, 165, 0, 0.15);
+  border-radius: 1rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+}
+
+.add-recipe-card h4 {
+  color: oklch(0.25 0.15 40);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.add-recipe-card p {
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+.add-recipe-modal .modal-box {
+  padding: 2rem;
+  border-radius: 1rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.add-recipe-modal input,
+.add-recipe-modal textarea {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+}
+
+.add-recipe-modal button.btn-primary {
+  background: linear-gradient(90deg, #f97316, #facc15, #fb923c);
+  color: white;
+}
+
+.add-recipe-modal button.btn-primary:hover {
+  background: linear-gradient(90deg, #ea580c, #eab308, #f97316);
+  transform: translateY(-2px);
+}
+
+/* ==============================
+   Modal Box
+   ============================== */
+.add-recipe-modal {
+  border: 2px solid #f97316; /* orange border */
+  border-radius: 1rem;
+  padding: 0;
+  max-width: 500px;
+  width: 90%;
+}
+
+.modal-box {
+  padding: 2rem;
+  background: rgba(255, 165, 0, 0.15); /* semi-transparent orange */
+  border-radius: 1rem;
+  backdrop-filter: blur(10px);
+}
+
+/* Modal header */
+.modal-header {
+  font-family: 'Alumni Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  background: linear-gradient(90deg, #f97316, #facc15, #fb923c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1rem;
+}
+
+/* Input & textarea */
+.modal-input,
+.modal-textarea {
+  width: 100%;
+  border: 2px solid #f97316;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  font-family: 'Alumni Sans', sans-serif;
+  font-size: 1rem;
+}
+
+.modal-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Buttons */
+.modal-btn-primary {
+  background: linear-gradient(90deg, #f97316, #facc15, #fb923c);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-family: 'Alumni Sans', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal-btn-primary:hover {
+  background: linear-gradient(90deg, #ea580c, #eab308, #f97316);
+  transform: translateY(-2px);
+}
+
+.modal-btn-cancel {
+  background: transparent;
+  color: #f97316;
+  border: 2px solid #f97316;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-family: 'Alumni Sans', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modal-btn-cancel:hover {
+  background: #f97316;
+  color: white;
+  transform: translateY(-2px);
+}
