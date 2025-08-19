@@ -133,14 +133,13 @@ export default function AddRecipe() {
             <Link to="/travel" className="hover:text-gray-900 transition-colors">Travel</Link>
             <Link to="/workout" className="hover:text-gray-900 transition-colors">Workout</Link>
           </nav>
+<Link to="/dashboard" className="dashboard-btn">
+  <ArrowLeft className="h-4 w-4" stroke="currentColor" />
+  <span>Dashboard</span>
+</Link>
 
-          <Link
-            to="/dashboard"
-            className="bg-orange-500 text-white px-3 py-1 rounded hover:bg-orange-600 transition flex items-center space-x-2"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            <span>Dashboard</span>
-          </Link>
+
+
         </div>
       </header>
 
