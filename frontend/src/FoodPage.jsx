@@ -22,9 +22,10 @@ export default function FoodPage() {
 
           {/* Navigation */}
           <nav className="flex items-center text-muted-foreground text-sm font-medium space-x-6">
-            <Link to="/travel" className="hover:text-foreground transition-colors">Travel</Link>
-            <Link to="/workout" className="hover:text-foreground transition-colors">Workout</Link>
-            <Link to="/food" className="hover:text-foreground transition-colors">Food</Link>
+           <Link to="/food" className="hover:text-foreground transition-colors">Food</Link>
+           <Link to="/travel" className="hover:text-foreground transition-colors">Travel</Link>
+           <Link to="/workout" className="hover:text-foreground transition-colors">Workout</Link>
+            
           </nav>
 
           {/* Go Back Button */}
