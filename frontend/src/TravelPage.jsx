@@ -20,6 +20,7 @@ import { Badge } from "./components/ui/badge";
 import './food.css';
 export default function TravelPage() {
   return (
+    
     <div className="flex min-h-screen flex-col">
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -81,7 +82,7 @@ export default function TravelPage() {
           <Button>
             <Link to="/travel/new" className="flex items-center">
               <Plus className="mr-2 h-4 w-4" />
-              New Trip
+              Add Wishlist
             </Link>
           </Button>
         </div>
@@ -89,9 +90,10 @@ export default function TravelPage() {
         {/* Tabs */}
         <Tabs defaultValue="upcoming" className="space-y-4">
           <TabsList>
+            <TabsTrigger value="wishlist">Wishlist</TabsTrigger>
             <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
             <TabsTrigger value="past">Past Trips</TabsTrigger>
-            <TabsTrigger value="wishlist">Wishlist</TabsTrigger>
+            
           </TabsList>
 
           {/* Upcoming Trips */}
@@ -335,9 +337,9 @@ export default function TravelPage() {
               <Card className="overflow-hidden border-0 shadow-lg bg-gradient-to-br from-blue-50 to-cyan-50 hover:shadow-xl hover:scale-105 transition-all duration-300">
                 <div className="aspect-video overflow-hidden">
                   <img
-                    src="/placeholder.svg?height=200&width=300&text=Bali+Rice+Terraces"
-                    alt="Bali rice terraces"
-                    className="h-full w-full object-cover transition-transform hover:scale-105"
+                    src="/bali-rice-temples.png" height={300} width={300}
+                    alt="Bali rice terraces" 
+                    className="object-cover transition-transform hover:scale-105"
                   />
                 </div>
                 <CardHeader className="pb-2">
@@ -367,9 +369,9 @@ export default function TravelPage() {
               <Card className="overflow-hidden border-0 shadow-lg bg-gradient-to-br from-blue-50 to-cyan-50 hover:shadow-xl hover:scale-105 transition-all duration-300">
                 <div className="aspect-video overflow-hidden">
                   <img
-                    src="/placeholder.svg?height=200&width=300&text=Iceland+Northern+Lights"
+                    src="/Reykjavik, Ring Road, Blue Lagoon.jpg" height={300} width={300}
                     alt="Iceland waterfalls and northern lights"
-                    className="h-full w-full object-cover transition-transform hover:scale-105"
+                    className="object-cover transition-transform hover:scale-105"
                   />
                 </div>
                 <CardHeader className="pb-2">
