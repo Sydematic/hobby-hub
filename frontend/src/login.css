@@ -2,7 +2,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #d264b6, #47126b);
+  background: linear-gradient(135deg, #47126b, #d264b6);
   font-family: 'Alumni Sans', sans-serif;
 }
 

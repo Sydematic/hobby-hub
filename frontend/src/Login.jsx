@@ -37,15 +37,17 @@ export default function Login() {
 
   return (
     <div className="login-page">
+      {/* HobbyHub at top-left */}
       <header className="login-header">
         <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
-          <div className="hh-icon">HH</div>
-          <span className="font-alumniSans text-[23px] font-normal">
+          <div className="hh-icon gradient-text">HH</div>
+          <span className="font-alumniSans text-[23px] font-normal gradient-text">
             HobbyHub
           </span>
         </Link>
       </header>
 
+      {/* Login form in center */}
       <main className="login-main">
         <div className="login-card">
           <h2>Login</h2>
