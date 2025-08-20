@@ -1,44 +1,34 @@
 import './login.css';
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import supabase from "./client"; 
 
 export default function Login() {
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    setError("");
+    setMessage("");
 
-    try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
-      const data = await response.json();
-      if (response.ok) {
-        localStorage.setItem("token", data.token);
-        navigate("/dashboard");
-      } else {
-        setError(data.message || "Login failed. Please try again.");
-      }
-    } catch (err) {
-      console.error(err);
-      setError("Server error. Please try again later.");
+    if (error) {
+      setMessage(error.message);
+    } else {
+      navigate("/dashboard"); // Redirect after login
     }
   };
 
   return (
-    <div className="login-page">
+    <div className="signup-page">
       {/* HobbyHub at top-left */}
-      <header className="login-header">
+      <header className="signup-header">
         <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
           <div className="hh-icon gradient-text">HH</div>
           <span className="font-alumniSans text-[23px] font-normal gradient-text">
@@ -48,31 +38,33 @@ export default function Login() {
       </header>
 
       {/* Login form in center */}
-      <main className="login-main">
-        <div className="login-card">
-          <h2>Login</h2>
-          {error && <p className="error-text">{error}</p>}
-          <form onSubmit={handleSubmit}>
+      <main className="signup-main">
+        <div className="signup-card">
+          <h2 className="gradient-text">Login</h2>
+          <form onSubmit={handleLogin}>
             <input
               type="email"
-              name="email"
               placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
             <input
               type="password"
-              name="password"
               placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <button type="submit">Login</button>
+
+            {/* Gradient button */}
+            <button type="submit" className="gradient-btn">
+              Login
+            </button>
           </form>
+          {message && <p className="signup-message">{message}</p>}
           <p>
-            Don’t have an account? <Link to="/signup">Sign up</Link>
+            Don’t have an account? <Link to="/signup">Sign Up</Link>
           </p>
         </div>
       </main>
