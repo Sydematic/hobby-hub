@@ -1,11 +1,12 @@
-import './login.css';
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import supabase from "./client"; 
+import "./login.css"; // ✅ keep your styling
 
 export default function Login() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -15,67 +16,59 @@ export default function Login() {
     e.preventDefault();
     setError("");
 
-    try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: formData.email,
+      password: formData.password,
+    });
 
-      const data = await response.json();
-      if (response.ok) {
-        localStorage.setItem("token", data.token);
-        navigate("/dashboard");
-      } else {
-        setError(data.message || "Login failed. Please try again.");
-      }
-    } catch (err) {
-      console.error(err);
-      setError("Server error. Please try again later.");
+    if (error) {
+      setError(error.message);
+    } else {
+      navigate("/dashboard"); // ✅ redirect after login
     }
   };
 
   return (
     <div className="login-page">
-      {/* HobbyHub at top-left */}
+      {/* Header */}
       <header className="login-header">
-        <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
-          <div className="hh-icon gradient-text">HH</div>
-          <span className="font-alumniSans text-[23px] font-normal gradient-text">
-            HobbyHub
-          </span>
-        </Link>
+        <h1 className="logo">HobbyHub</h1>
       </header>
 
-      {/* Login form in center */}
-      <main className="login-main">
-        <div className="login-card">
-          <h2>Login</h2>
-          {error && <p className="error-text">{error}</p>}
-          <form onSubmit={handleSubmit}>
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-            <button type="submit">Login</button>
-          </form>
-          <p>
-            Don’t have an account? <Link to="/signup">Sign up</Link>
-          </p>
-        </div>
-      </main>
+      {/* Login Card */}
+      <div className="login-container">
+        <h2 className="login-title">Login</h2>
+        <form className="login-form" onSubmit={handleSubmit}>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="login-input"
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            className="login-input"
+          />
+
+          {error && <p className="error-message">{error}</p>}
+
+          <button type="submit" className="login-button">
+            Login
+          </button>
+        </form>
+
+        <p className="signup-link">
+          Don’t have an account? <Link to="/signup">Sign Up</Link>
+        </p>
+      </div>
     </div>
   );
 }
