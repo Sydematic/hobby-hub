@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Compass, Users, Calendar, Star, Dumbbell, Utensils } from "lucide-react";
 import './style.css';
-
+import './Dashboard.css';
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,7 +11,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} 
+
+from "@/components/ui/card";
 
 export default function Home() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
@@ -45,9 +47,10 @@ export default function Home() {
     </Link>
 
    <nav className="flex items-center text-muted-foreground text-sm font-medium">
+  <Link to="/food" className="hover:text-foreground transition-colors">Food</Link>
   <Link to="/travel" className="hover:text-foreground transition-colors">Travel</Link>
   <Link to="/workout" className="hover:text-foreground transition-colors">Workout</Link>
-  <Link to="/food" className="hover:text-foreground transition-colors">Food</Link>
+ 
 </nav>
 
 
@@ -72,12 +75,12 @@ export default function Home() {
       </p>
 
     <div className="hero-buttons">
-  <Button size="lg" className="hero-btn-primary" asChild>
+  <Button size="lg" className="hero-btn-primary-dp" asChild>
     <Link to="/signup">
       Start Your Journey <ArrowRight className="ml-2 h-4 w-4" />
     </Link>
   </Button>
-  <Button variant="outline" size="lg" className="hero-btn-outline" asChild>
+  <Button variant="outline" size="lg" className="hero-btn-outline-dp" asChild>
     <Link to="/aboutus">Learn More</Link>
   </Button>
 </div>
@@ -106,86 +109,6 @@ export default function Home() {
 
 {/* Horizontal cards container */}
 <div className="flex justify-between items-center px-16 mx-auto max-w-5xl">
-
-  {/* Travel Planning */}
-  <Card
-    style={{ background: "linear-gradient(to bottom right, #eff6ff, #ecfeff)" }}
-    className="min-w-[350px] max-w-sm h-[400px] shadow-lg border-0 hover:shadow-xl transition-all duration-300 rounded-xl p-6 flex flex-col justify-between card-travel"
-  >
-    <CardHeader className="pt-8 pb-6">
-      <div className="flex justify-between items-center">
-        <Compass className="h-8 w-8 -translate-y-2.5 text-blue-600" />
-        <div className="right-icon-circle flex items-center justify-center">
-          <Compass className="h-6 w-6" />
-        </div>
-      </div>
-      <CardTitle className="card-title-travel text-xl font-bold leading-relaxed mt-4">
-        Travel Planning
-      </CardTitle>
-      <CardDescription className="card-description text-blue-800">
-        Plan your next adventure with detailed itineraries and destination guides
-      </CardDescription>
-    </CardHeader>
-    <CardContent className="flex-grow">
-      <ul className="card-list text-blue-800">
-        <li>• Trip planning and itineraries</li>
-        <li>• Destination wishlist</li>
-        <li>• Travel memories and photos</li>
-        <li>• Budget tracking</li>
-      </ul>
-    </CardContent>
-    <CardFooter className="pt-4">
-      <Button size="sm" className="w-full explore-btn explore-btn-travel">
-        <Link to="/travel">Explore Travel</Link>
-      </Button>
-    </CardFooter>
-  </Card>
-
-  {/* Arrows between Travel and Workout */}
-  <div className="flex flex-col items-center mx-4">
-    <span style={{ fontSize: '5rem', color: 'oklch(0.25 0.15 250)' }}>→</span>
-    <span style={{ fontSize: '5rem', color: 'oklch(0.25 0.15 250)' }}>←</span>
-  </div>
-
-  {/* Workout Tracker */}
-  <Card
-    style={{ background: "linear-gradient(to bottom right, #f0fdf4, #d1fae5)" }}
-    className="min-w-[350px] max-w-sm h-[400px] shadow-lg border-0 hover:shadow-xl transition-all duration-300 rounded-xl p-6 flex flex-col justify-between card-workout"
-  >
-    <CardHeader className="pt-8 pb-6">
-      <div className="flex justify-between items-center">
-        <Dumbbell className="h-8 w-8 -translate-y-2.5 text-green-600" />
-        <div className="right-icon-circle flex items-center justify-center">
-          <Dumbbell className="h-6 w-6" />
-        </div>
-      </div>
-      <CardTitle className="card-title-workout text-xl font-bold leading-relaxed mt-4">
-        Workout Tracker
-      </CardTitle>
-      <CardDescription className="card-description text-green-800">
-        Log workouts and track your fitness goals effectively
-      </CardDescription>
-    </CardHeader>
-    <CardContent className="flex-grow">
-      <ul className="card-list text-green-800">
-        <li>• Track completed workouts</li>
-        <li>• Set weekly and monthly goals</li>
-        <li>• Monitor progress and streaks</li>
-        <li>• Workout history and stats</li>
-      </ul>
-    </CardContent>
-    <CardFooter className="pt-4">
-      <Button size="sm" className="w-full explore-btn explore-btn-workout">
-        <Link to="/workout">Explore Workouts</Link>
-      </Button>
-    </CardFooter>
-  </Card>
-
-  {/* Arrows between Workout and Food */}
-  <div className="flex flex-col items-center mx-4">
-    <span style={{ fontSize: '5rem', color: 'oklch(0.25 0.15 140)' }}>→</span>
-    <span style={{ fontSize: '5rem', color: 'oklch(0.25 0.15 140)' }}>←</span>
-  </div>
 
   {/* Food & Recipes */}
   <Card
@@ -221,6 +144,86 @@ export default function Home() {
     </CardFooter>
   </Card>
 
+  {/* Arrows between Food and Travel */}
+  <div className="flex flex-col items-center mx-4">
+    <span style={{ fontSize: '5rem', color: 'oklch(0.25 0.15 140)' }}>→</span>
+    <span style={{ fontSize: '5rem', color: 'oklch(0.25 0.15 140)' }}>←</span>
+  </div>
+
+    {/* Travel Planning */}
+  <Card
+    style={{ background: "linear-gradient(to bottom right, #eff6ff, #ecfeff)" }}
+    className="min-w-[350px] max-w-sm h-[400px] shadow-lg border-0 hover:shadow-xl transition-all duration-300 rounded-xl p-6 flex flex-col justify-between card-travel"
+  >
+    <CardHeader className="pt-8 pb-6">
+      <div className="flex justify-between items-center">
+        <Compass className="h-8 w-8 -translate-y-2.5 text-blue-600" />
+        <div className="right-icon-circle flex items-center justify-center">
+          <Compass className="h-6 w-6" />
+        </div>
+      </div>
+      <CardTitle className="card-title-travel text-xl font-bold leading-relaxed mt-4">
+        Travel Planning
+      </CardTitle>
+      <CardDescription className="card-description text-blue-800">
+        Plan your next adventure with detailed itineraries and destination guides
+      </CardDescription>
+    </CardHeader>
+    <CardContent className="flex-grow">
+      <ul className="card-list text-blue-800">
+        <li>• Trip planning and itineraries</li>
+        <li>• Destination wishlist</li>
+        <li>• Travel memories and photos</li>
+        <li>• Budget tracking</li>
+      </ul>
+    </CardContent>
+    <CardFooter className="pt-4">
+      <Button size="sm" className="w-full explore-btn explore-btn-travel">
+        <Link to="/travel">Explore Travel</Link>
+      </Button>
+    </CardFooter>
+  </Card>
+
+   {/* Arrows between Travel and Workout */}
+  <div className="flex flex-col items-center mx-4">
+    <span style={{ fontSize: '5rem', color: 'oklch(0.25 0.15 250)' }}>→</span>
+    <span style={{ fontSize: '5rem', color: 'oklch(0.25 0.15 250)' }}>←</span>
+  </div>
+
+   {/* Workout Tracker */}
+  <Card
+    style={{ background: "linear-gradient(to bottom right, #f0fdf4, #d1fae5)" }}
+    className="min-w-[350px] max-w-sm h-[400px] shadow-lg border-0 hover:shadow-xl transition-all duration-300 rounded-xl p-6 flex flex-col justify-between card-workout"
+  >
+    <CardHeader className="pt-8 pb-6">
+      <div className="flex justify-between items-center">
+        <Dumbbell className="h-8 w-8 -translate-y-2.5 text-green-600" />
+        <div className="right-icon-circle flex items-center justify-center">
+          <Dumbbell className="h-6 w-6" />
+        </div>
+      </div>
+      <CardTitle className="card-title-workout text-xl font-bold leading-relaxed mt-4">
+        Workout Tracker
+      </CardTitle>
+      <CardDescription className="card-description text-green-800">
+        Log workouts and track your fitness goals effectively
+      </CardDescription>
+    </CardHeader>
+    <CardContent className="flex-grow">
+      <ul className="card-list text-green-800">
+        <li>• Track completed workouts</li>
+        <li>• Set weekly and monthly goals</li>
+        <li>• Monitor progress and streaks</li>
+        <li>• Workout history and stats</li>
+      </ul>
+    </CardContent>
+    <CardFooter className="pt-4">
+      <Button size="sm" className="w-full explore-btn explore-btn-workout">
+        <Link to="/workout">Explore Workouts</Link>
+      </Button>
+    </CardFooter>
+  </Card>
+
 </div>
 
 
@@ -232,6 +235,15 @@ export default function Home() {
 {/* Stats Section */}
 <section className="w-full py-24 bg-muted/50 stats-section">
   <div className="max-w-5xl mx-auto px-8 stats-container">
+   
+   <div className="stat-item">
+      <div className="stat-icon-wrapper stat-food">
+        <Star />
+      </div>
+      <div className="stat-number">4.9/5</div>
+      <div className="stat-label">User Rating</div>
+    </div>
+    
     <div className="stat-item">
       <div className="stat-icon-wrapper stat-travel">
         <Users />
@@ -248,13 +260,7 @@ export default function Home() {
       <div className="stat-label">Activities Tracked</div>
     </div>
 
-    <div className="stat-item">
-      <div className="stat-icon-wrapper stat-food">
-        <Star />
-      </div>
-      <div className="stat-number">4.9/5</div>
-      <div className="stat-label">User Rating</div>
-    </div>
+    
   </div>
 </section>
 

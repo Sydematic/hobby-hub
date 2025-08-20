@@ -1,0 +1,516 @@
+/* Card Title Colors Matching Gradient */
+.card-title-travel {
+  color: oklch(0.25 0.15 250);
+  font-weight: 700;
+}
+
+.card-title-workout {
+  color: oklch(0.25 0.15 140);
+  font-weight: 700;
+}
+
+.card-title-food {
+  color: oklch(0.25 0.15 40);
+  font-weight: 700;
+}
+
+/* Card Descriptions and Lists */
+.card-description {
+  margin-bottom: 1rem;
+  line-height: 1.75;
+  color: inherit;
+  margin-top: 0.75rem;
+}
+
+.card-list {
+  margin-top: 1.5rem;
+  line-height: 2;
+  list-style: none;
+  padding-left: 0;
+  color: inherit;
+}
+
+/* Force Card Content Down */
+.card-travel,
+.card-workout,
+.card-food {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  padding-top: 3rem !important;
+  background-color: transparent !important; /* fallback before adding translucent */
+}
+
+/* Card Backgrounds - Translucent*/
+.card-travel {
+  background-color: rgba(72, 61, 242, 0.15) !important;
+}
+
+.card-workout {
+  background-color: rgba(34, 139, 34, 0.15) !important;
+}
+
+.card-food {
+  background-color: rgba(255, 165, 0, 0.15) !important;
+}
+
+/* Title Spacing*/
+.card-title-travel,
+.card-title-workout,
+.card-title-food {
+  margin-top: 1rem;
+}
+
+/* Make Header Container Relative*/
+.card-header {
+  position: relative !important;
+}
+
+/* Move Icons Up*/
+.card-travel .card-header svg,
+.card-travel .card-header div svg {
+  position: relative !important;
+  top: -1rem !important;
+}
+
+.card-workout .card-header svg,
+.card-workout .card-header div svg {
+  position: relative !important;
+  top: -0.8rem !important;
+}
+
+.card-food .card-header svg,
+.card-food .card-header div svg {
+  position: relative !important;
+  top: -0.9rem !important;
+  background-color: rgba(72, 61, 242, 0.3) !important;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-workout .right-icon-circle {
+  background-color: rgba(34, 139, 34, 0.3) !important;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-food .right-icon-circle {
+  background-color: rgba(255, 165, 0, 0.3) !important;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Inner icon inside circle */
+.card-travel .right-icon-circle svg,
+.card-workout .right-icon-circle svg,
+.card-food .right-icon-circle svg {
+  color: white !important;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Explore Buttons - Match Hero Gradient */
+.card-footer button {
+  background: linear-gradient(90deg, #9333ea, #ec4899) !important;
+  color: white !important;
+  border: none !important;
+  transition: all 0.3s ease;
+}
+
+.card-footer button:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+
+/*Stats Section Spacing & Layout*/
+.stats-section {
+  margin-top: 6rem !important;
+  background-color: transparent !important;
+  padding: 0 !important;
+}
+
+.stats-section .stats-container {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 2rem !important;
+  flex-wrap: wrap;
+}
+
+.stats-section .stat-item {
+  text-align: center;
+  flex: 1 1 30%;
+  min-width: 120px;
+}
+
+/* Stat Icons Circle */
+.stats-section .stat-icon-wrapper {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 50% !important;
+  width: 3rem !important;
+  height: 3rem !important;
+  padding: 0.5rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.stats-section .stat-travel {
+  background-color: rgba(72, 61, 242, 0.3) !important; /* blue translucent */
+}
+
+.stats-section .stat-workout {
+  background-color: rgba(34, 139, 34, 0.3) !important; /* green translucent */
+}
+
+.stats-section .stat-food {
+  background-color: rgba(255, 165, 0, 0.3) !important; /* orange translucent */
+}
+
+.stats-section .stat-icon-wrapper svg {
+  color: white !important;
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+}
+
+/* Stats Section Numbers & Labels */
+.stats-section .stat-number {
+  font-family: 'Alumni Sans', sans-serif; /* match hero/nav/contact */
+  font-weight: 600;                       /* slightly bolder */
+  font-size: 2rem;                        /* larger, noticeable */
+  background: linear-gradient(90deg, #9333ea, #ec4899, #f97316); /* hero gradient */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-top: 0.75rem !important;
+}
+
+.stats-section .stat-label {
+  font-family: 'Alumni Sans', sans-serif; /* match hero/nav/contact */
+  font-weight: 400;                       /* normal weight for label */
+  font-size: 0.875rem;                    /* slightly smaller */
+  color: #6b7280;                         /* muted text like nav labels */
+  margin-top: 0.25rem !important;
+  text-transform: uppercase;              /* optional hierarchy */
+  letter-spacing: 0.025em;
+}
+
+
+/* Contact Section - Translucent & Hero Style*/
+.contact-section {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 6rem 1rem !important;
+  background: none !important; /* remove default muted background */
+}
+
+.contact-section > div {
+  width: 100% !important;
+  max-width: 700px !important; /* slightly wider */
+  background-color: rgba(255, 255, 255, 0.15) !important; /* translucent like hero */
+  -webkit-backdrop-filter: blur(15px) !important;
+  backdrop-filter: blur(15px) !important;
+  border-radius: 2rem !important; /* match hero container */
+  padding: 3rem 2rem !important;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1) !important; /* subtle frosted shadow */
+  text-align: center !important;
+}
+
+/* Form labels */
+.contact-section label {
+  font-weight: 500;
+  color: #111;
+}
+
+/* Inputs and Textarea */
+.contact-section input,
+.contact-section textarea {
+  width: 100% !important;
+  border-radius: 0.75rem !important;
+  padding: 0.75rem 1rem !important;
+  border: 1px solid rgba(255, 255, 255, 0.7) !important; /* stronger border */
+  background-color: rgba(255, 255, 255, 0.45) !important; /* more visible background */
+  color: #111 !important;
+  outline: none !important;
+  transition: all 0.3s ease;
+}
+
+.contact-section input::placeholder,
+.contact-section textarea::placeholder {
+  color: rgba(17, 17, 17, 0.7); /* darker placeholder */
+}
+
+.contact-section input:focus,
+.contact-section textarea:focus {
+  box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.6) !important; /* purple ring like hero */
+  border-color: rgba(147, 51, 234, 0.8) !important;
+  background-color: rgba(255, 255, 255, 0.55) !important; /* brighter on focus */
+}
+
+
+/* Submit Button */
+.contact-section Button {
+  background: linear-gradient(90deg, #9333ea, #ec4899) !important; /* hero gradient */
+  color: white !important;
+  font-weight: 600 !important;
+  padding: 1rem 2rem !important;
+  border-radius: 9999px !important; /* pill shape */
+  width: 100% !important;
+  border: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.contact-section Button:hover {
+  background: linear-gradient(90deg, #7c2be5, #db2777) !important; /* slightly darker hover */
+}
+
+/* Footer - Match Hero & Navbar */
+footer {
+  background-color: rgba(255, 255, 255, 0.15); /* translucent */
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+  padding: 2rem 3rem;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+/* Footer text */
+footer p {
+  color: #111;
+  font-size: 0.875rem;
+}
+
+/* Footer nav links */
+footer nav a {
+  color: #111;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  transition: all 0.3s ease;
+}
+
+footer nav a:hover {
+  color: #9333ea; /* match hero gradient start */
+  text-decoration: underline;
+}
+
+/* Hero Section Base */
+.hero-section {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6rem 1rem;
+  min-height: 600px; /* ensures enough space to see effect */
+  overflow: hidden;
+}
+
+/* Background behind container */
+.hero-background {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, #9333ea, #ec4899, #f97316);
+  z-index: 0;
+}
+
+/* Hero Container - Translucent Frosted */
+.hero-container {
+  position: relative;
+  z-index: 1;
+  background-color: rgba(255, 255, 255, 0.15);
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+  padding: 3rem 2rem;
+  border-radius: 2rem;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  max-width: 900px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Titles & Gradient Text */
+.hero-title {
+  font-family: 'Alumni Sans', sans-serif;
+  font-size: 4.5rem;
+  font-weight: 400;
+  color: #111;
+  margin-bottom: 1rem;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #9333ea, #ec4899, #f97316);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: #111;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* Hero Buttons */
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  justify-content: center;
+}
+
+/* Hero Buttons - Bigger & Clean */
+.hero-buttons a,
+.hero-buttons button {
+  padding: 1rem 2.5rem !important;      /* Bigger height and width */
+  font-size: 1.125rem !important;       /* Slightly larger text */
+  text-decoration: none !important;     /* Removes underline */
+  border-radius: 0.75rem !important;    /* Rounded corners */
+  font-weight: 500 !important;
+}
+
+.hero-buttons a:hover,
+.hero-buttons button:hover {
+  text-decoration: none !important;     /* Ensure no underline on hover */
+}
+
+/* Optional Button Overrides */
+.hero-btn-primary-dp {
+  background: linear-gradient(90deg, #9333ea, #ec4899) !important;
+ 
+}
+
+.hero-btn-primary-dp:hover {
+  background: linear-gradient(90deg, #2563eb, #7e22ce, #0891b2) !important;
+  transform: translateY(-2px);
+}
+
+.hero-btn-outline-dp {
+  background: transparent !important;   /* remove the white background */
+  border: 1px solid #9333ea !important; /* purple outline */
+  color: #9333ea !important;            /* purple text */
+}
+.hero-btn-outline-dp:hover {
+  background: linear-gradient(90deg, #7e22ce) !important;
+  transform: translateY(-2px);
+}
+
+
+
+/* Navbar Base */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: rgba(255, 255, 255, 0.15); /* translucent */
+  backdrop-filter: blur(15px);                 /* frosted effect */
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  padding: 1rem 3rem;
+}
+
+/* Navbar Links */
+.navbar nav a {
+  color: #111; /* match hero text colors */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.navbar nav a:hover {
+  color: #9333ea; /* optional hover color, can match hero gradient */
+}
+
+/* HH Icon Container - Translucent */
+.navbar .hh-icon {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.15); /* translucent */
+  backdrop-filter: blur(15px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.875rem;
+  color: #111;
+}
+
+/* Get Started Button - Hero Gradient Match */
+.navbar .get-started-btn {
+  background: linear-gradient(90deg, #9333ea, #ec4899);
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: 0.75rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.navbar .get-started-btn:hover {
+  background: linear-gradient(90deg, #7e22ce, #db2777); /* slightly darker on hover */
+  color: white;
+}
+
+/* Navbar Links - spacing using clamp for responsiveness */
+.navbar nav {
+  display: flex;
+  gap: clamp(40px, 10vw, 80px); /* responsive spacing between links */
+  text-align: center;
+}
+
+/* Shared Explore Button Base */
+.explore-btn {
+  color: white !important;
+  border: none !important;
+  transition: all 0.3s ease;
+  transform: translateY(0);
+}
+
+/* Travel Gradient */
+.explore-btn-travel {
+  background: linear-gradient(90deg, #3b82f6, #9333ea, #06b6d4) !important;
+}
+.explore-btn-travel:hover {
+  background: linear-gradient(90deg, #2563eb, #7e22ce, #0891b2) !important;
+  transform: translateY(-2px);
+}
+
+/* Workout Gradient */
+.explore-btn-workout {
+  background: linear-gradient(90deg, #10b981, #22c55e, #a3e635) !important;
+}
+.explore-btn-workout:hover {
+  background: linear-gradient(90deg, #059669, #16a34a, #84cc16) !important;
+  transform: translateY(-2px);
+}
+
+/* Food Gradient */
+.explore-btn-food {
+  background: linear-gradient(90deg, #f97316, #facc15, #fb923c) !important;
+}
+.explore-btn-food:hover {
+  background: linear-gradient(90deg, #ea580c, #eab308, #f97316) !important;
+  transform: translateY(-2px);
+}
+

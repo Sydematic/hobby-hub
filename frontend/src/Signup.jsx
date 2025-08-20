@@ -1,59 +1,83 @@
-import React from "react";
+import './signup.css';
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import supabase from "./client"; 
 
 export default function Signup() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="w-[380px] bg-white rounded-xl shadow-md p-8">
-        <h2 className="text-xl font-semibold text-center text-gray-800 mb-6">
-          Signup
-        </h2>
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
 
-        <form className="space-y-4">
-          {/* Username */}
-          <div>
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setMessage("");
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { username }, // store username in user metadata
+      },
+    });
+
+    if (error) {
+      setMessage(error.message);
+    } else {
+      setMessage("Signup successful! Check your email to confirm your account.");
+    }
+  };
+
+  return (
+    <div className="signup-page">
+      {/* HobbyHub at top-left */}
+      <header className="signup-header">
+        <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
+          <div className="hh-icon gradient-text">HH</div>
+          <span className="font-alumniSans text-[23px] font-normal gradient-text">
+            HobbyHub
+          </span>
+        </Link>
+      </header>
+
+      {/* Signup form in center */}
+      <main className="signup-main">
+        <div className="signup-card">
+          <h2 className="gradient-text">Signup</h2>
+          <form onSubmit={handleSignup}>
             <input
               type="text"
               placeholder="Username"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
             />
-          </div>
-
-          {/* Email */}
-          <div>
             <input
               type="email"
               placeholder="Email"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
-          </div>
-
-          {/* Password */}
-          <div>
             <input
               type="password"
               placeholder="Password"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
-          </div>
 
-          {/* Signup Button */}
-          <button
-            type="submit"
-            className="w-full bg-purple-600 text-white py-2 rounded-md font-medium hover:bg-purple-700 transition duration-200"
-          >
-            Sign Up 
-          </button>
-        </form>
-
-        {/* Footer */}
-        <p className="text-center text-sm text-gray-600 mt-5">
-          Have an account?{" "}
-          <Link to="/login" className="text-purple-600 hover:underline">
-            Login
-          </Link>
-        </p>
-      </div>
+            {/* Gradient button */}
+            <button type="submit" className="gradient-btn">
+              Sign Up
+            </button>
+          </form>
+          {message && <p className="signup-message">{message}</p>}
+          <p>
+            Have an account? <Link to="/login">Login</Link>
+          </p>
+        </div>
+      </main>
     </div>
   );
 }
