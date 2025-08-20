@@ -1,0 +1,113 @@
+/* Page Container */
+.travel-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #3a0ca3, #00f2fe);
+  font-family: 'Arial', sans-serif;
+  color: #fff;
+  padding: 0;
+  margin: 0;
+}
+
+/* Header */
+.travel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.logo-link {
+  text-decoration: none;
+}
+
+.logo {
+  font-size: 2rem;
+  font-weight: bold;
+  background: linear-gradient(90deg, #ff6a00, #ee0979); /* Match Dashboard gradient */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Navigation */
+.travel-nav {
+  display: flex;
+  gap: 25px;
+}
+
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 8px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffd700;
+}
+
+.nav-link.active {
+  background: rgba(255, 255, 255, 0.3);
+  color: #ffd700;
+}
+
+/* Main Content */
+.travel-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  padding: 50px 20px;
+}
+
+/* Cards */
+.travel-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 30px;
+  width: 300px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.travel-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+}
+
+.travel-card h2 {
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+.travel-card p {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Card Buttons */
+.card-button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: linear-gradient(90deg, #1e3c72, #2a5298);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
