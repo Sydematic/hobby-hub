@@ -1,44 +1,44 @@
-// AddRecipe.jsx
 import React, { useRef, useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import getAxiosClient from "./axios-instance"; // adjust path if needed
-import "./addrecipe.css";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { useAxiosClient } from "./axios-instance"; 
+import "./addrecipe.css";
 
 export default function AddRecipe() {
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient(); 
   const modalRef = useRef(null);
+  const savedModalRef = useRef(null);
+
   const { register, handleSubmit, reset } = useForm();
   const [query, setQuery] = useState("");
   const [randomRecipes, setRandomRecipes] = useState([]);
+  const [savedRecipes, setSavedRecipes] = useState([]);
+  const [activeTab, setActiveTab] = useState("typed"); 
 
-  // 🟢 Create new recipe mutation
+  const axios = useAxiosClient(); // baseURL should already point to http://localhost:5000
+
+  // Create new recipe mutation
   const { mutate: createNewRecipe } = useMutation({
     mutationKey: ["newRecipe"],
     mutationFn: async (newRecipe) => {
-      const axiosInstance = await getAxiosClient();
-      const { data } = await axiosInstance.post("/recipes", newRecipe);
+      const { data } = await axios.post("/api/recipes", newRecipe);
       return data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries(["recipes"]);
       toast.success("Recipe added!");
     },
-    onError: () => {
-      toast.error("Failed to add recipe.");
-    },
+    onError: () => toast.error("Failed to add recipe."),
   });
 
-  // 🟢 Save MealDB recipe
+  // Save MealDB recipe
   const { mutate: saveMealDBRecipe } = useMutation({
-    mutationKey: ["saveMealDBRecipe"],
     mutationFn: async (meal) => {
-      const axiosInstance = await getAxiosClient();
-      const { data } = await axiosInstance.post("/recipes", {
+      const { data } = await axios.post("/recipes/save", {
         title: meal.strMeal,
         description: meal.strInstructions,
         image: meal.strMealThumb,
@@ -48,54 +48,70 @@ export default function AddRecipe() {
       });
       return data;
     },
-    onSuccess: () => {
+    onSuccess: (data, variables) => {
       queryClient.invalidateQueries(["recipes"]);
       toast.success("Meal saved to My Recipes!");
+      setSavedRecipes((prev) => [
+        ...prev,
+        {
+          ...variables,
+          id: variables.idMeal || Math.random(),
+          source: "saved-local",
+        },
+      ]);
     },
-    onError: () => {
-      toast.error("Failed to save meal.");
-    },
+    onError: () => toast.error("Failed to save meal."),
   });
 
-  // 🟢 Fetch saved recipes
+  // Fetch typed recipes (user-created)
   const { data, isLoading, isError } = useQuery({
     queryKey: ["recipes"],
     queryFn: async () => {
-      const axiosInstance = await getAxiosClient();
-      const { data } = await axiosInstance.get("/recipes");
+      const { data } = await axios.get("/recipes/saved");
       return data;
     },
   });
-
   const recipes = data?.recipes || [];
 
-  // 🟢 Fetch searched recipes from TheMealDB
+  // Fetch saved API recipes
+  const { data: savedAPIData } = useQuery({
+    queryKey: ["savedAPIRecipes"],
+    queryFn: async () => {
+      const { data } = await axios.get("/recipes/saved/api"); // Make sure your backend endpoint returns API recipes
+      return data.recipes || [];
+    },
+    onSuccess: (data) => setSavedRecipes(data),
+  });
+
+  // Fetch searched recipes from TheMealDB
   const { data: externalRecipes, refetch, isFetching } = useQuery({
     queryKey: ["externalRecipes", query],
     queryFn: async () => {
       if (!query) return [];
-      const axiosInstance = await getAxiosClient();
-      const { data } = await axiosInstance.get(`/external/recipes?search=${query}`);
+      const { data } = await axios.get(`/api/external/recipes?search=${query}`);
       return data.recipes;
     },
     enabled: false,
   });
 
-  // 🟢 Auto-fetch 10 random recipes on mount
+  // Fetch 10 random MealDB recipes on mount
   useEffect(() => {
     const fetchRandoms = async () => {
-      const axiosInstance = await getAxiosClient();
-      const promises = Array.from({ length: 10 }).map(() =>
-        axiosInstance.get(`/external/random`)
-      );
-      const results = await Promise.all(promises);
-      const meals = results
-        .map((res) => res.data?.meals?.[0])
-        .filter(Boolean);
-      setRandomRecipes(meals);
+      try {
+        const promises = Array.from({ length: 10 }).map(() =>
+          axios.get("/api/external/random")
+        );
+        const results = await Promise.all(promises);
+        const meals = results
+          .map((res) => res.data?.meals?.[0])
+          .filter(Boolean);
+        setRandomRecipes(meals);
+      } catch (err) {
+        console.error("Failed to fetch random recipes:", err);
+      }
     };
     fetchRandoms();
-  }, []);
+  }, [axios]);
 
   const toggleNewRecipeModal = () => {
     if (!modalRef.current) return;
@@ -103,15 +119,11 @@ export default function AddRecipe() {
   };
 
   const onSubmit = (formData) => {
-    createNewRecipe({
-      title: formData.title,
-      description: formData.description,
-    });
+    createNewRecipe({ title: formData.title, description: formData.description });
     reset();
     toggleNewRecipeModal();
   };
 
-  // 🟢 Merge saved + external + random recipes
   const allRecipes = [
     ...recipes.map((r) => ({ ...r, source: "saved" })),
     ...(externalRecipes?.map((r) => ({ ...r, source: "mealdb" })) || []),
@@ -125,7 +137,9 @@ export default function AddRecipe() {
         <div className="flex justify-between items-center max-w-7xl mx-auto px-6">
           <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
             <div className="hh-icon gradient-text font-bold">HH</div>
-            <span className="font-alumniSans text-[23px] font-normal gradient-text">HobbyHub</span>
+            <span className="font-alumniSans text-[23px] font-normal gradient-text">
+              HobbyHub
+            </span>
           </Link>
 
           <nav className="flex items-center text-gray-600 text-sm font-medium space-x-6">
@@ -133,13 +147,11 @@ export default function AddRecipe() {
             <Link to="/travel" className="hover:text-gray-900 transition-colors">Travel</Link>
             <Link to="/workout" className="hover:text-gray-900 transition-colors">Workout</Link>
           </nav>
-<Link to="/dashboard" className="dashboard-btn">
-  <ArrowLeft className="h-4 w-4" stroke="currentColor" />
-  <span>Dashboard</span>
-</Link>
 
-
-
+          <Link to="/dashboard" className="dashboard-btn">
+            <ArrowLeft className="h-4 w-4" stroke="currentColor" />
+            <span>Dashboard</span>
+          </Link>
         </div>
       </header>
 
@@ -151,9 +163,13 @@ export default function AddRecipe() {
           <button className="add-recipe-btn mt-3" onClick={toggleNewRecipeModal}>
             Add Recipe
           </button>
+          <button className="add-recipe-btn mt-3 ml-2" onClick={() => savedModalRef.current.showModal()}>
+            Saved Recipes
+          </button>
+
           {isLoading && <p className="mt-2">Loading...</p>}
           {isError && <p className="mt-2">Error loading recipes.</p>}
-          {!isLoading && recipes.length === 0 && <p className="mt-2">No recipes found.</p>}
+          {!isLoading && recipes.length === 0 && <p className="mt-2">No recipes found</p>}
         </div>
 
         {/* Search */}
@@ -175,7 +191,10 @@ export default function AddRecipe() {
         {/* Recipe Grid */}
         <div className="grid gap-4 sm:grid-cols-2">
           {allRecipes.map((recipe, idx) => (
-            <div key={recipe.id || recipe.idMeal || idx} className="add-recipe-card p-4 rounded-lg shadow">
+            <div
+              key={recipe.id || recipe.idMeal ? `${recipe.id || recipe.idMeal}-${idx}` : idx}
+              className="add-recipe-card p-4 rounded-lg shadow"
+            >
               {recipe.image || recipe.strMealThumb ? (
                 <img
                   src={recipe.image || recipe.strMealThumb}
@@ -225,34 +244,76 @@ export default function AddRecipe() {
           ))}
         </div>
 
-        {/* Modal */}
+        {/* Modal for new recipe */}
         <dialog ref={modalRef} className="add-recipe-modal">
           <div className="modal-box">
             <form onSubmit={handleSubmit(onSubmit)}>
               <h3 className="modal-header">New Recipe</h3>
-              <input
-                {...register("title", { required: true })}
-                placeholder="Title"
-                className="modal-input"
-              />
-              <textarea
-                {...register("description")}
-                placeholder="Description"
-                className="modal-textarea"
-              />
+              <input {...register("title", { required: true })} placeholder="Title" className="modal-input" />
+              <textarea {...register("description")} placeholder="Description" className="modal-textarea" />
               <div className="modal-action">
-                <button type="submit" className="modal-btn-primary">
-                  Add
-                </button>
-                <button
-                  type="button"
-                  onClick={toggleNewRecipeModal}
-                  className="modal-btn-cancel"
-                >
-                  Cancel
-                </button>
+                <button type="submit" className="modal-btn-primary">Add</button>
+                <button type="button" onClick={toggleNewRecipeModal} className="modal-btn-cancel">Cancel</button>
               </div>
             </form>
+          </div>
+        </dialog>
+
+        {/* Saved recipes modal */}
+        <dialog ref={savedModalRef} className="add-recipe-modal">
+          <div className="modal-box">
+            <h3 className="modal-header mb-4">Saved Recipes</h3>
+            {/* Tabs */}
+            <div className="flex space-x-4 border-b mb-4">
+              <button
+                className={`pb-2 ${activeTab === "typed" ? "border-b-2 border-blue-500 font-semibold" : ""}`}
+                onClick={() => setActiveTab("typed")}
+              >
+                My Recipes
+              </button>
+              <button
+                className={`pb-2 ${activeTab === "api" ? "border-b-2 border-blue-500 font-semibold" : ""}`}
+                onClick={() => setActiveTab("api")}
+              >
+                API Recipes
+              </button>
+            </div>
+
+            {activeTab === "typed" && (
+              <div className="grid gap-4 sm:grid-cols-2">
+                {recipes.length === 0 ? (
+                  <p className="text-gray-600">No recipes added yet.</p>
+                ) : (
+                  recipes.map((recipe, idx) => (
+                    <div key={recipe.id || idx} className="add-recipe-card p-4 rounded-lg shadow">
+                      {recipe.image && <img src={recipe.image} alt={recipe.title} className="rounded-lg mb-3 mx-auto object-cover w-24 h-24" />}
+                      <h4 className="text-lg font-bold mb-2">{recipe.title}</h4>
+                      <p className="text-sm text-gray-600">{(recipe.description || "").slice(0, 120)}...</p>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+
+            {activeTab === "api" && (
+              <div className="grid gap-4 sm:grid-cols-2">
+                {savedRecipes.length === 0 ? (
+                  <p className="text-gray-600">No recipes saved from API yet.</p>
+                ) : (
+                  savedRecipes.map((recipe, idx) => (
+                    <div key={recipe.id || idx} className="add-recipe-card p-4 rounded-lg shadow">
+                      {recipe.image && <img src={recipe.image} alt={recipe.title} className="rounded-lg mb-3 mx-auto object-cover w-24 h-24" />}
+                      <h4 className="text-lg font-bold mb-2">{recipe.title}</h4>
+                      <p className="text-sm text-gray-600">{(recipe.description || recipe.instructions || "").slice(0, 120)}...</p>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+
+            <div className="modal-action mt-4">
+              <button onClick={() => savedModalRef.current.close()} className="modal-btn-cancel">Close</button>
+            </div>
           </div>
         </dialog>
 
@@ -261,4 +322,3 @@ export default function AddRecipe() {
     </>
   );
 }
-

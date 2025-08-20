@@ -2,6 +2,7 @@ import './login.css';
 import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import supabase from "./client"; 
+import { useAuth } from "./AuthContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -9,24 +10,40 @@ export default function Login() {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const { setUser } = useAuth();
 
-  // This captures the path the user was trying to access
-  const from = location.state?.from?.pathname || "/dashboard";
+  // Where the user tried to go (from Add Recipe button or others)
+  const from = location.state?.from || "/dashboard";
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setMessage("");
 
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    if (error) {
-      setMessage(error.message);
-    } else {
-      // Redirect to "from" page if it exists, otherwise dashboard
+      if (error) {
+        setMessage(error.message);
+        return;
+      }
+
+      if (!data.user) {
+        setMessage("Login failed. Please try again.");
+        return;
+      }
+
+      const currentUser = { id: data.user.id, email: data.user.email };
+      setUser(currentUser);
+      localStorage.setItem("user", JSON.stringify(currentUser));
+
+      // Redirect to the original page they tried to visit
       navigate(from, { replace: true });
+    } catch (err) {
+      setMessage("An unexpected error occurred. Please try again.");
+      console.error(err);
     }
   };
 
@@ -35,9 +52,7 @@ export default function Login() {
       <header className="signup-header">
         <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
           <div className="hh-icon gradient-text">HH</div>
-          <span className="font-alumniSans text-[23px] font-normal gradient-text">
-            HobbyHub
-          </span>
+          <span className="font-alumniSans text-[23px] font-normal gradient-text">HobbyHub</span>
         </Link>
       </header>
 
@@ -59,10 +74,7 @@ export default function Login() {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-
-            <button type="submit" className="gradient-btn">
-              Login
-            </button>
+            <button type="submit" className="gradient-btn">Login</button>
           </form>
           {message && <p className="signup-message">{message}</p>}
           <p>
