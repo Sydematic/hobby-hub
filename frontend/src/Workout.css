@@ -1,0 +1,9 @@
+
+.card-title-workout {
+  color: oklch(0.25 0.15 140);
+  font-weight: 700;
+} /* Card Backgrounds - Translucent*/
+
+.card-workout {
+  background-color: rgba(34, 139, 34, 0.15) !important;
+}

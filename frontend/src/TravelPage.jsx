@@ -21,6 +21,7 @@ import './food.css';
 export default function TravelPage() {
   return (
     
+    
     <div className="flex min-h-screen flex-col">
       {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -401,9 +402,9 @@ export default function TravelPage() {
               <Card className="overflow-hidden border-0 shadow-lg bg-gradient-to-br from-blue-50 to-cyan-50 hover:shadow-xl hover:scale-105 transition-all duration-300">
                 <div className="aspect-video overflow-hidden">
                   <img
-                    src="/placeholder.svg?height=200&width=300&text=Swiss+Alps"
+                    src="/Zermatt, Interlaken, Jungfraujoch.avif" height={300} width={300}
                     alt="Swiss Alps mountains"
-                    className="h-full w-full object-cover transition-transform hover:scale-105"
+                    className="object-cover transition-transform hover:scale-105"
                   />
                 </div>
                 <CardHeader className="pb-2">
@@ -435,3 +436,4 @@ export default function TravelPage() {
     </div>
   );
 }
+

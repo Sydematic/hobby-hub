@@ -1,0 +1,10 @@
+.card-title-travel {
+  color: oklch(0.25 0.15 250);
+  font-weight: 700;
+}
+
+
+.card-travel {
+  background-color: rgba(72, 61, 242, 0.15) !important;
+}
+
