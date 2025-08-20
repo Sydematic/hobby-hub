@@ -1,6 +1,6 @@
 import './login.css';
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import supabase from "./client"; 
 
 export default function Login() {
@@ -8,6 +8,10 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // This captures the path the user was trying to access
+  const from = location.state?.from?.pathname || "/dashboard";
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -21,13 +25,13 @@ export default function Login() {
     if (error) {
       setMessage(error.message);
     } else {
-      navigate("/dashboard"); // Redirect after login
+      // Redirect to "from" page if it exists, otherwise dashboard
+      navigate(from, { replace: true });
     }
   };
 
   return (
     <div className="signup-page">
-      {/* HobbyHub at top-left */}
       <header className="signup-header">
         <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
           <div className="hh-icon gradient-text">HH</div>
@@ -37,7 +41,6 @@ export default function Login() {
         </Link>
       </header>
 
-      {/* Login form in center */}
       <main className="signup-main">
         <div className="signup-card">
           <h2 className="gradient-text">Login</h2>
@@ -57,7 +60,6 @@ export default function Login() {
               required
             />
 
-            {/* Gradient button */}
             <button type="submit" className="gradient-btn">
               Login
             </button>

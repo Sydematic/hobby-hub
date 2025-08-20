@@ -423,11 +423,14 @@ footer nav a:hover {
   position: sticky;
   top: 0;
   z-index: 50;
-  background-color: rgba(255, 255, 255, 0.15); /* translucent */
-  backdrop-filter: blur(15px);                 /* frosted effect */
-  border-bottom: 1px solid rgba(255,255,255,0.2);
+  background-color: rgba(72, 61, 242, 0.15) !important; /* force bluish tint */
+  backdrop-filter: blur(15px) !important;                 
+  -webkit-backdrop-filter: blur(15px) !important;        
+  border-bottom: 1px solid rgba(72, 61, 242, 0.2) !important;
   padding: 1rem 3rem;
 }
+
+
 
 /* Navbar Links */
 .navbar nav a {
@@ -513,4 +516,7 @@ footer nav a:hover {
   background: linear-gradient(90deg, #ea580c, #eab308, #f97316) !important;
   transform: translateY(-2px);
 }
+
+
+
 
