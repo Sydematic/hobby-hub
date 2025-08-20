@@ -1,74 +1,73 @@
+import './login.css';
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import supabase from "./client"; 
-import "./login.css"; // ✅ keep your styling
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [error, setError] = useState("");
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    setError("");
+    setMessage("");
 
     const { data, error } = await supabase.auth.signInWithPassword({
-      email: formData.email,
-      password: formData.password,
+      email,
+      password,
     });
 
     if (error) {
-      setError(error.message);
+      setMessage(error.message);
     } else {
-      navigate("/dashboard"); // ✅ redirect after login
+      navigate("/dashboard"); // Redirect after login
     }
   };
 
   return (
-    <div className="login-page">
-      {/* Header */}
-      <header className="login-header">
-        <h1 className="logo">HobbyHub</h1>
+    <div className="signup-page">
+      {/* HobbyHub at top-left */}
+      <header className="signup-header">
+        <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
+          <div className="hh-icon gradient-text">HH</div>
+          <span className="font-alumniSans text-[23px] font-normal gradient-text">
+            HobbyHub
+          </span>
+        </Link>
       </header>
 
-      {/* Login Card */}
-      <div className="login-container">
-        <h2 className="login-title">Login</h2>
-        <form className="login-form" onSubmit={handleSubmit}>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="login-input"
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-            className="login-input"
-          />
+      {/* Login form in center */}
+      <main className="signup-main">
+        <div className="signup-card">
+          <h2 className="gradient-text">Login</h2>
+          <form onSubmit={handleLogin}>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
 
-          {error && <p className="error-message">{error}</p>}
-
-          <button type="submit" className="login-button">
-            Login
-          </button>
-        </form>
-
-        <p className="signup-link">
-          Don’t have an account? <Link to="/signup">Sign Up</Link>
-        </p>
-      </div>
+            {/* Gradient button */}
+            <button type="submit" className="gradient-btn">
+              Login
+            </button>
+          </form>
+          {message && <p className="signup-message">{message}</p>}
+          <p>
+            Don’t have an account? <Link to="/signup">Sign Up</Link>
+          </p>
+        </div>
+      </main>
     </div>
   );
 }
