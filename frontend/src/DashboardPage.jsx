@@ -76,14 +76,14 @@ export default function Home() {
           )}
         </div>
 
-        {/* Welcome Message */}
-        <section className="w-full bg-muted/10 py-6">
-          <div className="max-w-7xl mx-auto px-6 text-center">
-            <h1 className="text-2xl font-semibold">
-              Welcome {user ? user.email : "Guest"}!
-            </h1>
-          </div>
-        </section>
+   {/* Welcome Message */}
+<section className="welcome w-full py-6 text-center">
+  <h1 className="text-2xl font-semibold">
+    Welcome {user ? user.email : "Guest"}!
+  </h1>
+</section>
+
+
       </header>
 
       {/* Hero Section */}
