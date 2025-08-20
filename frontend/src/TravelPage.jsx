@@ -111,10 +111,11 @@ export default function TravelPage() {
         </div>
 
         {/* Tabs */}
-        <Tabs defaultValue="upcoming" className="space-y-4">
+        <Tabs defaultValue="wishlist" className="space-y-4">
           <TabsList>
-            <TabsTrigger value="wishlist">Wishlist</TabsTrigger>
+            
             <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
+            <TabsTrigger value="wishlist">Wishlist</TabsTrigger>
             <TabsTrigger value="past">Past Trips</TabsTrigger>
             
           </TabsList>
