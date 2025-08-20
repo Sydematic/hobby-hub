@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, Compass, Users, Calendar, Star, Dumbbell, Utensils } from "lucide-react";
-import { useAuth } from "./AuthContext"; // adjust path if needed
-import supabase from "./client"; // ✅ make sure this points to your Supabase client
+import supabase from "./client"; // ✅ Supabase client
 import './style.css';
 import './Dashboard.css';
 import { Button } from "@/components/ui/button";
@@ -18,8 +17,23 @@ import {
 export default function Home() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
-  const { user, setUser } = useAuth(); 
+  const [user, setUser] = useState(null); // Supabase user
   const navigate = useNavigate();
+
+  // Load Supabase session on mount
+  useEffect(() => {
+    const getSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user || null);
+
+      // Listen for auth changes
+      supabase.auth.onAuthStateChange((_event, session) => {
+        setUser(session?.user || null);
+      });
+    };
+
+    getSession();
+  }, []);
 
   // handle form inputs
   function handleChange(e) {
@@ -31,8 +45,8 @@ export default function Home() {
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
     if (!error) {
-      setUser(null); // clear user from context
-      navigate("/login"); // redirect to login page
+      setUser(null);
+      navigate("/login");
     } else {
       console.error("Logout failed:", error.message);
     }
@@ -76,14 +90,12 @@ export default function Home() {
           )}
         </div>
 
-   {/* Welcome Message */}
-<section className="welcome w-full py-6 text-center">
-  <h1 className="text-2xl font-semibold">
-    Welcome {user ? user.email : "Guest"}!
-  </h1>
-</section>
-
-
+        {/* Welcome Message */}
+        <section className="welcome w-full py-6 text-center">
+          <h1 className="text-2xl font-semibold">
+            Welcome {user ? user.email : "Guest"}!
+          </h1>
+        </section>
       </header>
 
       {/* Hero Section */}
@@ -124,10 +136,8 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Horizontal cards container */}
             <div className="flex justify-between items-center px-16 mx-auto max-w-5xl">
-
-              {/* Food & Recipes */}
+              {/* Food Card */}
               <Card style={{ background: "linear-gradient(to bottom right, #fff7ed, #fee2e2)" }}
                     className="min-w-[350px] max-w-sm h-[400px] shadow-lg border-0 hover:shadow-xl transition-all duration-300 rounded-xl p-6 flex flex-col justify-between card-food">
                 <CardHeader className="pt-8 pb-6">
@@ -159,7 +169,7 @@ export default function Home() {
                 </CardFooter>
               </Card>
 
-              {/* Arrows & Travel */}
+              {/* Travel Card */}
               <div className="flex flex-col items-center mx-4">
                 <span style={{ fontSize: '5rem', color: 'oklch(0.25 0.15 140)' }}>→</span>
                 <span style={{ fontSize: '5rem', color: 'oklch(0.25 0.15 140)' }}>←</span>
@@ -196,7 +206,7 @@ export default function Home() {
                 </CardFooter>
               </Card>
 
-              {/* Arrows & Workout */}
+              {/* Workout Card */}
               <div className="flex flex-col items-center mx-4">
                 <span style={{ fontSize: '5rem', color: 'oklch(0.25 0.15 250)' }}>→</span>
                 <span style={{ fontSize: '5rem', color: 'oklch(0.25 0.15 250)' }}>←</span>
