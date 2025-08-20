@@ -17,7 +17,7 @@ import {
   TabsTrigger,
 } from "./components/ui/tabs";
 import { Badge } from "./components/ui/badge";
-import './food.css';
+import './Travel.css';
 export default function TravelPage() {
   return (
     
@@ -56,6 +56,28 @@ export default function TravelPage() {
               </Link>
             </nav>
           </div>
+ {/* Navbar - KEEP EXACT PROPORTIONS */}
+      <header className="navbar">
+        <div className="flex justify-between items-center max-w-7xl mx-auto px-6 py-4">
+          <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
+            <div className="hh-icon gradient-text">HH</div>
+            <span className="font-alumniSans text-[23px] font-normal gradient-text">HobbyHub</span>
+          </Link>
+
+          <nav className="flex items-center text-muted-foreground text-sm font-medium space-x-6">
+            <Link to="/food" className="hover:text-foreground transition-colors">Food</Link>
+            <Link to="/travel" className="hover:text-foreground transition-colors">Travel</Link>
+            <Link to="/workout" className="hover:text-foreground transition-colors">Workout</Link>
+          </nav>
+
+          <div className="flex-shrink-0">
+            <Link to="/dashboard" className="navbar dashboard-btn flex items-center space-x-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors">
+              <ArrowLeft className="h-4 w-4" />
+              <span>Dashboard</span>
+            </Link>
+          </div>
+        </div>
+      </header>
 
           {/* Dashboard button */}
           <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
@@ -63,7 +85,7 @@ export default function TravelPage() {
               <Button variant="outline" className="w-full md:w-auto">
                 <Link to="/dashboard" className="flex items-center">
                   <ArrowLeft className="mr-2 h-4 w-4" />
-                  Dashboard
+                  
                 </Link>
               </Button>
             </div>
