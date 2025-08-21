@@ -12,7 +12,7 @@ export default function AddRecipe() {
   const queryClient = useQueryClient(); 
   const modalRef = useRef(null);
   const savedModalRef = useRef(null);
-
+  const [recipesLocal, setRecipesLocal] = useState([]);
   const { register, handleSubmit, reset } = useForm();
   const [query, setQuery] = useState("");
   const [randomRecipes, setRandomRecipes] = useState([]);
@@ -20,6 +20,13 @@ export default function AddRecipe() {
   const [activeTab, setActiveTab] = useState("typed"); 
 
   const axios = useAxiosClient(); // baseURL should already point to http://localhost:5000
+const removeTypedRecipe = (id) => {
+  const updated = recipesLocal.filter((r) => r.id !== id && r.idMeal !== id);
+  setRecipesLocal(updated);
+  toast.info("Recipe removed from modal!");
+};
+
+
 
   // Create new recipe mutation
   const { mutate: createNewRecipe } = useMutation({
@@ -62,6 +69,24 @@ export default function AddRecipe() {
     },
     onError: () => toast.error("Failed to save meal."),
   });
+// Remove saved recipe
+const { mutate: removeSavedRecipe } = useMutation({
+  mutationFn: async (id) => {
+    if (!id) throw new Error("Recipe ID is required");
+    await axios.delete(`/recipes/saved/${id}`);
+    return id;
+  },
+  onSuccess: (id) => {
+    queryClient.invalidateQueries(["recipes"]);
+    setSavedRecipes((prev) =>
+      prev.filter((r) => r.id !== id && r.idMeal !== id)
+    );
+    toast.success("Recipe removed!");
+  },
+  onError: () => toast.error("Failed to remove recipe."),
+});
+
+
 
   // Fetch typed recipes (user-created)
   const { data, isLoading, isError } = useQuery({
@@ -93,6 +118,10 @@ export default function AddRecipe() {
     },
     enabled: false,
   });
+  useEffect(() => {
+  setRecipesLocal(recipes); // recipes from useQuery
+}, [recipes]);
+
 
   // Fetch 10 random MealDB recipes on mount
   useEffect(() => {
@@ -196,11 +225,11 @@ export default function AddRecipe() {
               className="add-recipe-card p-4 rounded-lg shadow"
             >
               {recipe.image || recipe.strMealThumb ? (
-                <img
-                  src={recipe.image || recipe.strMealThumb}
-                  alt={recipe.title || recipe.strMeal}
-                  className="rounded-lg mb-3 mx-auto object-cover w-24 h-24"
-                />
+             <img
+  src={recipe.image || recipe.strMealThumb}
+  alt={recipe.title || recipe.strMeal}
+  className="rounded-lg mb-3 mx-auto object-contain max-w-full max-h-48"
+/>
               ) : null}
               <h4 className="text-lg font-bold mb-2">{recipe.title || recipe.strMeal}</h4>
 
@@ -259,63 +288,91 @@ export default function AddRecipe() {
           </div>
         </dialog>
 
-        {/* Saved recipes modal */}
-        <dialog ref={savedModalRef} className="add-recipe-modal">
-          <div className="modal-box">
-            <h3 className="modal-header mb-4">Saved Recipes</h3>
-            {/* Tabs */}
-            <div className="flex space-x-4 border-b mb-4">
-              <button
-                className={`pb-2 ${activeTab === "typed" ? "border-b-2 border-blue-500 font-semibold" : ""}`}
-                onClick={() => setActiveTab("typed")}
-              >
-                My Recipes
-              </button>
-              <button
-                className={`pb-2 ${activeTab === "api" ? "border-b-2 border-blue-500 font-semibold" : ""}`}
-                onClick={() => setActiveTab("api")}
-              >
-                API Recipes
-              </button>
-            </div>
+      {/* Saved recipes modal */}
+<dialog ref={savedModalRef} className="add-recipe-modal">
+  <div className="modal-box">
+    {/* Title + X Button */}
+    <div className="flex justify-between items-center mb-4">
+      <h3 className="modal-header">Saved Recipes</h3>
+      <button
+        className="text-gray-500 hover:text-gray-900 text-lg font-bold"
+        onClick={() => savedModalRef.current.close()}
+      >
+        ✕
+      </button>
+    </div>
 
-            {activeTab === "typed" && (
-              <div className="grid gap-4 sm:grid-cols-2">
-                {recipes.length === 0 ? (
-                  <p className="text-gray-600">No recipes added yet.</p>
-                ) : (
-                  recipes.map((recipe, idx) => (
-                    <div key={recipe.id || idx} className="add-recipe-card p-4 rounded-lg shadow">
-                      {recipe.image && <img src={recipe.image} alt={recipe.title} className="rounded-lg mb-3 mx-auto object-cover w-24 h-24" />}
-                      <h4 className="text-lg font-bold mb-2">{recipe.title}</h4>
-                      <p className="text-sm text-gray-600">{(recipe.description || "").slice(0, 120)}...</p>
-                    </div>
-                  ))
-                )}
-              </div>
-            )}
+    {/* Tabs */}
+    <div className="flex space-x-4 border-b mb-4">
+      <button
+        className={`pb-2 ${activeTab === "typed" ? "border-b-2 border-blue-500 font-semibold" : ""}`}
+        onClick={() => setActiveTab("typed")}
+      >
+        My Recipes
+      </button>
+      <button
+        className={`pb-2 ${activeTab === "api" ? "border-b-2 border-blue-500 font-semibold" : ""}`}
+        onClick={() => setActiveTab("api")}
+      >
+        API Recipes
+      </button>
+    </div>
 
-            {activeTab === "api" && (
-              <div className="grid gap-4 sm:grid-cols-2">
-                {savedRecipes.length === 0 ? (
-                  <p className="text-gray-600">No recipes saved from API yet.</p>
-                ) : (
-                  savedRecipes.map((recipe, idx) => (
-                    <div key={recipe.id || idx} className="add-recipe-card p-4 rounded-lg shadow">
-                      {recipe.image && <img src={recipe.image} alt={recipe.title} className="rounded-lg mb-3 mx-auto object-cover w-24 h-24" />}
-                      <h4 className="text-lg font-bold mb-2">{recipe.title}</h4>
-                      <p className="text-sm text-gray-600">{(recipe.description || recipe.instructions || "").slice(0, 120)}...</p>
-                    </div>
-                  ))
-                )}
-              </div>
-            )}
+   {/* Typed recipes */}
+{activeTab === "typed" && (
+  <div className="grid gap-4 sm:grid-cols-2">
+    {recipesLocal.length === 0 ? (
+      <p className="text-gray-600">No recipes added yet.</p>
+    ) : (
+      recipesLocal.map((recipe, idx) => (
+        <div key={recipe.id || idx} className="add-recipe-card p-4 rounded-lg shadow">
+          {recipe.image && <img src={recipe.image} alt={recipe.title} className="rounded-lg mb-3 mx-auto object-cover w-24 h-24" />}
+          <h4 className="text-lg font-bold mb-2">{recipe.title}</h4>
+          <p className="text-sm text-gray-600">{(recipe.description || "").slice(0, 120)}...</p>
+          <button
+            className="modal-btn-cancel text-xs mt-2"
+            onClick={() => removeTypedRecipe(recipe.id || recipe.idMeal)}
+          >
+            Remove
+          </button>
+        </div>
+      ))
+    )}
+  </div>
+)}
 
-            <div className="modal-action mt-4">
-              <button onClick={() => savedModalRef.current.close()} className="modal-btn-cancel">Close</button>
-            </div>
-          </div>
-        </dialog>
+
+
+ {activeTab === "api" && (
+  <div className="grid gap-4 sm:grid-cols-2">
+    {savedRecipes.length === 0 ? (
+      <p className="text-gray-600">No recipes saved from API yet.</p>
+    ) : (
+      savedRecipes.map((recipe, idx) => (
+        <div key={recipe.id || recipe.idMeal || idx} className="add-recipe-card p-4 rounded-lg shadow">
+          {recipe.image && <img src={recipe.image || recipe.strMealThumb} alt={recipe.title} className="rounded-lg mb-3 mx-auto object-cover w-24 h-24" />}
+          <h4 className="text-lg font-bold mb-2">{recipe.title}</h4>
+          <p className="text-sm text-gray-600">{(recipe.description || recipe.instructions || "").slice(0, 120)}...</p>
+          <button
+            className="modal-btn-cancel text-xs mt-2"
+            onClick={() => removeFromModal(recipe.id || recipe.idMeal)}
+          >
+            Remove
+          </button>
+        </div>
+      ))
+    )}
+  </div>
+)}
+
+
+    <div className="modal-action mt-4">
+      <button onClick={() => savedModalRef.current.close()} className="modal-btn-cancel">Close</button>
+    </div>
+  </div>
+</dialog>
+
+
 
         <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
       </main>
