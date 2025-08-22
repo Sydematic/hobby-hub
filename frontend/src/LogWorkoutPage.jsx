@@ -23,25 +23,24 @@ export default function LogWorkoutPage() {
 
   // Fetch exercises from backend
   const fetchExercises = async (query = "") => {
-  setLoading(true);
-  try {
-    const res = await axios.get("http://localhost:5000/api/exercises", {
-      params: {
-        search: query,
-        limit: 20, // keeps a reasonable number for the grid
-      },
-    });
-    setExercises(res.data.exercises || []);
-  } catch (err) {
-    console.error("Failed to fetch exercises:", err);
-    setExercises([]);
-  }
-  setLoading(false);
-};
-
+    setLoading(true);
+    try {
+      const res = await axios.get("http://localhost:5000/api/exercises", {
+        params: {
+          search: query,
+          limit: 20,
+        },
+      });
+      setExercises(res.data.exercises || []);
+    } catch (err) {
+      console.error("Failed to fetch exercises:", err);
+      setExercises([]);
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
-    fetchExercises(); // Fetch all exercises initially
+    fetchExercises();
   }, []);
 
   const handleSearch = (e) => {
@@ -54,7 +53,6 @@ export default function LogWorkoutPage() {
       navigate("/login", { state: { from: "/workout/new" } });
       return;
     }
-    // Placeholder — replace later with API call to save workout log
     alert(`Added "${exercise.name}" to your workout log!`);
   };
 
@@ -85,13 +83,20 @@ export default function LogWorkoutPage() {
       ) : exercises.length === 0 ? (
         <p>No exercises found.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center">
           {exercises.map((ex) => (
             <Card
               key={ex.id}
-              className="flex flex-col justify-between shadow-lg hover:shadow-xl transition-all"
+              className="exercise-card flex flex-col justify-between shadow-lg hover:shadow-xl transition-all w-64"
             >
-              <CardHeader>
+              {ex.image && (
+                <img
+                  src={ex.image}
+                  alt={ex.name}
+                  className="exercise-gif mt-2"
+                />
+              )}
+              <CardHeader className="text-center">
                 <CardTitle>{ex.name}</CardTitle>
                 <CardDescription>
                   <Badge className="bg-green-500 text-white">
@@ -99,14 +104,6 @@ export default function LogWorkoutPage() {
                   </Badge>
                 </CardDescription>
               </CardHeader>
-
-              {ex.image && (
-                <img
-                  src={ex.image}
-                  alt={ex.name}
-                  className="w-full h-48 object-cover rounded-md mt-2"
-                />
-              )}
 
               <CardContent>
                 <p className="text-sm text-gray-600">
@@ -116,6 +113,9 @@ export default function LogWorkoutPage() {
                   <p className="text-sm text-gray-600 mt-1">
                     Equipment: {ex.equipments.join(", ")}
                   </p>
+                )}
+                {ex.description && (
+                  <p className="exercise-description mt-2">{ex.description}</p>
                 )}
               </CardContent>
 
