@@ -7,7 +7,7 @@ import { fileURLToPath } from "url";
 import authRoutes from "./routes/auth.js";
 import hobbyRoutes from "./routes/hobbies.js";
 import exerciseRoutes from "./routes/exerciseDB.js";
-import recipeRoutes from "./routes/recipeRoutes.js"; // ✅ one file handles recipes
+import recipeRoutes from "./routes/recipeRoutes.js";
 import mealdbRoutes from "./routes/mealdb.js";
 
 dotenv.config();
@@ -32,15 +32,16 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/hobbies", hobbyRoutes);
 app.use("/api/exercises", exerciseRoutes);
-app.use("/api/recipes", recipeRoutes); // ✅ now everything recipes under /api/recipes
-app.use("/api/external", mealdbRoutes); // external API proxy
+app.use("/api/recipes", recipeRoutes);
+app.use("/api/external", mealdbRoutes);
 
 // Serve frontend build files
-app.use(express.static(path.join(__dirname, "../frontend/dist")));
+// Updated path for Render: remove "../" since backend is the root directory
+app.use(express.static(path.join(__dirname, "frontend/dist")));
 
-// Serve index.html on all other routes (React Router support)
+// Serve index.html for all other routes (React Router support)
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+  res.sendFile(path.join(__dirname, "frontend/dist/index.html"));
 });
 
 // Global error handler
