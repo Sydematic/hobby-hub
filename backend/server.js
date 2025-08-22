@@ -25,28 +25,28 @@ app.use(
   })
 );
 
-// Parse JSON bodies
+// JSON parsing
 app.use(express.json());
 
-// API routes
+// API routes (use relative paths only!)
 app.use("/api/auth", authRoutes);
 app.use("/api/hobbies", hobbyRoutes);
 app.use("/api/exercises", exerciseRoutes);
 app.use("/api/recipes", recipeRoutes);
 app.use("/api/external", mealdbRoutes);
 
-// Serve frontend build files
-// Updated path for Render: remove "../" since backend is the root directory
-app.use(express.static(path.join(__dirname, "frontend/dist")));
+// Serve React frontend
+const frontendPath = path.join(__dirname, "../frontend/dist");
+app.use(express.static(frontendPath));
 
-// Serve index.html for all other routes (React Router support)
+// Send index.html for any route not handled above (React Router)
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "frontend/dist/index.html"));
+  res.sendFile(path.join(frontendPath, "index.html"));
 });
 
 // Global error handler
 app.use((err, req, res, next) => {
-  console.error(err.message);
+  console.error(err.stack);
   res.status(500).json({ error: "Server error" });
 });
 
