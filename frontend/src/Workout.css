@@ -1,0 +1,256 @@
+/* ==============================
+   Workout Page Card Title Colors
+   ============================== */
+.workout-card-title {
+  color: oklch(0.25 0.15 140) !important;
+  font-weight: 700 !important;
+  margin-top: 1rem !important;
+}
+
+/* ==============================
+   Workout Card Descriptions
+   ============================== */
+.workout-card-description,
+.workout-card-content p {
+  margin: 1.5rem 0 1rem 0 !important;
+  line-height: 1.75 !important;
+  color: #6b7280 !important;
+}
+
+/* ==============================
+   Workout Card Layout
+   ============================== */
+.workout-card {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  padding-top: 3rem !important;
+  background-color: rgba(16, 185, 129, 0.15) !important; /* soft green */
+}
+
+.workout-card-header {
+  position: relative !important;
+  padding: 0.5rem 0 0.75rem 0 !important;
+}
+
+.workout-card-content {
+  padding-top: 0.5rem !important;
+}
+
+.workout-card-footer {
+  margin-top: auto !important;
+}
+
+/* ==============================
+   Container to layout cards side by side
+   ============================== */
+.workout-cards-container {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+  gap: 2rem !important;
+  justify-items: center !important;
+  width: 100% !important;
+  margin-top: 6rem !important;
+}
+
+/* ==============================
+   Buttons - Green Gradient
+   ============================== */
+.workout-card-footer button,
+.log-workout-btn,
+.workout-hero-btn-outline,
+.hobbyhub-logo-button,
+.dashboard-button {
+  font-family: 'Alumni Sans', sans-serif !important;
+  font-weight: 500 !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 0.5rem !important;
+  transition: all 0.3s ease !important;
+  background: linear-gradient(90deg, #22c55e, #4ade80, #16a34a) !important;
+  color: white !important;
+  border: none !important;
+}
+
+.workout-card-footer button:hover,
+.log-workout-btn:hover,
+.workout-hero-btn-outline:hover,
+.hobbyhub-logo-button:hover,
+.dashboard-button:hover {
+  background: linear-gradient(90deg, #16a34a, #22c55e, #15803d) !important;
+  transform: translateY(-2px) !important;
+  color: white !important;
+}
+
+.workout-hero-btn-outline {
+  border: 2px solid #22c55e !important;
+}
+
+/* ==============================
+   Workout Page Hero - Frosted & Glow
+   ============================== */
+.workout-hero-section {
+  position: relative !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 6rem 1rem !important;
+  overflow: hidden !important;
+}
+
+.workout-hero-background {
+  position: absolute !important;
+  inset: 0 !important;
+  background: linear-gradient(
+    120deg,
+    rgba(16, 185, 129, 0.25),
+    rgba(52, 211, 153, 0.15),
+    rgba(5, 150, 105, 0.2)
+  ) !important;
+  z-index: 0 !important;
+  filter: blur(60px) !important;
+}
+
+.workout-hero-container {
+  position: relative !important;
+  z-index: 1 !important;
+  padding: 3rem 2rem !important;
+  border-radius: 2rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1.5rem !important;
+  width: 100% !important;
+  max-width: 900px !important;
+  text-align: center !important;
+  -webkit-backdrop-filter: blur(15px) !important;
+  backdrop-filter: blur(15px) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+@media (min-width: 768px) {
+  .workout-hero-container {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    text-align: left !important;
+  }
+}
+
+.workout-hero-title {
+  color: oklch(0.25 0.15 140) !important;
+  font-family: 'Alumni Sans', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 4rem !important;
+}
+
+.workout-hero-subtitle {
+  color: #6b7280 !important;
+  font-family: 'Alumni Sans', sans-serif !important;
+  line-height: 1.7 !important;
+}
+
+.workout-hero-buttons {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1rem !important;
+  margin-top: 1rem !important;
+  justify-content: center !important;
+}
+
+@media (min-width: 768px) {
+  .workout-hero-buttons {
+    flex-direction: row !important;
+    gap: 1rem !important;
+    margin-top: 0 !important;
+    justify-content: flex-start !important;
+  }
+}
+
+/* ==============================
+   Tabs - Green Gradient
+   ============================== */
+
+/* Tab container background (soft tinted green) */
+.workout-tabs {
+  background-color: rgba(16, 185, 129, 0.1) !important;
+  padding: 1rem !important;
+  border-radius: 1rem !important;
+}
+
+.workout-tabs [role="tab"] {
+  font-family: 'Alumni Sans', sans-serif !important;
+  font-weight: 500 !important;
+  color: white !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 0.5rem !important;
+  background: linear-gradient(90deg, #22c55e, #4ade80, #16a34a) !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+}
+
+.workout-tabs [role="tab"]:hover {
+  background: linear-gradient(90deg, #16a34a, #22c55e, #15803d) !important;
+  transform: translateY(-2px) !important;
+}
+
+.workout-tabs [role="tab"][data-state="active"] {
+  font-weight: 600 !important;
+  background: linear-gradient(90deg, #22c55e, #4ade80, #16a34a) !important;
+  border-bottom: none !important;
+}
+
+.workout-tabs-list {
+  display: flex !important;
+  justify-content: flex-end !important;
+  gap: 1rem !important;
+  flex-wrap: wrap !important;
+}
+
+/* ==============================
+   Responsive (Mobile <= 640px)
+   ============================== */
+@media (max-width: 640px) {
+  .workout-cards-container {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+    padding: 0 1rem !important;
+  }
+
+  .workout-hero-title {
+    font-size: 1.75rem !important;
+    line-height: 2rem !important;
+    text-align: center !important;
+  }
+
+  .workout-hero-subtitle {
+    font-size: 0.9rem !important;
+    text-align: center !important;
+  }
+
+  .workout-card {
+    padding-top: 2rem !important;
+  }
+
+  .workout-card-content {
+    padding-top: 0.25rem !important;
+  }
+
+  .workout-card-footer button {
+    width: 100% !important;
+    font-size: 0.9rem !important;
+  }
+
+  .workout-tabs [role="tab"] {
+    padding: 0.4rem 0.6rem !important;
+    font-size: 0.85rem !important;
+  }
+
+  .workout-tabs-list {
+    justify-content: flex-end !important;
+    gap: 0.5rem !important;
+  }
+
+  .workout-hero-buttons {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+}
