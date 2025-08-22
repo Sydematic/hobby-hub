@@ -71,6 +71,7 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  padding: 1rem; /* Add padding for mobile */
 }
 
 .add-recipe-modal[open] {
@@ -79,13 +80,142 @@
 
 .modal-box {
   background: white;
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 1rem;
-  max-width: 800px;
-  width: 90%;
-  max-height: 80vh;
+  max-width: 90vw;
+  width: 100%;
+  max-height: 90vh;
   overflow-y: auto;
-  position: relative;
+  position: relative; /* ensures the X button is positioned relative to modal-box */
+  box-sizing: border-box;
+}
+
+/* Close button */
+.modal-close-btn {
+  position: absolute; /* position inside modal-box */
+  top: 1rem;          /* distance from top */
+  right: 1rem;        /* distance from right */
+  color: hsl(351, 86%, 69%);
+  font-size: 1.125rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: color 0.2s;
+}
+
+.modal-close-btn:hover {
+  color: hsl(40, 96%, 67%);
+}
+
+/* RESPONSIVE MODAL CONTENT */
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 100%;
+}
+
+.modal-tabs {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 1px solid hsl(214, 32%, 91%);
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.modal-tab-content {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 60vh;
+}
+
+.modal-recipe-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.modal-recipe-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  border: 1px solid hsl(214, 32%, 91%);
+  border-radius: 0.5rem;
+  background: white;
+}
+
+.modal-recipe-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  background: hsl(210, 25%, 92%);
+}
+
+.modal-recipe-title {
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.3;
+  color: hsl(216, 16%, 22%);
+  margin: 0;
+}
+
+.modal-recipe-description {
+  font-size: 0.875rem;
+  color: hsl(215, 14%, 42%);
+  line-height: 1.4;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.modal-recipe-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.modal-recipe-tag {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 0.25rem;
+  background: hsl(210, 25%, 92%);
+  color: hsl(216, 16%, 22%);
+}
+
+.modal-recipe-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .modal-box {
+    padding: 1rem;
+    max-width: 95vw;
+    max-height: 95vh;
+  }
+  
+  .modal-recipe-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .modal-recipe-item {
+    padding: 0.75rem;
+  }
+  
+  .modal-recipe-image {
+    height: 120px;
+  }
 }
 
 .modal-header {
@@ -100,6 +230,7 @@
   border: 1px solid hsl(214, 32%, 82%);
   border-radius: 0.5rem;
   margin-bottom: 1rem;
+  box-sizing: border-box;
 }
 
 .modal-textarea {
@@ -110,6 +241,7 @@
   margin-bottom: 1rem;
   min-height: 100px;
   resize: vertical;
+  box-sizing: border-box;
 }
 
 .modal-btn-primary {
@@ -139,6 +271,7 @@
   display: flex;
   justify-content: flex-end;
   gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .tab-btn {
@@ -176,20 +309,6 @@
   100% { transform: rotate(360deg); }
 }
 
-.modal-close-btn {
-  color: hsl(351, 86%, 69%);
-  font-size: 1.125rem;
-  font-weight: 700;
-  cursor: pointer;
-  background: none;
-  border: none;
-  transition: color 0.2s;
-}
-
-.modal-close-btn:hover {
-  color: hsl(40, 96%, 67%);
-}
-
 .modal-btn-remove {
   background: linear-gradient(135deg, hsl(351, 86%, 69%), hsl(40, 96%, 67%));
   color: white;
@@ -224,7 +343,7 @@ button:focus,
 .modal-btn-cancel:focus, 
 .dashboard-btn:focus, 
 .modal-btn-remove:focus {
-  outline: 2px solid rgba(249, 115, 22, 0.5); /* orange focus ring */
+  outline: 2px solid rgba(249, 115, 22, 0.5);
   outline-offset: 2px;
 }
 
@@ -234,11 +353,11 @@ button:active,
 .modal-btn-cancel:active, 
 .dashboard-btn:active, 
 .modal-btn-remove:active {
-  transform: scale(0.97); /* tactile click effect */
+  transform: scale(0.97);
 }
 
 .page-title {
-  font-size: 1.75rem; /* ~text-2xl */
+  font-size: 1.75rem;
   font-weight: 700;
   background: linear-gradient(135deg, hsl(351, 86%, 69%), hsl(40, 96%, 67%));
   -webkit-background-clip: text;
@@ -248,24 +367,24 @@ button:active,
 
 .page-subtitle {
   font-size: 1rem;
-  color: hsl(215, 14%, 42%); /* muted gray for balance */
+  color: hsl(215, 14%, 42%);
   margin-top: 0.25rem;
 }
 
-/* Status messages - themed */
+/* Status messages */
 .status-msg {
   font-weight: 500;
 }
 
 .status-loading {
-  color: hsl(40, 96%, 67%); /* orange-yellow gradient end */
+  color: hsl(40, 96%, 67%);
 }
 
 .status-error {
-  color: hsl(351, 86%, 69%); /* reddish-pink gradient start */
+  color: hsl(351, 86%, 69%);
 }
 
 .status-empty {
-  color: hsl(215, 14%, 42%); /* neutral gray */
+  color: hsl(215, 14%, 42%);
 }
 
