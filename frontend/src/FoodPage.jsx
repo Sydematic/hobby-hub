@@ -1,11 +1,15 @@
-import { Link } from "react-router-dom";
-import { ArrowLeft, Clock, Plus, Star, Utensils, Users, ChefHat } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowLeft, Clock, Plus, Utensils, Users, ChefHat } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs";
 import { Badge } from "./components/ui/badge";
 import './food.css';
+import { useAuth } from "./AuthContext"; // <- import AuthContext
 
 export default function FoodPage() {
+  const navigate = useNavigate();
+  const { user } = useAuth(); // <- get user from context
+
   const recipes = [
     {
       title: "Pasta Carbonara",
@@ -33,10 +37,19 @@ export default function FoodPage() {
     }
   ];
 
+  // Universal handler for buttons that need login
+  const handleProtectedClick = (path) => {
+    if (user) {
+      navigate(path);
+    } else {
+      navigate("/login", { state: { from: path } });
+    }
+  };
+
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground font-sans">
 
-      {/* Navbar - KEEP EXACT PROPORTIONS */}
+      {/* Navbar */}
       <header className="navbar">
         <div className="flex justify-between items-center max-w-7xl mx-auto px-6 py-4">
           <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
@@ -70,11 +83,10 @@ export default function FoodPage() {
               <div className="food-hero-background absolute -inset-4 bg-gradient-to-tr from-orange-300 via-orange-200 to-orange-400 filter blur-3xl rounded-3xl z-0"></div>
 
               <div className="food-hero-container relative z-10 flex flex-col md:flex-row md:items-center md:justify-center gap-4 w-full max-w-4xl p-6 rounded-2xl border-2 border-transparent bg-transparent shadow-none mx-auto">
-                
+
                 {/* Hero Text */}
                 <div className="flex-1 text-center md:text-left">
-                  <h1 className="font-[Alumni_Sans] font-bold text-[4rem] md:text-[4.5rem] text-[oklch(0.25_0.15_40)] bg-clip-text text-transparent
-                                 bg-[linear-gradient(90deg,#f97316,#facc15,#fb923c)]">
+                  <h1 className="font-[Alumni_Sans] font-bold text-[4rem] md:text-[4.5rem] bg-clip-text text-transparent bg-[linear-gradient(90deg,#f97316,#facc15,#fb923c)]">
                     Food & Recipes
                   </h1>
                   <p className="mt-4 text-[#6b7280] font-[Alumni_Sans] text-lg md:text-xl max-w-md mx-auto md:mx-0">
@@ -84,13 +96,13 @@ export default function FoodPage() {
 
                 {/* Add Recipe Button */}
                 <div className="food-hero-buttons flex flex-col md:flex-row gap-3 mt-4 md:mt-0">
-                  <Link 
-                    to="/addrecipe" 
+                  <button
+                    onClick={() => handleProtectedClick("/addrecipe")}
                     className="add-recipe-btn hero-btn-primary flex justify-center items-center gap-2"
                   >
                     <Plus className="h-4 w-4" />
                     Add Recipe
-                  </Link>
+                  </button>
                 </div>
 
                 {/* Tabs triggers */}
@@ -131,11 +143,12 @@ export default function FoodPage() {
                       </div>
                     </CardContent>
                     <CardFooter className="food-card-footer mt-auto">
-                      <Link 
-                        to="/addrecipe"  className="add-recipe-btn w-full flex justify-center items-center gap-2"
+                      <button
+                        onClick={() => handleProtectedClick("/addrecipe")}
+                        className="add-recipe-btn w-full flex justify-center items-center gap-2"
                       >
                         View Recipe
-                      </Link>
+                      </button>
                     </CardFooter>
                   </Card>
                 ))}
@@ -168,58 +181,67 @@ export default function FoodPage() {
                     </p>
                   </CardContent>
                   <CardFooter>
-                    <Link 
-                      to="/restaurant/trattoria-milano" 
-                      className="add-recipe-btn w-full flex justify-center items-center gap-2"
-                    >
-                      View Details
-                    </Link>
-                  </CardFooter>
-                </Card>
-              </div>
-            </TabsContent>
+                    <button
+                      on
 
-            {/* Meal Plan Tab */}
-            <TabsContent value="meal-plan" className="space-y-4 tab-content-spacing text-[#6b7280]">
-              <Card className="border-0 shadow-lg bg-gradient-to-br from-indigo-50 to-purple-50">
-                <CardHeader className="pb-4">
-                  <CardTitle className="text-[#000000]">Weekly Meal Plan: August 17 - August 24, 2025</CardTitle>
-                </CardHeader>
-                <CardContent className="text-[#000000]">
-                  <div className="space-y-6">
-                    {["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"].map((day, index) => (
-                      <div key={day}>
-                        <h3 className="font-medium mb-3">{day}</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                          <div className="p-3 border border-orange-200 rounded-md bg-gradient-to-br from-orange-50 to-yellow-50">
-                            <p className="text-xs text-orange-600 mb-1">Breakfast</p>
-                            <p className="text-sm font-medium text-orange-900">
-                              {["Avocado Toast","Smoothie Bowl","Oatmeal with Berries","Greek Yogurt Parfait","Scrambled Eggs","Pancakes","French Toast"][index]}
-                            </p>
-                          </div>
-                          <div className="p-3 border border-blue-200 rounded-md bg-gradient-to-br from-blue-50 to-cyan-50">
-                            <p className="text-xs text-blue-600 mb-1">Lunch</p>
-                            <p className="text-sm font-medium text-blue-900">
-                              {["Greek Salad","Chicken Wrap","Quinoa Bowl","Sushi Bowl","Caesar Salad","Grilled Cheese","Pasta Salad"][index]}
-                            </p>
-                          </div>
-                          <div className="p-3 border border-green-200 rounded-md bg-gradient-to-br from-green-50 to-lime-50">
-                            <p className="text-xs text-green-600 mb-1">Dinner</p>
-                            <p className="text-sm font-medium text-green-900">
-                              {["Salmon & Veggies","Stir-fried Tofu","Chicken Curry","Beef Tacos","Shrimp Pasta","Veggie Lasagna","BBQ Chicken"][index]}
-                            </p>
-                          </div>
-                        </div>
+
+
+
+
+ChatGPT said:
+Click={() => handleProtectedClick("/restaurant/trattoria-milano")}
+className="add-recipe-btn w-full flex justify-center items-center gap-2"
+>
+View Details
+</button>
+</CardFooter>
+</Card>
+</div>
+</TabsContent>
+
+
+        {/* Meal Plan Tab */}
+        <TabsContent value="meal-plan" className="space-y-4 tab-content-spacing text-[#6b7280]">
+          <Card className="border-0 shadow-lg bg-gradient-to-br from-indigo-50 to-purple-50">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-[#000000]">Weekly Meal Plan: August 17 - August 24, 2025</CardTitle>
+            </CardHeader>
+            <CardContent className="text-[#000000]">
+              <div className="space-y-6">
+                {["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"].map((day, index) => (
+                  <div key={day}>
+                    <h3 className="font-medium mb-3">{day}</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                      <div className="p-3 border border-orange-200 rounded-md bg-gradient-to-br from-orange-50 to-yellow-50">
+                        <p className="text-xs text-orange-600 mb-1">Breakfast</p>
+                        <p className="text-sm font-medium text-orange-900">
+                          {["Avocado Toast","Smoothie Bowl","Oatmeal with Berries","Greek Yogurt Parfait","Scrambled Eggs","Pancakes","French Toast"][index]}
+                        </p>
                       </div>
-                    ))}
+                      <div className="p-3 border border-blue-200 rounded-md bg-gradient-to-br from-blue-50 to-cyan-50">
+                        <p className="text-xs text-blue-600 mb-1">Lunch</p>
+                        <p className="text-sm font-medium text-blue-900">
+                          {["Greek Salad","Chicken Wrap","Quinoa Bowl","Sushi Bowl","Caesar Salad","Grilled Cheese","Pasta Salad"][index]}
+                        </p>
+                      </div>
+                      <div className="p-3 border border-green-200 rounded-md bg-gradient-to-br from-green-50 to-lime-50">
+                        <p className="text-xs text-green-600 mb-1">Dinner</p>
+                        <p className="text-sm font-medium text-green-900">
+                          {["Salmon & Veggies","Stir-fried Tofu","Chicken Curry","Beef Tacos","Shrimp Pasta","Veggie Lasagna","BBQ Chicken"][index]}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-          </Tabs>
-        </div>
-      </main>
+      </Tabs>
     </div>
-  );
+  </main>
+</div>
+);
 }
+

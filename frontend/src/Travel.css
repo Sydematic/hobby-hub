@@ -1,113 +1,248 @@
-/* Page Container */
+/* ==============================
+   Page
+============================== */
 .travel-page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   background: linear-gradient(135deg, #3a0ca3, #00f2fe);
-  font-family: 'Arial', sans-serif;
+  font-family: 'Alumni Sans', sans-serif;
   color: #fff;
-  padding: 0;
-  margin: 0;
 }
 
-/* Header */
+/* ==============================
+   Header
+============================== */
 .travel-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 40px;
   background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
 }
 
+.travel-header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
 .logo-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   text-decoration: none;
 }
 
 .logo {
   font-size: 2rem;
   font-weight: bold;
-  background: linear-gradient(90deg, #ff6a00, #ee0979); /* Match Dashboard gradient */
+  background: linear-gradient(90deg, #3a0ca3, #00f2fe);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* Navigation */
 .travel-nav {
   display: flex;
-  gap: 25px;
+  gap: 1.5rem; /* fixes spacing */
+  align-items: center;
 }
 
 .nav-link {
   color: #fff;
   text-decoration: none;
   font-weight: 600;
-  padding: 5px 10px;
-  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
   transition: background 0.3s ease, color 0.3s ease;
 }
 
-.nav-link:hover {
-  background: rgba(255, 255, 255, 0.2);
-  color: #ffd700;
-}
-
+.nav-link:hover,
 .nav-link.active {
-  background: rgba(255, 255, 255, 0.3);
-  color: #ffd700;
+  background: rgba(255, 255, 255, 0.2);
+  color: #a0e9fd;
 }
 
-/* Main Content */
-.travel-content {
+/* Dashboard Button */
+.travel-dashboard-btn {
+  background: linear-gradient(90deg, #3a0ca3, #00f2fe, #0abde3);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.travel-dashboard-btn:hover {
+  background: linear-gradient(90deg, #1e3c72, #2a5298, #0abde3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* ==============================
+   Hero Section
+============================== */
+.travel-hero-section {
+  position: relative;
+  padding: 3rem 2rem;
   display: flex;
   justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 30px;
-  padding: 50px 20px;
 }
 
-/* Cards */
-.travel-card {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 30px;
-  width: 300px;
+.travel-hero-background {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #3a0ca3, #00f2fe, #0abde3);
+  filter: blur(50px);
+  border-radius: 2rem;
+  z-index: 0;
+}
+
+.travel-hero-container {
+  position: relative;
+  z-index: 1;
   text-align: center;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  padding: 2rem;
+  border-radius: 2rem;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+}
+/* ==============================
+   Travel Hero Section Overrides - Dark Text
+============================== */
+.travel-hero-title {
+  font-size: 4rem !important;
+  font-weight: 700 !important;
+  color: #0f172a !important; /* Dark navy blue */
+  background: none !important; /* remove gradient if any */
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: unset !important;
+  margin-bottom: 1rem !important;
+}
+
+.travel-hero-title-dark {
+  color: #0f172a !important; /* Dark navy for 'Adventures' */
+}
+
+.travel-hero-subtitle {
+  font-size: 1.25rem !important;
+  color: #1e3c72 !important; /* Keep subtitle dark blue */
+  line-height: 1.7 !important;
+}
+
+
+/* ==============================
+   Cards
+============================== */
+.travel-page-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.travel-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+.travel-card {
+  width: 300px; /* keep original width */
+  min-height: 200px !important; /* make card taller */
+  padding: 3rem 2rem !important; /* adjust padding for spacing */
+  border-radius: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.travel-card h2 {
+  font-size: 1.5rem; /* keep title size */
+}
+
+.travel-card p {
+  font-size: 1rem; /* keep text size */
+  line-height: 1.5;
 }
 
 .travel-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.3);
 }
 
-.travel-card h2 {
-  margin-bottom: 15px;
-  font-size: 1.5rem;
+.travel-card-button {
+  background: linear-gradient(90deg, #3a0ca3, #00f2fe, #0abde3);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.travel-card p {
-  font-size: 1rem;
-  line-height: 1.5;
+.travel-card-button:hover {
+  background: linear-gradient(90deg, #1e3c72, #2a5298, #0abde3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
 }
 
-/* Card Buttons */
-.card-button {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 10px 20px;
-  background: linear-gradient(90deg, #1e3c72, #2a5298);
-  color: #fff;
-  font-weight: 600;
-  text-decoration: none;
+.travel-card-footer {
+  display: flex !important;
+  justify-content: center !important; /* centers horizontally */
+  margin-top: 1rem !important;
+}
+
+.travel-card-button {
+  /* keep your existing styles */
+  cursor: pointer;
+}
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed; /* already fixed */
+  top: 0;
+  left: 0;
+  width: 100vw;  /* use viewport width */
+  height: 100vh; /* use viewport height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+
+/* Modal box */
+.modal-box {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+}
+
+/* Modal image */
+.modal-image {
+  width: 100%;
   border-radius: 10px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 15px;
 }
 
-.card-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+/* Close button */
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  border: none;
+  background: transparent;
+  font-size: 20px;
+  cursor: pointer;
 }

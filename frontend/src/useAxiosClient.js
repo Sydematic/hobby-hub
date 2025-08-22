@@ -1,14 +1,13 @@
-// src/axios-instance.js
+// src/useAxiosClient.js
 import { useMemo } from "react";
 import axios from "axios";
-import supabase from "./client";
+import supabase from "./client"; // use your existing client.js
 
 // Custom hook to get Axios instance with latest Supabase token
 export function useAxiosClient() {
   const axiosInstance = useMemo(() => {
     const instance = axios.create({
-      baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5000", 
-      // ✅ Use env variable if set, fallback to localhost
+      baseURL: "http://localhost:5000", // replace with your backend URL
     });
 
     instance.interceptors.request.use(async (config) => {
@@ -28,4 +27,3 @@ export function useAxiosClient() {
 
   return axiosInstance;
 }
-
