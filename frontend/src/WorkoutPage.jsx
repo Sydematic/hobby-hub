@@ -1,14 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
-  Calendar,
   Clock,
   Dumbbell,
-  Plus,
   Target,
   TrendingUp,
+  Plus,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -16,225 +14,195 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Progress } from "@/components/ui/progress";
-import { Badge } from "@/components/ui/badge";
+} from "./components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs";
+import { Badge } from "./components/ui/badge";
+import "./workout.css";
+import { useAuth } from "./AuthContext";
 
 export default function WorkoutPage() {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
+  // Dummy workout routines
+  const workouts = [
+    {
+      title: "Full Body Strength",
+      time: "45 minutes",
+      type: "Strength",
+      intensity: "Intermediate",
+      desc: "Compound lifts and bodyweight moves to build overall strength.",
+    },
+    {
+      title: "HIIT Cardio",
+      time: "20 minutes",
+      type: "Cardio",
+      intensity: "Advanced",
+      desc: "High-intensity intervals to boost endurance and burn calories.",
+    },
+    {
+      title: "Yoga Flow",
+      time: "30 minutes",
+      type: "Flexibility",
+      intensity: "Beginner",
+      desc: "Gentle yoga sequence designed for flexibility and relaxation.",
+    },
+  ];
+
+  // Handle protected actions (require login)
+  const handleProtectedClick = (path) => {
+    if (user) {
+      navigate(path);
+    } else {
+      navigate("/login", { state: { from: path } });
+    }
+  };
+
   return (
-    <div className="flex min-h-screen flex-col">
-      {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center">
-          <div className="mr-4 hidden md:flex">
-            <Link href="/" className="mr-6 flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-sm">
-                  HH
-                </span>
-              </div>
-              <span className="font-bold text-xl">HobbyHub</span>
-            </Link>
-            <nav className="flex items-center space-x-6 text-sm font-medium">
-              <Link
-                href="/travel"
-                className="transition-colors hover:text-foreground/80 text-foreground/60"
-              >
-                Travel
-              </Link>
-              <Link
-                href="/workout"
-                className="transition-colors hover:text-foreground/80 text-foreground"
-              >
-                Workout
-              </Link>
-              <Link
-                href="/food"
-                className="transition-colors hover:text-foreground/80 text-foreground/60"
-              >
-                Food
-              </Link>
-            </nav>
-          </div>
-          <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-            <div className="w-full flex-1 md:w-auto md:flex-none">
-              <Button variant="outline" className="w-full md:w-auto" asChild>
-                <Link href="/dashboard">
-                  <ArrowLeft className="mr-2 h-4 w-4" /> Dashboard
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+    <div className="flex min-h-screen flex-col bg-background text-foreground font-sans">
+    {/* Navbar */}
+<header className="navbar">
+  <div className="flex justify-between items-center max-w-7xl mx-auto px-6 py-4">
+    {/* HobbyHub Logo */}
+    <Link to="/" className="flex items-center space-x-2 flex-shrink-0 hobbyhub-logo-button">
+      <div className="hh-icon gradient-text">HH</div>
+      <span className="font-alumniSans text-[23px] font-normal text-white">
+        HobbyHub
+      </span>
+    </Link>
+
+    <nav className="flex items-center text-muted-foreground text-sm font-medium space-x-6">
+      <Link to="/food" className="hover:text-foreground transition-colors">Food</Link>
+      <Link to="/travel" className="hover:text-foreground transition-colors">Travel</Link>
+      <Link to="/workout" className="hover:text-foreground transition-colors">Workout</Link>
+    </nav>
+
+    <div className="flex-shrink-0">
+      <Link
+        to="/dashboard"
+        className="dashboard-button flex items-center space-x-2 px-4 py-2 text-sm rounded-lg transition-colors"
+      >
+        <ArrowLeft className="h-4 w-4" />
+        <span>Dashboard</span>
+      </Link>
+    </div>
+  </div>
+</header>
+
 
       {/* Main Content */}
-      <main className="flex-1 space-y-4 p-4 md:p-8">
-        {/* Page Title + CTA */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Workout</h1>
-            <p className="text-muted-foreground">
-              Track your fitness journey and achieve your goals
-            </p>
-          </div>
-          <Button asChild>
-            <Link href="/workout/new">
-              <Plus className="mr-2 h-4 w-4" /> Log Workout
-            </Link>
-          </Button>
-        </div>
+      <main className="flex-1 w-full p-4 md:p-8 flex justify-center">
+        <div className="workout-page-container w-full max-w-7xl bg-background rounded-2xl shadow-md p-6 md:p-8">
+          <Tabs defaultValue="routines" className="workout-tabs">
+            {/* Hero Section */}
+            <div className="workout-hero-section relative w-full">
+              <div className="workout-hero-background absolute -inset-4 bg-gradient-to-tr from-green-300 via-emerald-200 to-green-400 filter blur-3xl rounded-3xl z-0"></div>
 
-        {/* Tabs */}
-        <Tabs defaultValue="routines" className="space-y-4">
-          <TabsList>
-            <TabsTrigger value="routines">Routines</TabsTrigger>
-            <TabsTrigger value="history">History</TabsTrigger>
-            <TabsTrigger value="progress">Progress</TabsTrigger>
-          </TabsList>
+              <div className="workout-hero-container relative z-10 flex flex-col md:flex-row md:items-center md:justify-center gap-4 w-full max-w-4xl p-6 rounded-2xl border-2 border-transparent bg-transparent shadow-none mx-auto">
+                {/* Hero Text */}
+                <div className="flex-1 text-center md:text-left">
+                  <h1 className="font-[Alumni_Sans] font-bold text-[4rem] md:text-[4.5rem] bg-clip-text text-transparent bg-[linear-gradient(90deg,#22c55e,#4ade80,#16a34a)]">
+                    Workouts
+                  </h1>
+                  <p className="mt-4 text-[#6b7280] font-[Alumni_Sans] text-lg md:text-xl max-w-md mx-auto md:mx-0">
+                    Track, log, and level up your fitness journey
+                  </p>
+                </div>
 
-          {/* Routines Tab */}
-          <TabsContent value="routines" className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {/* Strength */}
-              <Card className="border-0 shadow-lg bg-gradient-to-br from-green-50 to-emerald-50 hover:shadow-xl transition-all duration-300">
-                <CardHeader className="pb-2">
-                  <div className="flex justify-between items-start">
-                    <CardTitle>Full Body Strength</CardTitle>
-                    <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white">
-                      Strength
-                    </Badge>
-                  </div>
-                  <CardDescription className="flex items-center">
-                    <Clock className="mr-1 h-3 w-3" /> 45 minutes • 6 exercises
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Squats</span>
-                      <span className="text-muted-foreground">3 × 12</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>Bench Press</span>
-                      <span className="text-muted-foreground">3 × 10</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>Deadlifts</span>
-                      <span className="text-muted-foreground">3 × 8</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>Pull-ups</span>
-                      <span className="text-muted-foreground">3 × 8</span>
-                    </div>
-                    <div className="text-xs text-muted-foreground">
-                      +2 more exercises
-                    </div>
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <Button size="sm" className="w-full">
-                    Start Workout
-                  </Button>
-                </CardFooter>
-              </Card>
+                {/* Log Workout Button */}
+                <div className="workout-hero-buttons flex flex-col md:flex-row gap-3 mt-4 md:mt-0">
+                  <button
+                    onClick={() => handleProtectedClick("/workout/new")}
+                    className="log-workout-btn hero-btn-primary flex justify-center items-center gap-2"
+                  >
+                    <Plus className="h-4 w-4" />
+                    Log Workout
+                  </button>
+                </div>
 
-              {/* Cardio */}
-              <Card className="border-0 shadow-lg bg-gradient-to-br from-green-50 to-emerald-50 hover:shadow-xl transition-all duration-300">
-                <CardHeader className="pb-2">
-                  <div className="flex justify-between items-start">
-                    <CardTitle>HIIT Cardio</CardTitle>
-                    <Badge className="bg-gradient-to-r from-red-500 to-pink-500 text-white">
-                      Cardio
-                    </Badge>
-                  </div>
-                  <CardDescription className="flex items-center">
-                    <Clock className="mr-1 h-3 w-3" /> 20 minutes • High
-                    intensity
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Jumping Jacks</span>
-                      <span className="text-muted-foreground">30 sec</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>Mountain Climbers</span>
-                      <span className="text-muted-foreground">30 sec</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>Burpees</span>
-                      <span className="text-muted-foreground">30 sec</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>Rest</span>
-                      <span className="text-muted-foreground">15 sec</span>
-                    </div>
-                    <div className="text-xs text-muted-foreground">
-                      4 rounds total
-                    </div>
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <Button size="sm" className="w-full">
-                    Start Workout
-                  </Button>
-                </CardFooter>
-              </Card>
-
-              {/* Yoga */}
-              <Card className="border-0 shadow-lg bg-gradient-to-br from-green-50 to-emerald-50 hover:shadow-xl transition-all duration-300">
-                <CardHeader className="pb-2">
-                  <div className="flex justify-between items-start">
-                    <CardTitle>Yoga Flow</CardTitle>
-                    <Badge
-                      variant="outline"
-                      className="border-blue-300 text-blue-700 bg-blue-50"
-                    >
-                      Flexibility
-                    </Badge>
-                  </div>
-                  <CardDescription className="flex items-center">
-                    <Clock className="mr-1 h-3 w-3" /> 30 minutes • Relaxing
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Sun Salutation</span>
-                      <span className="text-muted-foreground">5 min</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>Warrior Poses</span>
-                      <span className="text-muted-foreground">10 min</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>Balance Poses</span>
-                      <span className="text-muted-foreground">10 min</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span>Relaxation</span>
-                      <span className="text-muted-foreground">5 min</span>
-                    </div>
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <Button size="sm" className="w-full">
-                    Start Workout
-                  </Button>
-                </CardFooter>
-              </Card>
+                {/* Tabs triggers */}
+                <TabsList className="workout-tabs-list flex gap-4 mt-4 md:mt-0">
+                  {["routines", "history", "progress"].map((tab) => (
+                    <TabsTrigger key={tab} value={tab}>
+                      {tab[0].toUpperCase() + tab.slice(1)}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              </div>
             </div>
-          </TabsContent>
 
-          {/* History Tab */}
-          {/* ... keep same content as your original ... */}
+            {/* Routines Tab */}
+            <TabsContent value="routines" className="space-y-8 mt-6">
+              <div className="workout-cards-container flex flex-wrap gap-6">
+                {workouts.map((workout, idx) => (
+                  <Card
+                    key={idx}
+                    className="workout-card flex flex-col justify-between overflow-hidden border-0 shadow-lg bg-gradient-to-br from-green-50 to-emerald-50 hover:shadow-xl hover:scale-105 transition-all duration-300 max-w-xs"
+                  >
+                    <CardHeader className="workout-card-header pb-2">
+                      <CardTitle className="workout-card-title">
+                        {workout.title}
+                      </CardTitle>
+                      <CardDescription className="flex items-center justify-between mt-2">
+                        <div className="flex items-center">
+                          <Clock className="mr-1 h-3 w-3" /> {workout.time}
+                        </div>
+                        <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white">
+                          {workout.type}
+                        </Badge>
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex-grow mt-2">
+                      <p className="text-sm text-gray-500">{workout.desc}</p>
+                      <div className="flex items-center mt-2">
+                        <Dumbbell className="text-sm text-gray-500" />
+                        <span className="text-sm text-gray-500 ml-1">
+                          {workout.intensity}
+                        </span>
+                      </div>
+                    </CardContent>
+                    <CardFooter className="workout-card-footer mt-auto">
+                      <button
+                        onClick={() => handleProtectedClick("/workout/new")}
+                        className="log-workout-btn w-full flex justify-center items-center gap-2"
+                      >
+                        View Log Workout
+                      </button>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+            </TabsContent>
 
-          {/* Progress Tab */}
-          {/* ... keep same content as your original ... */}
-        </Tabs>
+            {/* History Tab */}
+            <TabsContent value="history" className="space-y-4 tab-content-spacing">
+              <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-50 to-cyan-50">
+                <CardHeader>
+                  <CardTitle>Workout History</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-gray-600">
+                    View and analyze your past logged workouts.
+                  </p>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* Progress Tab */}
+            <TabsContent value="progress" className="space-y-4 tab-content-spacing">
+              <Card className="border-0 shadow-lg bg-gradient-to-br from-purple-50 to-pink-50">
+                <CardHeader>
+                  <CardTitle>Your Progress</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-gray-600">
+                    Charts and metrics to track performance improvements.
+                  </p>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </div>
       </main>
     </div>
   );
