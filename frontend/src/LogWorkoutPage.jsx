@@ -12,7 +12,7 @@ import {
 } from "./components/ui/card";
 import { Badge } from "./components/ui/badge";
 import { useAuth } from "./AuthContext";
-import "./workout.css";
+import "./Workout.css";
 
 export default function LogWorkoutPage() {
   const navigate = useNavigate();
