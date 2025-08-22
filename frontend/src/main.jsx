@@ -10,6 +10,7 @@ import AddRecipe from "./addrecipe";
 import SignupPage from './Signup';
 import Login from './Login';
 import AboutUs from './AboutUs';
+import LogWorkoutPage from "./LogWorkoutPage";
 import { AuthProvider } from "./AuthContext";  // <--- import here
 import './style.css';
 
@@ -29,7 +30,7 @@ ReactDOM.createRoot(document.getElementById('app')).render(
 
             {/* AddRecipe can now access auth state via useAuth */}
             <Route path="/addrecipe" element={<AddRecipe />} />
-
+    <Route path="/workout/new" element={<LogWorkoutPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/aboutus" element={<AboutUs />} />

@@ -199,9 +199,7 @@ View Details
 </div>
 </TabsContent>
 
-php-template
-Copy
-Edit
+
         {/* Meal Plan Tab */}
         <TabsContent value="meal-plan" className="space-y-4 tab-content-spacing text-[#6b7280]">
           <Card className="border-0 shadow-lg bg-gradient-to-br from-indigo-50 to-purple-50">
