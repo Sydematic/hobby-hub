@@ -17,7 +17,7 @@ import {
 } from "./components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs";
 import { Badge } from "./components/ui/badge";
-import "./workout.css";
+import "./Workout.css";
 import { useAuth } from "./AuthContext";
 
 export default function WorkoutPage() {
