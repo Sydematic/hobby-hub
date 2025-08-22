@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "./components/ui/card";
 import { useAuth } from "./AuthContext";
-import "./travel.css";
+import "./Travel.css";
 
 export default function TravelPage() {
   const { user } = useAuth();
