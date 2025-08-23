@@ -35,7 +35,7 @@ Hobby Hub is a full-stack web application that allows users to explore, save, an
 ---
 
 ## Technologies
-- **Frontend:** React, Tailwind CSS, Vite, React Router, React Query, Framer Motion
+- **Frontend:** React, Tailwind CSS, Vite, React Router, React Query, Framer Motion, Javascript
 - **Backend:** Node.js, Express, MongoDB, Mongoose, JWT, Axios
 - **Authentication:** Supabase
 - **Deployment:** Netlify (frontend), Render/Railway (backend)
@@ -56,13 +56,17 @@ npm run dev
 
 ## Usage
 
-Start the backend server.
+Start the backend server locally.
 
-Start the frontend development server.
+Start the frontend development server locally.
 
 Open http://localhost:5173 in your browser to interact with the app.
 
 Sign up or log in to access features like saving recipes and tracking workouts.
 
--Syd, Mari, Rafiq
+⚠️ Note: This project is currently running locally only; it is not deployed on Netlify, Render, or any other hosting platform.
+
+** -Syd, Mari, Rafiq **
+
+
 
