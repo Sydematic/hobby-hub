@@ -204,7 +204,7 @@ export default function AddRecipe() {
             {displayRecipes.length === 0 ? (
               <div className="col-span-full text-center py-8">
                 <p className="text-gray-500">
-                  {query.trim() ? "No search results found. Try a different search term." : "No recipes to display."}
+                  {query.trim() ? "No search results found. Try a different search term." : "Type and Search. If you can't find what you are looking for, it may not be available. Try type a letter or other food options :)"}
                 </p>
               </div>
             ) : (
