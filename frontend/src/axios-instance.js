@@ -1,23 +1,25 @@
 // src/axios-instance.js
 import { useMemo } from "react";
 import axios from "axios";
-import supabase from "./client";
+import supabase from "./client"; // your Supabase client
 
-// Custom hook to get Axios instance with latest Supabase token
 export function useAxiosClient() {
   const axiosInstance = useMemo(() => {
     const instance = axios.create({
-      baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5000", 
-      // ✅ Use env variable if set, fallback to localhost
+      baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5000",
     });
 
     instance.interceptors.request.use(async (config) => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
+      try {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
 
-      if (session?.access_token) {
-        config.headers.Authorization = `Bearer ${session.access_token}`;
+        if (session?.access_token) {
+          config.headers.Authorization = `Bearer ${session.access_token}`;
+        }
+      } catch (error) {
+        console.warn("Supabase session unavailable, proceeding without token");
       }
 
       return config;
@@ -28,4 +30,5 @@ export function useAxiosClient() {
 
   return axiosInstance;
 }
+
 
