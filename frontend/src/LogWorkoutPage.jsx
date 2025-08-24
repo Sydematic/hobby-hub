@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useAxiosClient } from "./axios-instance";
 import { Plus } from "lucide-react";
 import {
   Card,
@@ -18,6 +18,7 @@ import "./Workout.css";
 export default function LogWorkoutPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const axios = useAxiosClient(); // <-- use custom Axios client
   const [exercises, setExercises] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
@@ -26,7 +27,7 @@ export default function LogWorkoutPage() {
   const fetchExercises = async (query = "") => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:5000/api/exercises", {
+      const res = await axios.get("/api/exercises", {
         params: {
           search: query,
           limit: 20,
@@ -65,7 +66,10 @@ export default function LogWorkoutPage() {
         <h1 className="text-4xl font-bold mb-6">Log a Workout</h1>
 
         {/* Search Bar */}
-        <form onSubmit={handleSearch} className="mb-6 flex gap-2 w-full max-w-md">
+        <form
+          onSubmit={handleSearch}
+          className="mb-6 flex gap-2 w-full max-w-md"
+        >
           <input
             type="text"
             placeholder="Search exercises..."
@@ -140,4 +144,3 @@ export default function LogWorkoutPage() {
     </div>
   );
 }
-

@@ -9,6 +9,7 @@ export function useAxiosClient() {
       baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5000",
     });
 
+    // Request interceptor to attach Supabase access token if available
     instance.interceptors.request.use(async (config) => {
       try {
         const {
@@ -19,7 +20,10 @@ export function useAxiosClient() {
           config.headers.Authorization = `Bearer ${session.access_token}`;
         }
       } catch (error) {
-        console.warn("Supabase session unavailable, proceeding without token");
+        console.warn(
+          "Supabase session unavailable, proceeding without token",
+          error
+        );
       }
 
       return config;
