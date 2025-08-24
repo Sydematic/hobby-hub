@@ -1,17 +1,31 @@
-import jwt from 'jsonwebtoken';
+// authMiddleware.js
+import supabase from '../supabaseClientBackend.js';
 
-export default function authMiddleware(req, res, next) {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-
-  if (!token) return res.status(401).json({ error: 'Access denied. No token provided.' });
-
+export default async function authMiddleware(req, res, next) {
   try {
-   const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
- req.user = decoded;  // store full decoded token object, e.g. { id: ..., iat: ..., exp: ... }
+    const authHeader = req.headers['authorization'];
+    if (!authHeader) {
+      return res.status(401).json({ error: 'No token provided' });
+    }
+
+    const token = authHeader.split(' ')[1]; // Bearer <token>
+    if (!token) {
+      return res.status(401).json({ error: 'Invalid auth header' });
+    }
+
+    // Verify token via Supabase
+    const { data: { user }, error } = await supabase.auth.getUser(token);
+
+    if (error || !user) {
+      return res.status(401).json({ error: 'Invalid or expired token' });
+    }
+
+    // Attach user info to request
+    req.user = user;
     next();
-  } catch (error) {
-    console.error('JWT verification failed:', error);
-    res.status(401).json({ error: 'Invalid token' });
+
+  } catch (err) {
+    console.error('Supabase auth failed:', err);
+    res.status(401).json({ error: 'Authentication failed' });
   }
 }

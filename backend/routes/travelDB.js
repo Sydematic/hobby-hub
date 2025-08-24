@@ -1,38 +1,61 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import authRoutes from './routes/auth.js';
-import hobbyRoutes from './routes/hobbies.js';
-import travelRoutes from './routes/travelDB.js'; // <-- import your travel router
+// travelDB.js
+import express from "express";
 
-dotenv.config();
+const router = express.Router();
 
-const app = express();
+// Example travel routes
 
-// Allow frontend (Vite) on port 5173
-app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true
-}));
-
-app.use(express.json());
-
-app.get('/', (req, res) => {
-  res.send('Backend server is running!');
+// GET all travel items
+router.get("/", async (req, res) => {
+  try {
+    // Replace this with actual DB logic
+    const travelItems = [
+      { id: 1, destination: "Paris", description: "City of Light" },
+      { id: 2, destination: "Tokyo", description: "Land of the Rising Sun" },
+    ];
+    res.json({ travelItems });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch travel items" });
+  }
 });
 
-// Existing routes
-app.use('/api/auth', authRoutes);
-app.use('/api/hobbies', hobbyRoutes);
-
-// Travel routes
-app.use('/api/travel', travelRoutes); // <-- mount travel routes
-
-// Global error handler
-app.use((err, req, res, next) => {
-  console.error(err.message);
-  res.status(500).json({ error: 'Server error' });
+// GET a single travel item by ID
+router.get("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    // Replace with DB fetch
+    const travelItem = { id, destination: "Example", description: "Sample travel item" };
+    res.json(travelItem);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch travel item" });
+  }
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
+// POST a new travel item
+router.post("/", async (req, res) => {
+  try {
+    const { destination, description } = req.body;
+    // Replace with DB create logic
+    const newItem = { id: Date.now(), destination, description };
+    res.status(201).json(newItem);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to create travel item" });
+  }
+});
+
+// DELETE a travel item
+router.delete("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    // Replace with DB delete logic
+    res.json({ message: `Travel item ${id} deleted` });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to delete travel item" });
+  }
+});
+
+export default router;

@@ -17,11 +17,11 @@ router.get("/", async (req, res) => {
     let exercisesData = Array.isArray(response.data.data) ? response.data.data : response.data;
 
     // Pick 20 random exercises if no search
-    if (!search) {
+    if (!search && Array.isArray(exercisesData)) {
       exercisesData = exercisesData.sort(() => 0.5 - Math.random()).slice(0, 20);
     }
 
-    const formattedExercises = exercisesData.map((ex, idx) => ({
+    const formattedExercises = (exercisesData || []).map((ex, idx) => ({
       id: ex.id || ex.exerciseId || idx.toString(),
       name: ex.name || "Unknown Exercise",
       image: ex.gifUrl || "",
