@@ -22,10 +22,24 @@ const __dirname = path.dirname(__filename);
 
 // -------------------- Middleware --------------------
 
-// Enable CORS
+// Define allowed origins
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://hobbyhub123.netlify.app",
+];
+
+// Enable CORS with dynamic origin checking
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like Postman or server-to-server)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error(`CORS policy: origin ${origin} not allowed`));
+      }
+    },
     credentials: true,
   })
 );
