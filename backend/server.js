@@ -26,7 +26,8 @@ const __dirname = path.dirname(__filename);
 const allowedOrigins = [
   "http://localhost:5173",
   "https://hobbyhub123.netlify.app",
-  "https://hobby-hub-4nsj.onrender.com"
+  "https://hobby-hub-4nsj.onrender.com", // backend
+  "https://hobby-hub-1-prq1.onrender.com" // frontend static site
 ];
 
 // Enable CORS with dynamic origin checking
