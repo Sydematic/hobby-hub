@@ -56,7 +56,7 @@ router.post("/typed", async (req, res) => {
         image: (image || "").trim(),
         instructions: (instructions || "").trim(),
         source: "typed",
-        user_id: user.id
+        userId: user.id
       }])
       .select()
       .single();
@@ -105,7 +105,7 @@ router.post("/saved", async (req, res) => {
         area: (area || "").trim(),
         instructions: (instructions || "").trim(),
         source: (source || "mealdb-search").trim(),
-        user_id: user.id
+        userId: user.id
       }])
       .select()
       .single();
@@ -141,7 +141,7 @@ router.get("/saved", async (req, res) => {
     let query = supabase
       .from('SavedRecipe')
       .select('*')
-      .eq('user_id', user.id)
+      .eq('userId', user.id)
       .order('created_at', { ascending: false });
 
     if (req.query.source) {
@@ -182,7 +182,7 @@ router.delete("/:id", async (req, res) => {
       .from('SavedRecipe')
       .delete()
       .eq('id', parseInt(req.params.id))
-      .eq('user_id', user.id)
+      .eq('userId', user.id)
       .select()
       .single();
 
