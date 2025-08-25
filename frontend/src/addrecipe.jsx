@@ -24,15 +24,20 @@ const getUserHeaders = () => {
     toast.error("Please log in to manage recipes");
     return {};
   }
-  // Make sure we're sending the correct user ID format
-  const userId = user.id || user.user_id || user.userId;
+  
+  // Try different possible user ID fields
+  const userId = user.id || user.user_id || user.userId || user.sub;
+  
+  console.log("🔍 User object:", user);
+  console.log("🔍 User ID being sent:", userId);
+  
   if (!userId) {
     toast.error("Invalid user session");
     return {};
   }
+  
   return { "x-user-id": userId };
 };
-
   // Normalize recipe data for consistent handling
   const normalizeRecipe = (recipe) => ({
     id: recipe.id || recipe.idMeal || crypto.randomUUID(),
