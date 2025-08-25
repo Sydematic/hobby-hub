@@ -3,15 +3,19 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "description": "Hobby-Hub frontend with React, Vite, Tailwind, and Supabase",
+  "author": "Syd",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["react", "vite", "supabase", "tailwind"],
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.10",
     "@radix-ui/react-progress": "^1.1.7",
@@ -37,7 +41,5 @@
     "tailwindcss": "^4.1.11",
     "tailwindcss-cli": "^0.1.2",
     "vite": "^7.1.0"
-  },
-  "main": "tailwind.config.js",
-  "description": ""
+  }
 }
