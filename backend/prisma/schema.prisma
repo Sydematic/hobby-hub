@@ -1,10 +1,10 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
 }
 
 model User {
@@ -12,8 +12,9 @@ model User {
   username     String        @unique
   password     String
   hobbies      Hobby[]
-  recipes      Recipe[] // <-- add this so Recipe relation is valid
+  recipes      Recipe[]
   savedRecipes SavedRecipe[]
+  refreshTokens RefreshToken[]  // 👈 Relation to RefreshToken
 }
 
 model Hobby {
@@ -45,4 +46,11 @@ model SavedRecipe {
   source       String?
   userId       Int
   user         User    @relation(fields: [userId], references: [id])
+}
+
+model RefreshToken {
+  id     Int    @id @default(autoincrement())
+  token  String @unique
+  userId Int
+  user   User   @relation(fields: [userId], references: [id])
 }

@@ -1,132 +1,204 @@
-import express from 'express';
-import { PrismaClient } from '@prisma/client';
-import authMiddleware from '../middleware/authMiddleware.js';
+console.log("🔥 RECIPE ROUTES LOADING...");
+
+import express from "express";
+import supabase from "../supabaseClientBackend.js";
+
+console.log("🔥 RECIPE ROUTES IMPORTS SUCCESSFUL");
 
 const router = express.Router();
-const prisma = new PrismaClient();
 
-// Helper function to get or create dummy user
-async function getDummyUser() {
-  try {
-    // Try to find existing dummy user
-    let user = await prisma.user.findFirst({
-      where: { username: 'dummy_user' }
-    });
-    
-    // If no dummy user exists, create one
-    if (!user) {
-      user = await prisma.user.create({
-        data: {
-          username: 'dummy_user',
-          password: 'dummy_password' // This won't be used for login
-        }
-      });
-    }
-    
-    return user;
-  } catch (error) {
-    console.error('Error with dummy user:', error);
+console.log("🔥 RECIPE ROUTES CREATED");
+
+// Get current user from headers
+async function getCurrentUser(req) {
+  const userId = req.headers["x-user-id"];
+  console.log("🔍 Getting user from headers, userId:", userId);
+  if (!userId) {
+    console.log("❌ No userId in headers");
     return null;
   }
+  console.log("✅ User found:", userId);
+  return { id: userId };
 }
 
-// Create typed recipe
-router.post('/', async (req, res) => {
+// Test route to verify routes are working
+router.get("/test", (req, res) => {
+  console.log("🔥 TEST ROUTE HIT!");
+  res.json({ message: "Recipe routes are working!" });
+});
+
+// POST /api/recipes/typed - Save custom recipe
+router.post("/typed", async (req, res) => {
+  console.log("🔥 POST /typed route hit!");
+  console.log("📝 Request body:", req.body);
+  console.log("📝 Request headers:", req.headers["x-user-id"]);
+  
   try {
-    const { title } = req.body;
-    const dummyUser = await getDummyUser();
+    const user = await getCurrentUser(req);
+    if (!user) {
+      console.log("❌ No user found, returning 401");
+      return res.status(401).json({ error: "Authentication required" });
+    }
 
-    const recipe = await prisma.recipe.create({
-      data: {
-        title,
-        userId: dummyUser.id, // Use dummy user ID
-      },
-    });
+    const { title, description, image, instructions } = req.body;
+    if (!title?.trim()) {
+      console.log("❌ No title provided");
+      return res.status(400).json({ error: "Recipe title is required" });
+    }
 
-    res.status(201).json(recipe);
+    console.log("🔄 Attempting to save to Supabase...");
+    
+    const { data, error } = await supabase
+      .from('SavedRecipe')
+      .insert([{
+        title: title.trim(),
+        description: (description || "").trim(),
+        image: (image || "").trim(),
+        instructions: (instructions || "").trim(),
+        source: "typed",
+        user_id: user.id
+      }])
+      .select()
+      .single();
+
+    if (error) {
+      console.error("❌ Supabase error:", error);
+      throw error;
+    }
+    
+    console.log("✅ Recipe saved successfully:", data);
+    res.status(201).json(data);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to create recipe' });
+    console.error("❌ Typed recipe error:", error);
+    res.status(500).json({ error: "Failed to save recipe", details: error.message });
   }
 });
 
-// Save API/MealDB recipe - FIXED: Connect to dummy user
-router.post('/save', async (req, res) => {
+// POST /api/recipes/saved - Save API recipe
+router.post("/saved", async (req, res) => {
+  console.log("🔥 POST /saved route hit!");
+  console.log("📝 Request body:", req.body);
+  console.log("📝 Request headers:", req.headers["x-user-id"]);
+  
   try {
-    const { title, description, image, category, area, instructions } = req.body;
-    const dummyUser = await getDummyUser();
+    const user = await getCurrentUser(req);
+    if (!user) {
+      console.log("❌ No user found, returning 401");
+      return res.status(401).json({ error: "Authentication required" });
+    }
 
-    const savedRecipe = await prisma.savedRecipe.create({
-      data: {
-        title,
-        description: description || "",
-        image: image || "",
-        category: category || "",
-        area: area || "",
-        instructions: instructions || "",
-        userId: dummyUser.id, // Use dummy user ID
-      },
-    });
+    const { title, description, image, category, area, instructions, source } = req.body;
+    if (!title?.trim()) {
+      console.log("❌ No title provided");
+      return res.status(400).json({ error: "Recipe title is required" });
+    }
 
-    res.status(201).json(savedRecipe);
+    console.log("🔄 Attempting to save to Supabase...");
+
+    const { data, error } = await supabase
+      .from('SavedRecipe')
+      .insert([{
+        title: title.trim(),
+        description: (description || "").trim(),
+        image: (image || "").trim(),
+        category: (category || "").trim(),
+        area: (area || "").trim(),
+        instructions: (instructions || "").trim(),
+        source: (source || "mealdb-search").trim(),
+        user_id: user.id
+      }])
+      .select()
+      .single();
+
+    if (error) {
+      console.error("❌ Supabase error:", error);
+      throw error;
+    }
+    
+    console.log("✅ Recipe saved successfully:", data);
+    res.status(201).json(data);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to save API recipe' });
+    console.error("❌ Save recipe error:", error);
+    res.status(500).json({ error: "Failed to save recipe", details: error.message });
   }
 });
 
-// Get typed/custom recipes
-router.get('/saved', async (req, res) => {
+// GET /api/recipes/saved - Get user's saved recipes
+router.get("/saved", async (req, res) => {
+  console.log("🔥 GET /saved route hit!");
+  console.log("📝 Query params:", req.query);
+  console.log("📝 Request headers:", req.headers["x-user-id"]);
+  
   try {
-    const recipes = await prisma.recipe.findMany({
-      orderBy: { id: 'desc' },
-    });
-    res.json({ recipes });
+    const user = await getCurrentUser(req);
+    if (!user) {
+      console.log("❌ No user found, returning 401");
+      return res.status(401).json({ error: "Authentication required" });
+    }
+
+    console.log("🔄 Fetching from Supabase...");
+
+    let query = supabase
+      .from('SavedRecipe')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false });
+
+    if (req.query.source) {
+      console.log("📝 Filtering by source:", req.query.source);
+      query = query.eq('source', req.query.source);
+    }
+
+    const { data, error } = await query;
+    if (error) {
+      console.error("❌ Supabase error:", error);
+      throw error;
+    }
+
+    console.log("✅ Recipes fetched successfully:", data?.length || 0, "recipes");
+    res.json({ recipes: data || [] });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to fetch saved recipes' });
+    console.error("❌ Get recipes error:", error);
+    res.status(500).json({ error: "Failed to fetch recipes", details: error.message });
   }
 });
 
-// Get saved API/MealDB recipes
-router.get('/saved/api', async (req, res) => {
+// DELETE /api/recipes/:id - Delete recipe
+router.delete("/:id", async (req, res) => {
+  console.log("🔥 DELETE /:id route hit!");
+  console.log("📝 Recipe ID:", req.params.id);
+  console.log("📝 Request headers:", req.headers["x-user-id"]);
+  
   try {
-    const recipes = await prisma.savedRecipe.findMany({
-      orderBy: { id: 'desc' },
-    });
-    res.json({ recipes });
+    const user = await getCurrentUser(req);
+    if (!user) {
+      console.log("❌ No user found, returning 401");
+      return res.status(401).json({ error: "Authentication required" });
+    }
+
+    console.log("🔄 Deleting from Supabase...");
+
+    const { data, error } = await supabase
+      .from('SavedRecipe')
+      .delete()
+      .eq('id', parseInt(req.params.id))
+      .eq('user_id', user.id)
+      .select()
+      .single();
+
+    if (error) {
+      console.error("❌ Supabase error:", error);
+      throw error;
+    }
+    
+    console.log("✅ Recipe deleted successfully");
+    res.json({ message: "Recipe deleted successfully" });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to fetch saved API recipes' });
+    console.error("❌ Delete recipe error:", error);
+    res.status(500).json({ error: "Failed to delete recipe", details: error.message });
   }
 });
 
-// Delete typed/custom recipe
-router.delete('/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    await prisma.recipe.delete({
-      where: { id: parseInt(id) },
-    });
-    res.json({ message: 'Recipe deleted' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to delete recipe' });
-  }
-});
-
-// Delete saved API recipe
-router.delete('/saved/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    await prisma.savedRecipe.delete({
-      where: { id: parseInt(id) },
-    });
-    res.json({ message: 'Saved API recipe deleted' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to delete saved API recipe' });
-  }
-});
+console.log("🔥 RECIPE ROUTES EXPORTED");
 
 export default router;
