@@ -79,5 +79,3 @@ app.listen(PORT, () => {
   console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
 
-app.use("/api/recipes", recipeRoutes); // ✅ Main recipe routes
-console.log("🔥 RECIPE ROUTES MOUNTED ON /api/recipes");
