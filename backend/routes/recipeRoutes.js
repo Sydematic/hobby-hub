@@ -1,6 +1,6 @@
 // backend/routes/recipeRouter.js
 import express from "express";
-import prisma from "../prismaClient.js"; // <- make sure this exports new PrismaClient()
+import prisma from "../client.js"; // <- make sure this exports new PrismaClient()
 
 const router = express.Router();
 
