@@ -27,9 +27,7 @@ const getUserHeaders = () => {
   
   // Try different possible user ID fields
   const userId = user.id || user.user_id || user.userId || user.sub;
-  
-  console.log("🔍 User object:", user);
-  console.log("🔍 User ID being sent:", userId);
+  console.log("🔍 Frontend sending user ID:", userId);
   
   if (!userId) {
     toast.error("Invalid user session");
