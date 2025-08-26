@@ -7,9 +7,15 @@ const router = express.Router();
 // helper to get user from headers
 async function getCurrentUser(req) {
   const userId = req.headers["x-user-id"];
-  if (!userId) return null;
+    console.log("🔍 Received user ID from headers:", userId);
+ if (!userId) {
+    console.log("❌ No user ID found in headers");
+    return null;
+  }
+console.log("✅ User authenticated with ID:", userId);
   return { id: userId }; // UUID from supabase auth.users
 }
+
 
 // TEST
 router.get("/test", (req, res) => {
@@ -32,7 +38,7 @@ router.post("/typed", async (req, res) => {
         image: image?.trim() || null,
         instructions: instructions?.trim() || null,
         source: "typed",
-        userid: user.id, // matches schema
+        userId: user.id, // matches schema
       },
     });
 
@@ -61,7 +67,7 @@ router.post("/saved", async (req, res) => {
         area: area?.trim() || null,
         instructions: instructions?.trim() || null,
         source: source?.trim() || "mealdb-search",
-        userid: user.id,
+        userId: user.id,
       },
     });
 
@@ -80,7 +86,7 @@ router.get("/saved", async (req, res) => {
 
     const recipes = await prisma.savedRecipe.findMany({
       where: {
-        userid: user.id,
+        userId: user.id,
         ...(req.query.source ? { source: req.query.source } : {}),
       },
       orderBy: { id: "desc" }, // or created_at if you add it
@@ -102,7 +108,7 @@ router.delete("/:id", async (req, res) => {
     await prisma.savedRecipe.deleteMany({
       where: {
         id: Number(req.params.id), // your SavedRecipe.id is Int
-        userid: user.id,
+        userId: user.id,
       },
     });
 
