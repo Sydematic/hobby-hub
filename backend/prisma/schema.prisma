@@ -5,38 +5,37 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  schemas  = ["public", "auth"]
 }
 
-model User {
-  id           Int           @id @default(autoincrement())
-  username     String        @unique
-  password     String
-  hobbies      Hobby[]
-  recipes      Recipe[]
+// --- Supabase Auth Users (read-only) ---
+model AuthUser {
+  id    String   @id @db.Uuid
+  email String?
+
   savedRecipes SavedRecipe[]
-  refreshTokens RefreshToken[]  // 👈 Relation to RefreshToken
+  recipes      Recipe[]
+
+  @@map("users")    // maps to auth.users
+  @@schema("auth")  // make sure Prisma knows it's in auth
 }
 
-model Hobby {
-  id          Int     @id @default(autoincrement())
-  name        String
-  description String?
-  userId      Int
-  user        User    @relation(fields: [userId], references: [id])
-}
+// --- Your tables in public schema ---
 
 model Recipe {
-  id           Int      @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   title        String
   image        String?
   instructions String?
-  createdAt    DateTime @default(now())
-  userId       Int?
-  user         User?    @relation(fields: [userId], references: [id])
+  createdAt    DateTime  @default(now())
+  userId       String?
+  user         AuthUser? @relation(fields: [userId], references: [id])
+
+  @@schema("public")
 }
 
 model SavedRecipe {
-  id           Int     @id @default(autoincrement())
+  id           Int      @id @default(autoincrement())
   title        String
   description  String?
   image        String?
@@ -44,13 +43,8 @@ model SavedRecipe {
   area         String?
   instructions String?
   source       String?
-  userId       Int
-  user         User    @relation(fields: [userId], references: [id])
-}
+  userid       String
+  user         AuthUser @relation(fields: [userid], references: [id])
 
-model RefreshToken {
-  id     Int    @id @default(autoincrement())
-  token  String @unique
-  userId Int
-  user   User   @relation(fields: [userId], references: [id])
+  @@schema("public")
 }
