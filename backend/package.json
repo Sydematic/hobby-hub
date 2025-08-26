@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "main": "server.js",
   "type": "module",
-  "scripts": {
+ "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
+    "build": "npx prisma generate && npx prisma db push",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

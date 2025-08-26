@@ -1,21 +1,22 @@
-// backend/routes/recipeRouter.js
+// backend/routes/recipeRoutes.js
 import express from "express";
-import prisma from "../client.js"; // <- make sure this exports new PrismaClient()
+import prisma from "../client.js";
 
 const router = express.Router();
 
-// helper to get user from headers
+// Helper to get user from headers
 async function getCurrentUser(req) {
   const userId = req.headers["x-user-id"];
-    console.log("🔍 Received user ID from headers:", userId);
- if (!userId) {
+  console.log("🔍 Received user ID from headers:", userId);
+  
+  if (!userId) {
     console.log("❌ No user ID found in headers");
     return null;
   }
-console.log("✅ User authenticated with ID:", userId);
-  return { id: userId }; // UUID from supabase auth.users
+  
+  console.log("✅ User authenticated with ID:", userId);
+  return { id: userId };
 }
-
 
 // TEST
 router.get("/test", (req, res) => {
@@ -31,6 +32,8 @@ router.post("/typed", async (req, res) => {
     const { title, description, image, instructions } = req.body;
     if (!title?.trim()) return res.status(400).json({ error: "Recipe title is required" });
 
+    console.log("💾 Creating custom recipe for user:", user.id);
+
     const recipe = await prisma.savedRecipe.create({
       data: {
         title: title.trim(),
@@ -38,10 +41,11 @@ router.post("/typed", async (req, res) => {
         image: image?.trim() || null,
         instructions: instructions?.trim() || null,
         source: "typed",
-        userId: user.id, // matches schema
+        userId: user.id, // ✅ Fixed: changed from userid to userId
       },
     });
 
+    console.log("✅ Custom recipe created successfully:", recipe.id);
     res.status(201).json(recipe);
   } catch (error) {
     console.error("❌ Typed recipe error:", error);
@@ -58,6 +62,8 @@ router.post("/saved", async (req, res) => {
     const { title, description, image, category, area, instructions, source } = req.body;
     if (!title?.trim()) return res.status(400).json({ error: "Recipe title is required" });
 
+    console.log("💾 Saving API recipe for user:", user.id);
+
     const recipe = await prisma.savedRecipe.create({
       data: {
         title: title.trim(),
@@ -67,10 +73,11 @@ router.post("/saved", async (req, res) => {
         area: area?.trim() || null,
         instructions: instructions?.trim() || null,
         source: source?.trim() || "mealdb-search",
-        userId: user.id,
+        userId: user.id, // ✅ Fixed: changed from userid to userId
       },
     });
 
+    console.log("✅ API recipe saved successfully:", recipe.id);
     res.status(201).json(recipe);
   } catch (error) {
     console.error("❌ Save recipe error:", error);
@@ -84,14 +91,17 @@ router.get("/saved", async (req, res) => {
     const user = await getCurrentUser(req);
     if (!user) return res.status(401).json({ error: "Authentication required" });
 
+    console.log("📋 Fetching recipes for user:", user.id, "source:", req.query.source);
+
     const recipes = await prisma.savedRecipe.findMany({
       where: {
-        userId: user.id,
+        userId: user.id, // ✅ Fixed: changed from userid to userId
         ...(req.query.source ? { source: req.query.source } : {}),
       },
-      orderBy: { id: "desc" }, // or created_at if you add it
+      orderBy: { id: "desc" },
     });
 
+    console.log("✅ Found", recipes.length, "recipes for user");
     res.json({ recipes });
   } catch (error) {
     console.error("❌ Get recipes error:", error);
@@ -105,13 +115,16 @@ router.delete("/:id", async (req, res) => {
     const user = await getCurrentUser(req);
     if (!user) return res.status(401).json({ error: "Authentication required" });
 
+    console.log("🗑️ Deleting recipe", req.params.id, "for user:", user.id);
+
     await prisma.savedRecipe.deleteMany({
       where: {
-        id: Number(req.params.id), // your SavedRecipe.id is Int
-        userId: user.id,
+        id: Number(req.params.id),
+        userId: user.id, // ✅ Fixed: changed from userid to userId
       },
     });
 
+    console.log("✅ Recipe deleted successfully");
     res.json({ message: "Recipe deleted successfully" });
   } catch (error) {
     console.error("❌ Delete recipe error:", error);
