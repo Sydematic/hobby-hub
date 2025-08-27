@@ -30,17 +30,40 @@ export default function Login() {
         return;
       }
 
-      if (!data.user) {
+      if (!data.user || !data.session) {
         setMessage("Login failed. Please try again.");
         return;
       }
 
-      const currentUser = { id: data.user.id, email: data.user.email };
+      const currentUser = {
+        id: data.user.id,
+        email: data.user.email,
+        access_token: data.session.access_token,
+        refresh_token: data.session.refresh_token,
+      };
+
+      // Save user in context & localStorage
       setUser(currentUser);
       localStorage.setItem("user", JSON.stringify(currentUser));
 
+      // ---------------- NEW: Register/Upsert user in Neon backend ----------------
+      await fetch("http://localhost:5000/api/auth/session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // optional: pass token if you later want backend to verify
+          "Authorization": `Bearer ${currentUser.access_token}`,
+        },
+        body: JSON.stringify({
+          id: currentUser.id,
+          email: currentUser.email,
+        }),
+      });
+      // ------------------------------------------------------------------------
+
       // Redirect to the original page they tried to visit
       navigate(from, { replace: true });
+
     } catch (err) {
       setMessage("An unexpected error occurred. Please try again.");
       console.error(err);
@@ -52,7 +75,9 @@ export default function Login() {
       <header className="signup-header">
         <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
           <div className="hh-icon gradient-text">HH</div>
-          <span className="font-alumniSans text-[23px] font-normal gradient-text">HobbyHub</span>
+          <span className="font-alumniSans text-[23px] font-normal gradient-text">
+            HobbyHub
+          </span>
         </Link>
       </header>
 
@@ -85,3 +110,4 @@ export default function Login() {
     </div>
   );
 }
+

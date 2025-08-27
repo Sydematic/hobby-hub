@@ -1,27 +1,35 @@
-// src/axios-instance.js
 import { useMemo } from "react";
 import axios from "axios";
 import supabase from "./client"; // your Supabase client
 
 export function useAxiosClient() {
-  const axiosInstance = useMemo(() => {
-    const instance = axios.create({
-      baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5000",
-    });
+  return useMemo(() => {
+    const baseURL =
+      import.meta.env.VITE_API_BASE_URL ||
+      (import.meta.env.DEV
+        ? "http://localhost:5000"
+        : "https://hobby-hub-4nsj.onrender.com");
 
-    // Request interceptor to attach Supabase access token if available
+    const instance = axios.create({ baseURL });
+
+    // Interceptor to attach a valid Supabase access token
     instance.interceptors.request.use(async (config) => {
       try {
-        const {
-          data: { session },
-        } = await supabase.auth.getSession();
+        let { data: { session } } = await supabase.auth.getSession();
+
+        // If no session or token expired, refresh it
+        if (!session || !session.access_token) {
+          const { data, error } = await supabase.auth.refreshSession();
+          if (error) throw error;
+          session = data.session;
+        }
 
         if (session?.access_token) {
           config.headers.Authorization = `Bearer ${session.access_token}`;
         }
       } catch (error) {
         console.warn(
-          "Supabase session unavailable, proceeding without token",
+          "Supabase token unavailable or refresh failed, proceeding without token",
           error
         );
       }
@@ -31,8 +39,4 @@ export function useAxiosClient() {
 
     return instance;
   }, []);
-
-  return axiosInstance;
 }
-
-

@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, X } from "lucide-react";
 import { useAxiosClient } from "./axios-instance";
 import "./addrecipe.css";
+import { supabase } from "./supabaseClient";
 
 export default function AddRecipe() {
   const queryClient = useQueryClient();
@@ -17,26 +18,26 @@ export default function AddRecipe() {
   const [activeTab, setActiveTab] = useState("typed");
   const axios = useAxiosClient();
 
-// Headers with current user ID
-const getUserHeaders = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  if (!user) {
-    toast.error("Please log in to manage recipes");
-    return {};
-  }
-  
-  // Try different possible user ID fields
-  const userId = user.id || user.user_id || user.userId || user.sub;
-  console.log("🔍 Frontend sending user ID:", userId);
-  
-  if (!userId) {
-    toast.error("Invalid user session");
-    return {};
-  }
-  
-  return { "x-user-id": userId };
-};
-  // Normalize recipe data for consistent handling
+  // --- FIXED: Always get valid headers (Supabase v2) ---
+  const getUserHeaders = async () => {
+    try {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) throw error;
+
+      const access_token = data?.session?.access_token;
+      if (!access_token) {
+        toast.error("You must be logged in to perform this action.");
+        return null;
+      }
+
+      return { Authorization: `Bearer ${access_token}` };
+    } catch (err) {
+      console.error("Auth error:", err.message || err);
+      toast.error("Authentication failed.");
+      return null;
+    }
+  };
+
   const normalizeRecipe = (recipe) => ({
     id: recipe.id || recipe.idMeal || crypto.randomUUID(),
     title: recipe.title || recipe.strMeal || "Untitled",
@@ -48,136 +49,121 @@ const getUserHeaders = () => {
     source: recipe.source || "typed",
   });
 
-  // Mutation: Create new custom recipe
-  const { mutate: createNewRecipe, isLoading: isCreating } = useMutation({
-    mutationKey: ["createCustomRecipe"],
-    mutationFn: async (newRecipe) => {
-      const headers = getUserHeaders();
-      if (!headers["x-user-id"]) throw new Error("Authentication required");
-      
-      const response = await axios.post("/api/recipes/typed", newRecipe, { headers });
-      return response.data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["typedRecipes"] });
-      queryClient.invalidateQueries({ queryKey: ["allRecipes"] });
-      toast.success("✅ Custom recipe added successfully!");
-      reset();
-      toggleNewRecipeModal();
-    },
-    onError: (error) => {
-      console.error("Create recipe error:", error);
-      const message = error.response?.data?.error || "Failed to add custom recipe";
-      toast.error(`❌ ${message}`);
-    },
-  });
+  // --- Mutations ---
+  // Custom recipe creation
+const { mutate: createNewRecipe, isLoading: isCreating } = useMutation({
+  mutationFn: async (newRecipe) => {
+    const headers = await getUserHeaders();
+    if (!headers) throw new Error("Authentication required");
+    const response = await axios.post("/api/recipes/typed", newRecipe, { headers });
+    return response.data;
+  },
+  onSuccess: () => {
+    queryClient.invalidateQueries(["typedRecipes"]);
+    queryClient.invalidateQueries(["allRecipes"]);
+    toast.success("✅ Custom recipe added successfully!");
+    reset();
+    toggleNewRecipeModal();
+  },
+  onError: (err) => {
+    const msg = err.response?.data?.error || err.message || "Failed to add custom recipe";
+    toast.error(`❌ ${msg}`);
+  },
+});
 
-  // Mutation: Save MealDB API recipe
-  const { mutate: saveMealDBRecipe, isLoading: isSaving } = useMutation({
-    mutationKey: ["saveMealDBRecipe"],
-    mutationFn: async (meal) => {
-      const headers = getUserHeaders();
-      if (!headers["x-user-id"]) throw new Error("Authentication required");
-      
-      const normalized = normalizeRecipe(meal);
-      const response = await axios.post("/api/recipes/saved", normalized, { headers });
-      return response.data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["savedAPIRecipes"] });
-      queryClient.invalidateQueries({ queryKey: ["allRecipes"] });
-      toast.success("✅ Recipe saved to your collection!");
-    },
-    onError: (error) => {
-      console.error("Save recipe error:", error);
-      const message = error.response?.data?.error || "Failed to save recipe";
-      toast.error(`❌ ${message}`);
-    },
-  });
+// Saving from MealDB
+const { mutate: saveMealDBRecipe, isLoading: isSaving } = useMutation({
+  mutationKey: ["saveMealDBRecipe"],
+  mutationFn: async (meal) => {
+    const headers = await getUserHeaders();
+    if (!headers) throw new Error("Authentication required");
+    const normalized = normalizeRecipe(meal);
+    const response = await axios.post("/api/recipes/saved", normalized, { headers });
+    return response.data;
+  },
+  onSuccess: () => {
+    queryClient.invalidateQueries(["savedAPIRecipes"]);
+    queryClient.invalidateQueries(["allRecipes"]);
+    toast.success("✅ Recipe saved to your collection!");
+  },
+  onError: (error) => {
+    const message = error.response?.data?.error || "Failed to save recipe";
+    toast.error(`❌ ${message}`);
+  },
+});
 
-  // Mutation: Remove custom recipe
   const { mutate: removeCustomRecipe } = useMutation({
     mutationKey: ["removeCustomRecipe"],
     mutationFn: async (id) => {
-      const headers = getUserHeaders();
-      if (!headers["x-user-id"]) throw new Error("Authentication required");
-      
+      const headers = await getUserHeaders();
+      if (!headers) throw new Error("Authentication required");
       const response = await axios.delete(`/api/recipes/${id}`, { headers });
       return response.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["typedRecipes"] });
-      queryClient.invalidateQueries({ queryKey: ["allRecipes"] });
+      queryClient.invalidateQueries(["typedRecipes"]);
+      queryClient.invalidateQueries(["allRecipes"]);
       toast.info("🗑️ Custom recipe removed!");
     },
     onError: (error) => {
-      console.error("Remove recipe error:", error);
       const message = error.response?.data?.error || "Failed to remove recipe";
       toast.error(`❌ ${message}`);
     },
   });
 
-  // Mutation: Remove saved API recipe
   const { mutate: removeSavedRecipe } = useMutation({
     mutationKey: ["removeSavedRecipe"],
     mutationFn: async (id) => {
-      const headers = getUserHeaders();
-      if (!headers["x-user-id"]) throw new Error("Authentication required");
-      
+      const headers = await getUserHeaders();
+      if (!headers) throw new Error("Authentication required");
       const response = await axios.delete(`/api/recipes/${id}`, { headers });
       return response.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["savedAPIRecipes"] });
-      queryClient.invalidateQueries({ queryKey: ["allRecipes"] });
+      queryClient.invalidateQueries(["savedAPIRecipes"]);
+      queryClient.invalidateQueries(["allRecipes"]);
       toast.info("🗑️ Saved recipe removed!");
     },
     onError: (error) => {
-      console.error("Remove saved recipe error:", error);
       const message = error.response?.data?.error || "Failed to remove recipe";
       toast.error(`❌ ${message}`);
     },
   });
 
-  // Query: Fetch custom typed recipes
-  const { data: typedRecipesData = [], isLoading: isLoadingTyped, isError: isTypedError } = useQuery({
-    queryKey: ["typedRecipes"],
-    queryFn: async () => {
-      const headers = getUserHeaders();
-      if (!headers["x-user-id"]) return [];
-      
-      const { data } = await axios.get("/api/recipes/saved?source=typed", { headers });
-      return data.recipes ?? [];
-    },
-    enabled: !!getUserHeaders()["x-user-id"],
-  });
+  // --- Queries ---
+ const { data: typedRecipesData = [], isLoading: isLoadingTyped, isError: isTypedError } = useQuery({
+  queryKey: ["typedRecipes"],
+  queryFn: async () => {
+    const headers = await getUserHeaders();
+    if (!headers) return []; // <--- prevents crash
+    const { data } = await axios.get("/api/recipes/saved?source=typed", { headers });
+    return data.recipes ?? [];
+  },
+});
 
-  // Query: Fetch saved API recipes
-  const { data: savedRecipesData = [], isLoading: isLoadingSaved } = useQuery({
-    queryKey: ["savedAPIRecipes"],
-    queryFn: async () => {
-      const headers = getUserHeaders();
-      if (!headers["x-user-id"]) return [];
-      
-      const { data } = await axios.get("/api/recipes/saved?source=mealdb-search", { headers });
-      return data.recipes ?? [];
-    },
-    enabled: !!getUserHeaders()["x-user-id"],
-  });
+ const { data: savedRecipesData = [], isLoading: isLoadingSaved } = useQuery({
+  queryKey: ["savedAPIRecipes"],
+  queryFn: async () => {
+    const headers = await getUserHeaders();
+    if (!headers) return [];
+    const { data } = await axios.get("/api/recipes/saved?source=mealdb-search", { headers });
+    return data.recipes ?? [];
+  },
+});
 
-  // Query: Search external recipes
   const { data: searchResponseData, refetch, isFetching } = useQuery({
-    queryKey: ["externalRecipes", query],
-    queryFn: async () => {
-      if (!query.trim()) return { recipes: [] };
-      const { data } = await axios.get(`/api/external/recipes?search=${encodeURIComponent(query)}`);
-      return data;
-    },
-    enabled: false,
-    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
-  });
+  queryKey: ["externalRecipes", query],
+  queryFn: async () => {
+    if (!query.trim()) return { recipes: [] };
+    const { data } = await axios.get(`/api/external/recipes?search=${encodeURIComponent(query)}`);
+    return data;
+  },
+  enabled: false,
+  staleTime: 5 * 60 * 1000,
+});
 
-  // Modal controls
+
+  // --- UI helpers ---
   const toggleNewRecipeModal = () => {
     if (!modalRef.current) return;
     modalRef.current.open ? modalRef.current.close() : modalRef.current.showModal();
@@ -188,13 +174,11 @@ const getUserHeaders = () => {
     savedModalRef.current.open ? savedModalRef.current.close() : savedModalRef.current.showModal();
   };
 
-  // Form submission for new custom recipe
   const onSubmit = (formData) => {
     if (!formData.title?.trim()) {
       toast.error("Please enter a recipe title");
       return;
     }
-    
     createNewRecipe({
       title: formData.title.trim(),
       description: formData.description?.trim() || "",
@@ -203,7 +187,6 @@ const getUserHeaders = () => {
     });
   };
 
-  // Search functionality
   const handleSearch = () => {
     if (!query.trim()) {
       toast.error("Please enter a search term");
@@ -217,7 +200,6 @@ const getUserHeaders = () => {
     queryClient.removeQueries({ queryKey: ["externalRecipes"] });
   };
 
-  // Process search results for display
   const displayRecipes = useMemo(() => {
     const searchResults = searchResponseData?.recipes || [];
     if (query.trim() && searchResults.length > 0) {
@@ -226,19 +208,17 @@ const getUserHeaders = () => {
     return [];
   }, [searchResponseData, query]);
 
-  // Check if individual recipe is already saved
   const isIndividualRecipeSaved = (recipe) => {
     const recipeId = recipe.id || recipe.idMeal;
     const recipeTitle = recipe.title || recipe.strMeal;
-    return savedRecipesData.some((saved) => 
-      (saved.id === recipeId || saved.title === recipeTitle)
+    return savedRecipesData.some((saved) =>
+      saved.id === recipeId || saved.title === recipeTitle
     );
   };
 
   return (
     <>
       <ToastContainer position="top-right" autoClose={3000} />
-      
       <header className="navbar bg-white shadow-md py-3 mb-6">
         <div className="flex justify-between items-center max-w-7xl mx-auto px-6">
           <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
@@ -256,22 +236,24 @@ const getUserHeaders = () => {
           </Link>
         </div>
       </header>
+   
+
 
       <main className="add-recipe-page p-4 max-w-3xl mx-auto">
         <div className="add-recipe-page-header text-center mb-6">
           <h1 className="page-title">My Recipes</h1>
           <p className="page-subtitle">Add your favorite recipes and discover new ones.</p>
-          
+
           <div className="flex justify-center gap-3 mt-4">
-            <button 
-              className="add-recipe-btn" 
+            <button
+              className="add-recipe-btn"
               onClick={toggleNewRecipeModal}
               disabled={isCreating}
             >
               {isCreating ? "Adding..." : "Add Custom Recipe"}
             </button>
-            <button 
-              className="add-recipe-btn" 
+            <button
+              className="add-recipe-btn"
               onClick={toggleSavedRecipesModal}
             >
               My Saved Recipes ({typedRecipesData.length + savedRecipesData.length})
@@ -297,8 +279,8 @@ const getUserHeaders = () => {
               className="border border-gray-300 px-3 py-2 rounded-lg w-64 focus:outline-none focus:ring-2 focus:ring-blue-500"
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
             />
-            <button 
-              onClick={handleSearch} 
+            <button
+              onClick={handleSearch}
               className="add-recipe-btn"
               disabled={isFetching}
             >
@@ -331,10 +313,10 @@ const getUserHeaders = () => {
             ) : (
               displayRecipes.map((recipe) => (
                 <div key={recipe.id || recipe.idMeal} className="add-recipe-card p-4 rounded-lg shadow text-center">
-                  <img 
-                    src={recipe.strMealThumb || recipe.image || ""} 
-                    alt={recipe.strMeal || recipe.title || "Recipe"} 
-                    className="rounded-lg mb-3 mx-auto object-cover w-full h-48" 
+                  <img
+                    src={recipe.strMealThumb || recipe.image || ""}
+                    alt={recipe.strMeal || recipe.title || "Recipe"}
+                    className="recipe-main-img rounded-lg mb-3 mx-auto"
                   />
                   <h4 className="text-lg font-bold mb-2">{recipe.strMeal || recipe.title}</h4>
                   <div className="flex gap-2 mb-2 flex-wrap justify-center">
@@ -377,47 +359,47 @@ const getUserHeaders = () => {
         {/* Add New Recipe Modal */}
         <dialog ref={modalRef} className="add-recipe-modal">
           <div className="modal-box">
-            <button 
-              className="modal-close-btn absolute top-4 right-4" 
+            <button
+              className="modal-close-btn absolute top-4 right-4"
               onClick={toggleNewRecipeModal}
             >
               <X size={20} />
             </button>
             <form onSubmit={handleSubmit(onSubmit)}>
               <h3 className="modal-header">Add Custom Recipe</h3>
-              <input 
-                {...register("title", { required: "Title is required" })} 
-                placeholder="Recipe Title *" 
-                className="modal-input" 
+              <input
+                {...register("title", { required: "Title is required" })}
+                placeholder="Recipe Title *"
+                className="modal-input"
               />
-              <textarea 
-                {...register("description")} 
-                placeholder="Description (optional)" 
-                className="modal-textarea" 
+              <textarea
+                {...register("description")}
+                placeholder="Description (optional)"
+                className="modal-textarea"
                 rows="3"
               />
-              <input 
-                {...register("image")} 
-                placeholder="Image URL (optional)" 
-                className="modal-input" 
+              <input
+                {...register("image")}
+                placeholder="Image URL (optional)"
+                className="modal-input"
               />
-              <textarea 
-                {...register("instructions")} 
-                placeholder="Cooking Instructions (optional)" 
-                className="modal-textarea" 
+              <textarea
+                {...register("instructions")}
+                placeholder="Cooking Instructions (optional)"
+                className="modal-textarea"
                 rows="4"
               />
               <div className="modal-action">
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className="modal-btn-primary"
                   disabled={isCreating}
                 >
                   {isCreating ? "Adding..." : "Add Recipe"}
                 </button>
-                <button 
-                  type="button" 
-                  onClick={toggleNewRecipeModal} 
+                <button
+                  type="button"
+                  onClick={toggleNewRecipeModal}
                   className="modal-btn-cancel"
                 >
                   Cancel
@@ -430,30 +412,30 @@ const getUserHeaders = () => {
         {/* Saved Recipes Modal */}
         <dialog ref={savedModalRef} className="add-recipe-modal">
           <div className="modal-box">
-            <button 
-              className="modal-close-btn absolute top-4 right-4" 
+            <button
+              className="modal-close-btn absolute top-4 right-4"
               onClick={toggleSavedRecipesModal}
             >
               <X size={20} />
             </button>
             <h3 className="modal-header">My Saved Recipes</h3>
-            
+
             {/* Tab Navigation */}
             <div className="flex mb-4 border-b">
-              <button 
-                className={`tab-btn ${activeTab === "typed" ? "active" : ""}`} 
+              <button
+                className={`tab-btn ${activeTab === "typed" ? "active" : ""}`}
                 onClick={() => setActiveTab("typed")}
               >
                 Custom Recipes ({typedRecipesData.length})
               </button>
-              <button 
-                className={`tab-btn ${activeTab === "api" ? "active" : ""}`} 
+              <button
+                className={`tab-btn ${activeTab === "api" ? "active" : ""}`}
                 onClick={() => setActiveTab("api")}
               >
                 Saved from Search ({savedRecipesData.length})
               </button>
             </div>
-            
+
             <div className="max-h-96 overflow-y-auto">
               {activeTab === "typed" ? (
                 typedRecipesData.length > 0 ? (
@@ -472,8 +454,8 @@ const getUserHeaders = () => {
                             Custom Recipe
                           </span>
                         </div>
-                        <button 
-                          onClick={() => removeCustomRecipe(recipe.id)} 
+                        <button
+                          onClick={() => removeCustomRecipe(recipe.id)}
                           className="modal-btn-remove"
                         >
                           Remove
@@ -484,8 +466,8 @@ const getUserHeaders = () => {
                 ) : (
                   <div className="text-center py-8">
                     <p className="text-gray-500">No custom recipes yet.</p>
-                    <button 
-                      className="add-recipe-btn mt-2" 
+                    <button
+                      className="add-recipe-btn mt-2"
                       onClick={() => {
                         toggleSavedRecipesModal();
                         toggleNewRecipeModal();
@@ -515,14 +497,14 @@ const getUserHeaders = () => {
                             )}
                           </div>
                           {recipe.image && (
-                            <img src={recipe.image} alt={recipe.title} className="w-16 h-16 rounded mt-2 object-cover" />
+                            <img src={recipe.image} alt={recipe.title} className="modal-recipe-img" />
                           )}
                           <span className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded mt-2 inline-block">
                             From MealDB
                           </span>
                         </div>
-                        <button 
-                          onClick={() => removeSavedRecipe(recipe.id)} 
+                        <button
+                          onClick={() => removeSavedRecipe(recipe.id)}
                           className="modal-btn-remove"
                         >
                           Remove
@@ -533,8 +515,8 @@ const getUserHeaders = () => {
                 ) : (
                   <div className="text-center py-8">
                     <p className="text-gray-500">No saved recipes yet.</p>
-                    <button 
-                      className="add-recipe-btn mt-2" 
+                    <button
+                      className="add-recipe-btn mt-2"
                       onClick={toggleSavedRecipesModal}
                     >
                       Search & Save Recipes

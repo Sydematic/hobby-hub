@@ -388,3 +388,37 @@ button:active,
   color: hsl(215, 14%, 42%);
 }
 
+/* Main page recipe images */
+.recipe-main-img {
+  width: 300px;       /* increased from 250px */
+  height: 300px;      /* increased from 250px */
+  object-fit: cover;  /* crop nicely */
+  border-radius: 0.5rem;
+  margin: 0 auto 0.75rem auto; /* center horizontally and add margin-bottom */
+  display: block;
+}
+
+/* Responsive scaling for smaller screens */
+@media (max-width: 1024px) {
+  .recipe-main-img {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+@media (max-width: 640px) {
+  .recipe-main-img {
+    width: 180px;
+    height: 180px;
+  }
+}
+
+/* Modal saved recipe images */
+.modal-recipe-img {
+  width: 100px;       /* slightly bigger than tiny icon */
+  height: 100px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+}
+
