@@ -301,7 +301,7 @@ const { mutate: saveMealDBRecipe, isLoading: isSaving } = useMutation({
 
         {/* Recipe Search Results Grid */}
         <div className="flex justify-center">
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 max-w-4xl w-full">
+         <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(300px,1fr))] max-w-6xl w-full">
             {displayRecipes.length === 0 ? (
               <div className="col-span-full text-center py-8">
                 <p className="text-gray-500">
