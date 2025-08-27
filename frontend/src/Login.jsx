@@ -30,11 +30,13 @@ export default function Login() {
         return;
       }
 
+      // ✅ Check both user and session exist
       if (!data.user || !data.session) {
         setMessage("Login failed. Please try again.");
         return;
       }
 
+      // ✅ Store full session for token access in other components
       const currentUser = {
         id: data.user.id,
         email: data.user.email,
@@ -42,28 +44,11 @@ export default function Login() {
         refresh_token: data.session.refresh_token,
       };
 
-      // Save user in context & localStorage
       setUser(currentUser);
       localStorage.setItem("user", JSON.stringify(currentUser));
 
-      // ---------------- NEW: Register/Upsert user in Neon backend ----------------
-      await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/session`, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${currentUser.access_token}`,
-  },
-  body: JSON.stringify({
-    id: currentUser.id,
-    email: currentUser.email,
-  }),
-});
-
-      // ------------------------------------------------------------------------
-
       // Redirect to the original page they tried to visit
       navigate(from, { replace: true });
-
     } catch (err) {
       setMessage("An unexpected error occurred. Please try again.");
       console.error(err);

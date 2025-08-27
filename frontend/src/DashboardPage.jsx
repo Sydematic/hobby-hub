@@ -13,27 +13,28 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useAuth } from "./AuthContext"; // ✅ import context
 
 export default function Home() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
-  const [user, setUser] = useState(null); // Supabase user
+  const { user, setUser, logout } = useAuth(); // ✅ use context instead of local state
   const navigate = useNavigate();
 
-  // Load Supabase session on mount
+  // Load Supabase session on mount into context
   useEffect(() => {
     const getSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       setUser(session?.user || null);
 
-      // Listen for auth changes
+      // Listen for auth changes and update context
       supabase.auth.onAuthStateChange((_event, session) => {
         setUser(session?.user || null);
       });
     };
 
     getSession();
-  }, []);
+  }, [setUser]);
 
   // handle form inputs
   function handleChange(e) {
@@ -43,21 +44,13 @@ export default function Home() {
 
   // logout
   const handleLogout = async () => {
-  try {
-    const { error } = await supabase.auth.signOut();
-    if (error) throw error;
-
-    // Clear local state and storage
-    setUser(null);
-    localStorage.removeItem("user");
-
-    // Redirect after logout
-    navigate("/login");
-  } catch (err) {
-    console.error("Logout failed:", err.message);
-  }
-};
-
+    try {
+      await logout();       // ✅ call global logout from context
+      navigate("/login");   // redirect after logout
+    } catch (err) {
+      console.error("Logout failed:", err.message);
+    }
+  };
 
   // submit form
   function handleSubmit(e) {
@@ -65,7 +58,7 @@ export default function Home() {
     setSubmitted(true);
     setFormData({ name: "", email: "", message: "" });
   }
-
+  
   return (
     <div className="flex flex-col min-h-screen w-full bg-background text-foreground font-sans">
 

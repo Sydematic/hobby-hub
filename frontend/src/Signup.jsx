@@ -1,30 +1,46 @@
-import './signup.css';
+// src/Signup.jsx
+import "./signup.css";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import supabase from "./client"; 
+import { Link, useLocation } from "react-router-dom";
+import supabase from "./client";
 
 export default function Signup() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const location = useLocation();
+
+  // 👇 where the user originally tried to go (e.g., Add Recipe, Log)
+  const from = location.state?.from?.pathname || "/dashboard";
 
   const handleSignup = async (e) => {
     e.preventDefault();
     setMessage("");
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { username }, // store username in user metadata
-      },
-    });
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { username }, // store username in user metadata
+          // 👇 after confirming email, send them to /login WITH the "from" state
+          emailRedirectTo: `${window.location.origin}/login?redirect=${encodeURIComponent(
+            from
+          )}`,
+        },
+      });
 
-    if (error) {
-      setMessage(error.message);
-    } else {
-      setMessage("Signup successful! Check your email to confirm your account.");
+      if (error) {
+        setMessage(error.message);
+      } else {
+        setMessage(
+          "Signup successful! Check your email to confirm your account."
+        );
+      }
+    } catch (err) {
+      console.error(err);
+      setMessage("An unexpected error occurred. Please try again.");
     }
   };
 
@@ -74,7 +90,11 @@ export default function Signup() {
           </form>
           {message && <p className="signup-message">{message}</p>}
           <p>
-            Have an account? <Link to="/login">Login</Link>
+            Have an account?{" "}
+            {/* 👇 pass along the "from" state to Login so redirection works */}
+            <Link to="/login" state={{ from }}>
+              Login
+            </Link>
           </p>
         </div>
       </main>
