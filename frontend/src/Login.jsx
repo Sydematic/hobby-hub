@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import supabase from "./client"; 
 import { useAuth } from "./AuthContext";
-import emailjs from "@emailjs/browser";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -13,8 +12,8 @@ export default function Login() {
   const location = useLocation();
   const { setUser } = useAuth();
 
-  // Where the user tried to go
-  const from = location.state?.from || "/DashboardPage";
+  // Where the user tried to go (from Add Recipe button or others)
+  const from = location.state?.from || "/dashboard";
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -31,11 +30,13 @@ export default function Login() {
         return;
       }
 
+      // ✅ Check both user and session exist
       if (!data.user || !data.session) {
         setMessage("Login failed. Please try again.");
         return;
       }
 
+      // ✅ Store full session for token access in other components
       const currentUser = {
         id: data.user.id,
         email: data.user.email,
@@ -46,32 +47,7 @@ export default function Login() {
       setUser(currentUser);
       localStorage.setItem("user", JSON.stringify(currentUser));
 
-      // ✅ EmailJS integration: send update/apology email if not received yet
-      if (!data.user.user_metadata?.receivedEmailJS) {
-        try {
-          await emailjs.send(
-            "service_2zq83bj",
-            "template_r3apxh7",
-            {
-              name: data.user.user_metadata?.username || "User",
-              email: email,
-              dashboard_url: "https://hobby-hub-4nsj.onrender.com/",
-              message_body:
-                "We apologize for any inconvenience. This is an update from HobbyHub!"
-            },
-            "lEeb1cSgpktREtds6"
-          );
-
-          // Mark that user received the EmailJS message
-          await supabase.auth.updateUser({
-            data: { receivedEmailJS: true }
-          });
-        } catch (err) {
-          console.error("Error sending EmailJS message:", err);
-        }
-      }
-
-      // Redirect after login
+      // Redirect to the original page they tried to visit
       navigate(from, { replace: true });
     } catch (err) {
       setMessage("An unexpected error occurred. Please try again.");
@@ -112,13 +88,11 @@ export default function Login() {
           </form>
           {message && <p className="signup-message">{message}</p>}
           <p>
-            Don’t have an account?{" "}
-            <Link to="/signup" state={{ from }}>
-              Sign Up
-            </Link>
+            Don’t have an account? <Link to="/signup">Sign Up</Link>
           </p>
         </div>
       </main>
     </div>
   );
 }
+
