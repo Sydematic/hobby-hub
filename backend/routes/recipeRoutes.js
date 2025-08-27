@@ -1,160 +1,127 @@
 // backend/routes/recipeRoutes.js
 import express from "express";
-import supabase from "../supabaseClientBackend.js"; // Your existing file
+import { PrismaClient } from "@prisma/client";
 
 const router = express.Router();
+const prisma = new PrismaClient();
 
-// Helper to get user from headers
-async function getCurrentUser(req) {
-  const userId = req.headers["x-user-id"];
-  console.log("🔍 Received user ID from headers:", userId);
-  
-  if (!userId) {
-    console.log("❌ No user ID found in headers");
-    return null;
-  }
-  
-  console.log("✅ User authenticated with ID:", userId);
-  return { id: userId };
+// ---------------- HELPER ----------------
+async function getOrCreateUser(supabaseUser) {
+  if (!supabaseUser?.id || !supabaseUser?.email) throw new Error("Invalid user info");
+
+  return prisma.user.upsert({
+    where: { id: supabaseUser.id },
+    update: { email: supabaseUser.email, updated_at: new Date() },
+    create: { id: supabaseUser.id, email: supabaseUser.email, password: "from-supabase" },
+  });
 }
 
-// TEST
+// ---------------- TEST ----------------
 router.get("/test", (req, res) => {
   res.json({ message: "Recipe routes are working!" });
 });
 
-// POST /api/recipes/typed - Save custom recipe
+// ---------------- POST /typed ----------------
 router.post("/typed", async (req, res) => {
   try {
-    const user = await getCurrentUser(req);
-    if (!user) return res.status(401).json({ error: "Authentication required" });
+    const supabaseUser = req.user; // must be set from frontend session
+    if (!supabaseUser) return res.status(401).json({ error: "Authentication required" });
+
+    // ✅ Ensure user exists in Neon
+    const user = await getOrCreateUser(supabaseUser);
 
     const { title, description, image, instructions } = req.body;
     if (!title?.trim()) return res.status(400).json({ error: "Recipe title is required" });
 
-    console.log("💾 Creating custom recipe for user:", user.id);
+    const recipe = await prisma.savedRecipe.create({
+      data: {
+        title: title.trim(),
+        description: description?.trim() || "",
+        image: image?.trim() || "",
+        instructions: instructions?.trim() || "",
+        source: "typed",
+        userId: user.id,
+      },
+    });
 
-    const { data, error } = await supabase
-      .from('SavedRecipe')
-      .insert([
-        {
-          title: title.trim(),
-          description: description?.trim() || null,
-          image: image?.trim() || null,
-          instructions: instructions?.trim() || null,
-          source: "typed",
-          userId: user.id,
-        }
-      ])
-      .select()
-
-    if (error) {
-      console.error("❌ Supabase error:", error);
-      return res.status(500).json({ error: "Failed to save recipe", details: error.message });
-    }
-
-    console.log("✅ Custom recipe created successfully:", data[0].id);
-    res.status(201).json(data[0]);
+    console.log("✅ Typed recipe created:", recipe);
+    res.status(201).json(recipe);
   } catch (error) {
     console.error("❌ Typed recipe error:", error);
-    res.status(500).json({ error: "Failed to save recipe", details: error.message });
+    res.status(500).json({ error: "Failed to save typed recipe", details: error.message });
   }
 });
 
-// POST /api/recipes/saved - Save API recipe
+// ---------------- POST /saved ----------------
 router.post("/saved", async (req, res) => {
   try {
-    const user = await getCurrentUser(req);
-    if (!user) return res.status(401).json({ error: "Authentication required" });
+    const supabaseUser = req.user;
+    if (!supabaseUser) return res.status(401).json({ error: "Authentication required" });
+
+    const user = await getOrCreateUser(supabaseUser);
 
     const { title, description, image, category, area, instructions, source } = req.body;
     if (!title?.trim()) return res.status(400).json({ error: "Recipe title is required" });
 
-    console.log("💾 Saving API recipe for user:", user.id);
+    const recipe = await prisma.savedRecipe.create({
+      data: {
+        title: title.trim(),
+        description: description?.trim() || "",
+        image: image?.trim() || "",
+        category: category?.trim() || "",
+        area: area?.trim() || "",
+        instructions: instructions?.trim() || "",
+        source: source?.trim() || "mealdb-search",
+        userId: user.id,
+      },
+    });
 
-    const { data, error } = await supabase
-      .from('SavedRecipe')
-      .insert([
-        {
-          title: title.trim(),
-          description: description?.trim() || null,
-          image: image?.trim() || null,
-          category: category?.trim() || null,
-          area: area?.trim() || null,
-          instructions: instructions?.trim() || null,
-          source: source?.trim() || "mealdb-search",
-          userId: user.id,
-        }
-      ])
-      .select()
-
-    if (error) {
-      console.error("❌ Supabase error:", error);
-      return res.status(500).json({ error: "Failed to save recipe", details: error.message });
-    }
-
-    console.log("✅ API recipe saved successfully:", data[0].id);
-    res.status(201).json(data[0]);
+    console.log("✅ Saved recipe created:", recipe);
+    res.status(201).json(recipe);
   } catch (error) {
     console.error("❌ Save recipe error:", error);
     res.status(500).json({ error: "Failed to save recipe", details: error.message });
   }
 });
 
-// GET /api/recipes/saved - Get user's saved recipes
+// ---------------- GET /saved ----------------
 router.get("/saved", async (req, res) => {
   try {
-    const user = await getCurrentUser(req);
-    if (!user) return res.status(401).json({ error: "Authentication required" });
+    const supabaseUser = req.user;
+    if (!supabaseUser) return res.status(401).json({ error: "Authentication required" });
 
-    console.log("📋 Fetching recipes for user:", user.id, "source:", req.query.source);
+    const user = await getOrCreateUser(supabaseUser);
 
-    let query = supabase
-      .from('SavedRecipe')
-      .select('*')
-      .eq('userId', user.id)
-      .order('id', { ascending: false });
+    const query = {
+      where: { userId: user.id },
+      orderBy: { id: "desc" },
+    };
+    if (req.query.source) query.where.source = req.query.source;
 
-    if (req.query.source) {
-      query = query.eq('source', req.query.source);
-    }
+    const recipes = await prisma.savedRecipe.findMany(query);
 
-    const { data, error } = await query;
-
-    if (error) {
-      console.error("❌ Supabase error:", error);
-      return res.status(500).json({ error: "Failed to fetch recipes", details: error.message });
-    }
-
-    console.log("✅ Found", data.length, "recipes for user");
-    res.json({ recipes: data });
+    console.log("✅ Found recipes:", recipes.length, "for user:", user.id);
+    res.json({ recipes });
   } catch (error) {
-    console.error("❌ Get recipes error:", error);
+    console.error("❌ Get saved recipes error:", error);
     res.status(500).json({ error: "Failed to fetch recipes", details: error.message });
   }
 });
 
-// DELETE /api/recipes/:id - Delete recipe
+// ---------------- DELETE /:id ----------------
 router.delete("/:id", async (req, res) => {
   try {
-    const user = await getCurrentUser(req);
-    if (!user) return res.status(401).json({ error: "Authentication required" });
+    const supabaseUser = req.user;
+    if (!supabaseUser) return res.status(401).json({ error: "Authentication required" });
 
-    console.log("🗑️ Deleting recipe", req.params.id, "for user:", user.id);
+    const user = await getOrCreateUser(supabaseUser);
 
-    const { error } = await supabase
-      .from('SavedRecipe')
-      .delete()
-      .eq('id', Number(req.params.id))
-      .eq('userId', user.id);
+    const deleted = await prisma.savedRecipe.deleteMany({
+      where: { id: req.params.id, userId: user.id },
+    });
 
-    if (error) {
-      console.error("❌ Supabase error:", error);
-      return res.status(500).json({ error: "Failed to delete recipe", details: error.message });
-    }
-
-    console.log("✅ Recipe deleted successfully");
-    res.json({ message: "Recipe deleted successfully" });
+    console.log("✅ Deleted recipes count:", deleted.count);
+    res.json({ message: "Recipe deleted successfully", deletedCount: deleted.count });
   } catch (error) {
     console.error("❌ Delete recipe error:", error);
     res.status(500).json({ error: "Failed to delete recipe", details: error.message });
