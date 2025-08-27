@@ -47,18 +47,18 @@ export default function Login() {
       localStorage.setItem("user", JSON.stringify(currentUser));
 
       // ---------------- NEW: Register/Upsert user in Neon backend ----------------
-      await fetch("http://localhost:5000/api/auth/session", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          // optional: pass token if you later want backend to verify
-          "Authorization": `Bearer ${currentUser.access_token}`,
-        },
-        body: JSON.stringify({
-          id: currentUser.id,
-          email: currentUser.email,
-        }),
-      });
+      await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/session`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${currentUser.access_token}`,
+  },
+  body: JSON.stringify({
+    id: currentUser.id,
+    email: currentUser.email,
+  }),
+});
+
       // ------------------------------------------------------------------------
 
       // Redirect to the original page they tried to visit

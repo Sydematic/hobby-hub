@@ -43,14 +43,21 @@ export default function Home() {
 
   // logout
   const handleLogout = async () => {
+  try {
     const { error } = await supabase.auth.signOut();
-    if (!error) {
-      setUser(null);
-      navigate("/login");
-    } else {
-      console.error("Logout failed:", error.message);
-    }
-  };
+    if (error) throw error;
+
+    // Clear local state and storage
+    setUser(null);
+    localStorage.removeItem("user");
+
+    // Redirect after logout
+    navigate("/login");
+  } catch (err) {
+    console.error("Logout failed:", err.message);
+  }
+};
+
 
   // submit form
   function handleSubmit(e) {

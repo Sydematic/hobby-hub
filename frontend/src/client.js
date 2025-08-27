@@ -8,6 +8,11 @@ if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error("Missing Supabase environment variables. Check your .env file.");
 }
 
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    persistSession: true,      // ✅ Keep session across reloads
+    detectSessionInUrl: true,  // ✅ Detect auth redirect in URL
+  },
+});
 
 export default supabase;
