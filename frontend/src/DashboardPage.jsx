@@ -1,40 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, Compass, Users, Calendar, Star, Dumbbell, Utensils } from "lucide-react";
-import supabase from "./client"; // ✅ Supabase client
 import './style.css';
 import './Dashboard.css';
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "./AuthContext"; // ✅ import context
 
 export default function Home() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
-  const { user, setUser, logout } = useAuth(); // ✅ use context instead of local state
+  const { user, logout } = useAuth(); // ✅ use context, remove setUser here
   const navigate = useNavigate();
-
-  // Load Supabase session on mount into context
-  useEffect(() => {
-    const getSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setUser(session?.user || null);
-
-      // Listen for auth changes and update context
-      supabase.auth.onAuthStateChange((_event, session) => {
-        setUser(session?.user || null);
-      });
-    };
-
-    getSession();
-  }, [setUser]);
 
   // handle form inputs
   function handleChange(e) {
@@ -89,6 +66,7 @@ export default function Home() {
             </Button>
           )}
         </div>
+
 
         {/* Welcome Message */}
         <section className="welcome w-full py-6 text-center">

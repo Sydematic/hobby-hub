@@ -32,12 +32,16 @@ export function AuthProvider({ children }) {
     return () => listener.subscription.unsubscribe();
   }, []);
 
-  // ✅ Add logout function
+  // ✅ Updated logout function
   const logout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) throw error;
-    setUser(null);
-    localStorage.removeItem("user");
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) console.warn("Supabase logout error:", error.message);
+    } finally {
+      // Clear local user state and storage even if signOut fails
+      setUser(null);
+      localStorage.removeItem("user");
+    }
   };
 
   return (
