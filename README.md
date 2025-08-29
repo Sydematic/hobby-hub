@@ -1,5 +1,3 @@
-# Hobby Hub Project
-
 # Hobby-Hub: First-Time User Walkthrough
 
 Welcome to **Hobby-Hub**, your interactive hub for food, fitness, and travel! Here’s what a new user experiences when exploring the site:
@@ -16,7 +14,7 @@ As soon as you arrive, you’re greeted with a clean, welcoming interface.
   <img src="./Screenshots/login.png" alt="Login Screenshot" width="45%"/>
 </p>
 
-- **Access:** In order to review more food, travel, and workouts, you must sign up or log in if already registered. You must sign up with a real life email. Create a backup email address if you don't feel comfortable using your real one. To see the process of the signup I recommend this process mentioned prior. If not, use this: `sp184218@gmail.com` and an easy PW to gain access: `sydematic123!`.  
+- **Access:** In order to review more food, travel, and workouts, you must sign up or log in if already registered. You must sign up with a real life email. Create a backup email address if you don't feel comfortable using your real one. To see the process of the signup I recommend this process mentioned prior. If not, use this: `sp184218@gmail.com` and an easy PW to gain access: `sydematic123`.  
   As this is still a working process, if you decide to use your own credentials the confirmation link you receive will not work, but the system saved your information. So if you go back to the website and log in with the correct password then you are successfully in!  
 - **Guest vs. User:** Once a successful login, you will be redirected either to the main page or the page you last looked at when trying to access the food, travel, and workout logs.  
 - **Purpose:** Gives users a chance to have their own personal organized log system for their hobbies.
