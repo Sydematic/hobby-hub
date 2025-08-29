@@ -9,11 +9,11 @@ Welcome to **Hobby-Hub**, your interactive hub for food, fitness, and travel! He
 ## 1. Get Started Button On Home Page
 As soon as you arrive, you’re greeted with a clean, welcoming interface.
 <p align="center">
-  <img src="/Screenshots/homepage.png" alt="Home Screenshot 1" width="45%"/>
-  <img src="/Screenshots/getstarted.png" alt="Home Screenshot 2" width="45%"/>
-  <img src="/Screenshots/startyourjourney.png" alt="Contact Screenshot" width="45%"/>
-  <img src="/Screenshots/signup.png" alt="Signup Screenshot" width="45%"/>
-  <img src="/Screenshots/login.png" alt="Login Screenshot" width="45%"/>
+  <img src="./Screenshots/homepage.png" alt="Home Screenshot 1" width="45%"/>
+  <img src="./Screenshots/getstarted.png" alt="Home Screenshot 2" width="45%"/>
+  <img src="./Screenshots/startyourjourney.png" alt="Contact Screenshot" width="45%"/>
+  <img src="./Screenshots/signup.png" alt="Signup Screenshot" width="45%"/>
+  <img src="./Screenshots/login.png" alt="Login Screenshot" width="45%"/>
 </p>
 
 - **Access:** In order to review more food, travel, and workouts, you must sign up or log in if already registered. You must sign up with a real life email. Create a backup email address if you don't feel comfortable using your real one. To see the process of the signup I recommend this process mentioned prior. If not, use this: `sp184218@gmail.com` and an easy PW to gain access: `sydematic123!`.  
@@ -29,9 +29,9 @@ As soon as you arrive, you’re greeted with a clean, welcoming interface.
 - **Purpose:** Gives a quick overview of what you can explore and where to start.
 
 <p align="center">
-  <img src="/Screenshots/homepage.png" alt="Home" width="45%"/>
-  <img src="/Screenshots/homepage2.png" alt="Home 2" width="45%"/>
-  <img src="/Screenshots/homepage3.png" alt="Home 3" width="45%"/>
+  <img src="./Screenshots/homepage.png" alt="Home" width="45%"/>
+  <img src="./Screenshots/homepage2.png" alt="Home 2" width="45%"/>
+  <img src="./Screenshots/homepage3.png" alt="Home 3" width="45%"/>
 </p>
 
 ---
@@ -45,8 +45,8 @@ Discover meals and get inspired in the kitchen.
 - **Purpose:** Makes meal discovery fun and effortless.
 
 <p align="center">
-  <img src="/Screenshots/mainfoodpage.png" alt="Food Main" width="45%"/>
-  <img src="/Screenshots/addrecipe.png" alt="Add Recipe" width="45%"/>
+  <img src="./Screenshots/mainfoodpage.png" alt="Food Main" width="45%"/>
+  <img src="./Screenshots/addrecipe.png" alt="Add Recipe" width="45%"/>
 </p>
 
 ---
@@ -60,13 +60,13 @@ Your personal recipe manager.
 - **Purpose:** Keep all your favorite recipes organized in one place.
 
 <p align="center">
-  <img src="/Screenshots/myrecipepage.png" alt="Recipes" width="45%"/>
-  <img src="/Screenshots/addcustomrecipe.png" alt="Add Custom Recipe" width="45%"/>
-  <img src="/Screenshots/saveapirecipenotification.png" alt="Save API Recipe Notification" width="45%"/>
-  <img src="/Screenshots/customrecipenotification.png" alt="Custom Recipe Notification" width="45%"/>
-  <img src="/Screenshots/mysavedrecipes1.png" alt="My Saved Recipes 1" width="45%"/>
-  <img src="/Screenshots/mysavedrecipes2.png" alt="My Saved Recipes 2" width="45%"/>
-  <img src="/Screenshots/removesavedrecipe.png" alt="Remove Saved Recipe" width="45%"/>
+  <img src="./Screenshots/myrecipepage.png" alt="Recipes" width="45%"/>
+  <img src="./Screenshots/addcustomrecipe.png" alt="Add Custom Recipe" width="45%"/>
+  <img src="./Screenshots/saveapirecipenotification.png" alt="Save API Recipe Notification" width="45%"/>
+  <img src="./Screenshots/customrecipenotification.png" alt="Custom Recipe Notification" width="45%"/>
+  <img src="./Screenshots/mysavedrecipes1.png" alt="My Saved Recipes 1" width="45%"/>
+  <img src="./Screenshots/mysavedrecipes2.png" alt="My Saved Recipes 2" width="45%"/>
+  <img src="./Screenshots/removesavedrecipe.png" alt="Remove Saved Recipe" width="45%"/>
 </p>
 
 ---
@@ -77,8 +77,8 @@ Discover exciting destinations, tips, and the best travel deals around the world
 - **Click See More:** Each card is still in a working process but gives nice pictures and friendly travel advice tips.
 
 <p align="center">
-  <img src="/Screenshots/maintravelpage.png" alt="Travel Main" width="45%"/>
-  <img src="/Screenshots/travelpage2.png" alt="Travel Page 2" width="45%"/>
+  <img src="./Screenshots/maintravelpage.png" alt="Travel Main" width="45%"/>
+  <img src="./Screenshots/travelpage2.png" alt="Travel Page 2" width="45%"/>
 </p>
 
 ---
@@ -91,10 +91,10 @@ Explore fitness exercises tailored to different needs.
 - **Purpose:** Provides visual guidance for exercises and helps plan your workouts efficiently.
 
 <p align="center">
-  <img src="/Screenshots/mainworkoutpage.png" alt="Workout Main" width="45%"/>
-  <img src="/Screenshots/logworkout.png" alt="Log Workout" width="45%"/>
-  <img src="/Screenshots/workoutpage.png" alt="Workout Page" width="45%"/>
-  <img src="/Screenshots/workoutpage2.png" alt="Workout Page 2" width="45%"/>
+  <img src="./Screenshots/mainworkoutpage.png" alt="Workout Main" width="45%"/>
+  <img src="./Screenshots/logworkout.png" alt="Log Workout" width="45%"/>
+  <img src="./Screenshots/workoutpage.png" alt="Workout Page" width="45%"/>
+  <img src="./Screenshots/workoutpage2.png" alt="Workout Page 2" width="45%"/>
 </p>
 
 ---
