@@ -163,7 +163,7 @@ Open http://localhost:5173 in your browser to interact with the app.
 
 Sign up or log in to access features like saving recipes and tracking workouts.
 
-⚠️ Note: This project is currently running locally only; it is not deployed on Netlify, Render, or any other hosting platform.
+Start with accessing the netlify link: https://hobbyhub123.netlify.app/ or Render link: https://hobby-hub-4nsj.onrender.com/
 
 ** -Syd, Mari, Rafiq **
 
