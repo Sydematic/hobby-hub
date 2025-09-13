@@ -165,7 +165,7 @@ Sign up or log in to access features like saving recipes and tracking workouts.
 
 Start with accessing the netlify link: https://hobbyhub123.netlify.app/ or Render link: https://hobby-hub-4nsj.onrender.com/
 
-** -Syd, Mari, Rafiq **
+** -Syd & Mari **
 
 
 
